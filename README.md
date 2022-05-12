@@ -3,7 +3,7 @@ OpenRTB 2.x specification, from 2.6 onward
 
 ![IAB Tech Lab](https://drive.google.com/uc?id=10yoBoG5uRETSXRrnJPUDuONujvADrSG1)
 
-# **OpenRTB 3.0**
+# **OpenRTB 2.x**
 
 #### About OpenRTB
 https://iabtechlab.com/openrtb  
@@ -15,7 +15,7 @@ https://iabtechlab.com/openmedia
 https://github.com/InteractiveAdvertisingBureau/AdCOM
 
 #### About This Repository
-At all times, the **master** branch of this repository contains the most recent release of OpenRTB.  See ["OpenRTB v3.0 Final.md"](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md) in the master branch for the latest specification.
+At all times, the **master** branch of this repository contains the most recent release of OpenRTB.  See (https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md) in the master branch for the latest specification.
 
 Branches exist for prior releases. Use these to review detailed changes from one release to another. A brief change log is found in the spec itself.
 
