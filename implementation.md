@@ -1,3 +1,4 @@
+	
 # 7 Implementation Notes
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
@@ -553,24 +554,385 @@ This scenario illustrates an example where the bid request contains 2 structured
 	
 This scenario illustrates an example where the bid request contains 1 dynamic pod, the publisher can guarantee delivery against the first or last slot, and the response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod.
 	
-	//insert photo of the bid request from page 77
 BidRequest
-{ "imp": [{ "id": "1", "video": { "podid": "preroll_pod", "mimes": [ "video/mp4", "video/ogg", "video/webm" ], "linearity": 1, "maxduration": 60, "minduration": 0, "maxseq": 4, "poddur": 60, "slotinpod": 2, ... }, "exp": 7200, "bidfloor": 8, "bidfloorcur": "USD", ... }], ... }
+
+{
+
+	"imp": [{
+	
+		"id": "1",
+		
+		"video": {
+		
+			"podid": "preroll_pod",
+			
+			"mimes": [
+			
+				"video/mp4",
+				
+				"video/ogg",
+				
+				"video/webm"
+				
+			],
+			
+			"linearity": 1,
+			
+			"maxduration": 60,
+			
+			"minduration": 0,
+			
+			"maxseq": 4,
+			
+			"poddur": 60,
+			
+			"slotinpod": 2,
+			
+			...
+			
+		},
+		
+		"exp": 7200,
+		
+		"bidfloor": 8,
+		
+		"bidfloorcur": "USD",
+		
+		...
+		
+	}],
+	
+	...
+	
+}
+
+
 
 BidResponse
-{ "id": "9b9ee818a85d948d5231ffe839a9729a", "seatbid": [{ "bid": [{ "id": "1", "impid": "1", "price": 0.27, "adid": "123456", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserA.com" ], "cid": "456789", "crid": "123456", "slotinpod": 1, "dur": 30 }], "seat": "1" }, { "bid": [{ "id": "2", "impid": "1", "price": 0.27, "adid": "234567", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserB.com" ], "cid": "567890", "crid": "234567", "dur": 15 }], "seat": "1" }, { "bid": [{ "id": "3", "impid": "1", "price": 0.27, "adid": "345678", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserC.com" ], "cid": "678901", "crid": "345678", "dur": 15 }], "seat": "2" } ], "cur": "USD" }
+
+{
+
+	"id": "9b9ee818a85d948d5231ffe839a9729a",
+	
+	"seatbid": [{
+	
+			"bid": [{
+			
+				"id": "1",
+				
+				"impid": "1",
+				
+				"price": 0.27,
+				
+				"adid": "123456",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserA.com"
+					
+				],
+				
+				"cid": "456789",
+				
+				"crid": "123456",
+				
+				"slotinpod": 1,
+				
+				"dur": 30
+				
+			}],
+			
+			"seat": "1"
+			
+		},
+		
+		{
+		
+			"bid": [{
+			
+				"id": "2",
+				
+				"impid": "1",
+				
+				"price": 0.27,
+				
+				"adid": "234567",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserB.com"
+					
+				],
+				
+				"cid": "567890",
+				
+				"crid": "234567",
+				
+				"dur": 15
+				
+			}],
+			
+			"seat": "1"
+			
+		},
+		
+		{
+		
+			"bid": [{
+			
+				"id": "3",
+				
+				"impid": "1",
+				
+				"price": 0.27,
+				
+				"adid": "345678",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserC.com"
+					
+				],
+				
+				"cid": "678901",
+				
+				"crid": "345678",
+				
+				"dur": 15
+				
+			}],
+			
+			"seat": "2"
+			
+		}
+		
+	],
+	
+	"cur": "USD"
+	
+}
+
+
 	
 	
 *“Hybrid” Ad Pod Request/Response*
 	
 This scenario illustrates an example where the bid request contains slot 1 in the first impression object and a dynamic pod to fill the duration. The response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod and the second two responses would be to fill the remainder of the pod.
 	
-	//insert photo of bid request
+
 BidRequest
-{ "imp": [{ "id": "1", "video": { "podid": "pod_1", "slotinpod": 1, "mimes": [ "video/mp4", "video/ogg", "video/webm" ], "linearity": 1, "maxduration": 15, "minduration": 15, ... }, "exp": 7200, "bidfloor": 15, "bidfloorcur": "USD", ... }, { "id": "2", "video": { "podid": "pod_1", "slotinpod": 0, "mimes": [ "video/mp4", "video/ogg", "video/webm" ], "linearity": 1, "maxduration": 60, "minduration": 0, "maxseq": 4, "poddur": 60, ... }, "exp": 7200, "bidfloor": 8, "bidfloorcur": "USD", ... } }], ... }
+
+{
+
+	"imp": [{
+	
+			"id": "1",
+			
+			"video": {
+			
+				"podid": "pod_1",
+				
+				"slotinpod": 1,
+				
+				"mimes": [
+				
+					"video/mp4",
+					
+					"video/ogg",
+					
+					"video/webm"
+					
+				],
+				
+				"linearity": 1,
+				
+				"maxduration": 15,
+				
+				"minduration": 15,
+				
+				...
+				
+			},
+			
+			"exp": 7200,
+			
+			"bidfloor": 15,
+			
+			"bidfloorcur": "USD",
+			
+			...
+			
+		},
+		
+		{
+		
+			"id": "2",
+			
+			"video": {
+			
+				"podid": "pod_1",
+				
+	"slotinpod": 0,
+	
+				"mimes": [
+				
+					"video/mp4",
+					
+					"video/ogg",
+					
+					"video/webm"
+					
+				],
+				
+				"linearity": 1,
+				
+				"maxduration": 60,
+				
+				"minduration": 0,
+				
+				"maxseq": 4,
+				
+				"poddur": 60,
+				
+	                             ...
+				     
+			},
+			
+			"exp": 7200,
+			
+			"bidfloor": 8,
+			
+			"bidfloorcur": "USD",
+			
+			...
+			
+		}
+		
+	}],
+	
+	...
+	
+}
+
 
 BidResponse
-{ "id": "9b9ee818a85d948d5231ffe839a9729a", "seatbid": [{ "bid": [{ "id": "1", "impid": "1", "price": 20.27, "adid": "123456", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserA.com" ], "cid": "456789", "crid": "123456", "dur": 15 }], "seat": "1" }, { "bid": [{ "id": "2", "podid": "pod_1", "impid": "2", "price": 9.27, "adid": "234567", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserB.com" ], "cid": "567890", "crid": "234567", "dur": 15 }], "seat": "1" }, { "bid": [{ "id": "3", "podid": "pod_1", "impid": "2", "price": 10.27, "adid": "345678", "adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...", "adomain": [ "advertiserC.com" ], "cid": "678901", "crid": "345678", "dur": 15 }], "seat": "2" } ], "cur": "USD" }
+
+{
+
+	"id": "9b9ee818a85d948d5231ffe839a9729a",
+	
+	"seatbid": [{
+	
+			"bid": [{
+			
+				"id": "1",
+				
+				"impid": "1",
+				
+				"price": 20.27,
+				
+				"adid": "123456",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserA.com"
+					
+				],
+				
+				"cid": "456789",
+				
+				"crid": "123456",
+				
+				"dur": 15
+				
+			}],
+			
+			"seat": "1"
+			
+		},
+		
+		{
+		
+			"bid": [{
+			
+				"id": "2",
+				
+				"podid": "pod_1",	
+				
+				"impid": "2",
+				
+				"price": 9.27,
+				
+				"adid": "234567",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserB.com"
+					
+				],
+				
+				"cid": "567890",
+				
+				"crid": "234567",
+				
+				"dur": 15
+				
+			}],
+			
+			"seat": "1"
+			
+		},
+		
+		{
+		
+			"bid": [{
+			
+				"id": "3",
+				
+				"podid": "pod_1",
+				
+				"impid": "2",
+				
+				"price": 10.27,
+				
+				"adid": "345678",
+				
+				"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"2.0\"> ...",
+				
+				"adomain": [
+				
+					"advertiserC.com"
+					
+				],
+				
+				"cid": "678901",
+				
+				"crid": "345678",
+				
+				"dur": 15
+				
+			}],
+			
+			"seat": "2"
+			
+		}
+		
+	],
+	
+	"cur": "USD"
+	
+}
+
 	
 	
 ## 7.7 Network vs Channel Example Cases
@@ -679,3 +1041,97 @@ BEST PRACTICE: When firing impression notifications via HTTP request from the se
 These HTTP headers allow recipients of impression notifications to run anti-IVT checks using metadata about the end user device, rather than the server itself.
 	
 BEST PRACTICE: When firing impression notifications via HTTP request from the server-side, the notifier should establish an ads.cert Call Sign and make use of the ads.cert Authenticated Connections protocol to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
+	
+# Appendix A. Additional Information
+- Creative Commons / Attribution License
+ 	creativecommons.org/licenses/by/3.0
+- IAB (Interactive Advertising Bureau)
+ 	www.iab.com
+- IAB Quality Assurance Guidelines (QAG):
+ 	www.iab.com/guidelines/iab-quality-assurance-guidelines-qag-taxonomy/
+- JavaScript Object Notation (JSON)
+ 	www.json.org
+- MMA (Mobile Marketing Association)
+ 	mmaglobal.com
+- OpenRTB Project on Github
+ 	github.com/openrtb/OpenRTB/
+- Apache Avro
+ 	avro.apache.org
+ 	Protocol Buffers (Protobuf)
+code.google.com/p/protobuf
+- Google Metro Codes
+ 	code.google.com/apis/adwords/docs/appendix/metrocodes.html
+- U.N. Code for Trade and Transport Locations:
+ 	www.unece.org/cefact/locode/service/location.htm
+	
+# Appendix B. Specification Change Log
+	
+This appendix serves as an index of specification changes across 2.x versions. These changes pertain only to the substance of the specification and not routine document formatting, organization, or content without technical impact.
+	
+**Version 2.5 to 2.6:**
+	
+	//insert table from page 88
+Section	Description
+3.2.1 3.2.16 4.2.3 3.2.18	Added new language field to support IETF BCP 47 IETF BCP 47 offers additional layers of granularity, for example, differentiating written language versions of the same spoken language (e.g. Traditional and Simplified Chinese) https://en.wikipedia.org/wiki/IETF_language_tag
+
+5	Removed section (Enumerated Lists) All references now point to AdCOM 1.0 / OpenRTB 3.0 Lists
+3.2.1 3.2.13 3.2.14 3.2.15 3.2.16 3.2.17 4.2.3	Objects: BidRequest, Site, App, Publisher, Content, Producer, Bid, Use of cattax for all taxonomy references
+3.2.7 3.2.8	Objects: Video, Audio Added rqddurs
+3.2.7 3.2.8	Objects: Video, Audio Added maxseq, poddur, podid, podseq, mincpmpersec, slotinpod for pod bidding support
+4.4 4.4.1	Substitution Macros Added AUCTION_MIN_TO_WIN
+4.2.3	Object: Bid Added apis
+3.2.4	Object: Imp Added rwdd
+3.2.1 3.2.14 4.2.3	Object: App, Bid, BidRequest Clarified language around use of storeid vs bundle
+3.2.4	Object Imp Added ssai
+3.2.18	Object: Device Clarified language around mccmnc and roaming
+3.2.23 3.2.24	Added Objects: Network, Channel, SupplyChain, SupplyChainNode, EIDs and UIDs
+4.2.3	Object Bid Added mtype
+3.2.6 3.2.7 3.2.16	Removed previously deprecated attributes Object: Banner, wmax, hmax, wmin, hmin Object: Video, protocol Object: Content, videoquality
+7.6	Pod Bidding for Video and Audio implementers guide
+7.7	Network and Channel object examples
+3.2.7 3.2.8 3.2.18 3.2.20 4.2.3	Deprecated attributes Object: Video, sequence Object: Audio, sequence Object: Device, didsha1, didmd5, dpidsha1, dpidmd5, macsha1, macmd5 Object: User, yob, gender Object: Bid, api
+7.8	Added Counting Billable events and tracked ads
+3.2.29 3.2.30	Object: UserAgent & Object Brand Version added
+	
+Version 2.4 to 2.5:
+	
+	
+	//insert table from page 89
+	
+Section	Description
+2.4
+Section: Data Encoding New section added.
+3.1
+Object Model: Bid Request Updated to include Source and Metric objects.
+3.2.1
+Object: BidRequest Attributes bseat, wlang, and source have been added.
+3.2.2
+Object: Source New Source object has been added including the Payment ID pchain attribute.
+3.2.4
+Object: Imp Attribute metric has been added.
+3.2.5
+Object: Metric New Metric object has been added.
+3.2.6
+Object: Banner Attribute vcm has been added.
+3.2.7
+Object: Video Attributes placement and playbackend have been added. Guidance added to use only the first element of attribute playbackmethod in preparation for future conversion to an integer.
+3.2.10
+Object: Format Attributes wratio, hratio, and wmin have been added.
+3.2.13	Object: Device Attribute mccmnc has been added. Attribute carrier has been clarified to eliminate a reference to using “WIFI” as a carrier.
+4.2.3
+Object: Bid Attributes burl, lurl, tactic, language, wratio, and hratio have been added.
+4.4
+Substitution Macros: Macros ${AUCTION_MBR} and ${AUCTION_LOSS} have been added. A best practice has been added to use “AUDIT” for unknown values when rendering for test or quality purposes.
+5.6
+List: API Frameworks Item 6 has been added.
+5.9
+List: Video Placement Types New list has been added.
+5.10
+List: Playback Methods Items 5-6 have been added.
+5.11
+List: Playback Cessation Modes New list has been added.
+5.24
+List: No-Bid Reason Codes Items 9-10 have been added.
+5.25
+List: Loss Reason Codes New list has been added.
+
