@@ -1,11 +1,11 @@
 	
-# 7 Implementation Notes
+# 7 Implementation Notes <a name="7implementationnotes"></a>
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
 	
-## 7.1 No-Bid Signaling
+## 7.1 No-Bid Signaling <a name="nobadsignaling"></a>
 	
-This section covers best practices for using the optional no-bid signaling. See the List: No-Bid Reason Codes in OpenRTB 3.0 <#_2rrrqc1>for the enumerated list of no-bid reason codes.
+This section covers best practices for using the optional no-bid signaling. See the [List: No-Bid Reason Codes i](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--no-bid-reason-codes-)n OpenRTB 3.0 <#_2rrrqc1>for the enumerated list of no-bid reason codes.
 	
 Many exchanges support multiple response types as a no-bid:
 	
@@ -38,7 +38,7 @@ Make best effort to classify and reject “non-human traffic” requests for ads
 - For bidders, filtering the impression means that the bidder should respond with a no-bid.
 - For both exchanges and bidders, the impression transaction records should be clearly marked in any logging systems and be removed from contributing to any event counts associated with planning, forecasting, and reporting systems.
 	
-## 7.2 Impression Expiration
+## 7.2 Impression Expiration <a name="impressionexpiration"></a>
 	
 Recapping the typical impression flow through RTB, an ad will be requested by a client (e.g., web browser, mobile app or an SDK therein) possibly through other server intermediaries, and ultimately to the RTB exchange. The exchange conducts an auction among buyers who bid with a proposed price, possibly markup for use if the bid wins (markup can also be delivered on the win notice itself), and other metadata about the bid. The exchange then selects a winner, issues a win notice to the winning bidder, and passes the markup back to the client.
 	
@@ -64,9 +64,9 @@ The following expiration times are offered as examples of reasonable delays base
 - Mobile and video interstitials: 30 Minutes (or even longer)
 - Audio or video with server-side stitching: Very Long or Unknown
 	
-## 7.3 PMP & Direct Deals
+## 7.3 PMP & Direct Deals <a name="pmpdirectdeals"></a>
 	
-**Best Practice Bidding Logic**
+**Best Practice Bidding Logic** <a name="bestpracticebiddinglogic"></a>
 	
 Receive request and parse;
 Create empty bid list for response;
@@ -82,40 +82,40 @@ Return response list to exchange;
 - Minimum viable is “1+1” bidding.
 - Ideal is “M+N” bidding.
 	
-**Warning**
+**Warning** <a name="warning"></a>
 	
 Returning only one bid when both Deal ID and open auction bids are valid creates problems. The exchange side may be configured by a publisher to prioritize all Deal ID bids above open auction bids, or to force a price auction between them with different floors by class of bid. There are multiple common practices that depend on how the publisher prefers to sell inventory with Deal ID.
 	
-**Policy Recommendations**
+**Policy Recommendations** <a name="policyrecs"></a>
 	
 - A Deal ID should be utilized for any situation where the auction may be awarded to a bid not on the basis of price alone. Any prioritization of bids other than by price should have a Deal ID.
 - A Deal ID is recommended for all situations where a preferential floor may be assigned to a seat entity.
 	
-**Anti-Patterns**
+**Anti-Patterns** <a name="antipatterns"></a>
 	
 The below is a set of anti-patterns that OpenRTB supporting platforms have observed in various attempts to implement Deal ID bidding logic.
 	
-**Subjecting Deal ID Bids to an internal auction on price**
+**Subjecting Deal ID Bids to an internal auction on price** <a name="subjectingdealidbids"></a>
 	
 The ideal bidding logic describes a process of being liberal about sending bids. Deal ID bids may not be subject to a classic price auction. There may be an expectation that the buyer and seller want prioritization to achieve a larger objective: complete delivery of the Deal represented by the Deal ID. Thus any bidding logic that sorts Deal ID bids by price (with or without open marketplace bids) and truncates the list too aggressively can endanger the fulfillment of the Deal.
 	
-**Associating Deal ID to the wrong Object**
+**Associating Deal ID to the wrong Object** <a name="dealidtowrongobject"></a>
 	
 A Deal ID should be treated as a “targeting token” associated to orders, line-items or campaigns. If the Deal ID is associated to a Seat/Buyer it may create an undesired application of the Deal ID too many active campaigns. Alternatively if it is associated to the Advertiser it may limit that entity to only a single Deal ID.
 	
-**Improper Handling of the Private vs Open Market Flag**
+**Improper Handling of the Private vs Open Market Flag** <a name="improperhandlingseatids"></a>
 	
 The pmp.private_auction flag indicates that the seller is willing or not willing to accept open market bids (i.e., “all bidders are welcome”). If this flag is not read and interpreted correctly, bid responses may be invalid. Open market bids sent to a private impression auction may be rejected and should not have been exposed to all bidders.
 	
-**Improper handling of Seat IDs**
+**Improper handling of Seat IDs** <a name="improperhandlingseatids"></a>
 	
 If Seat IDs are treated as a filter of eligible demand partners on an open market impression, this defeats the “all bidders are welcome” intention.
 	
-**Silently Applying Margin Discounts to Deal ID Bids**
+**Silently Applying Margin Discounts to Deal ID Bids** <a name="applyingmargindiscounts"></a>
 	
 With Deal ID buyers are sellers are communicating directly. The Exchange and Bidder become third- party automation platforms. If there are any automatic or silent discounts of bid prices (based upon margins or fees) set by either the exchange or the bidder, then the Deal may fail to function correctly.
 	
-**Use cases**
+**Use cases** <a name="usecases"></a>
 	
 *Case-1: Open Trading Agreement with Buyer*
 	
@@ -189,7 +189,7 @@ With Deal ID buyers are sellers are communicating directly. The Exchange and Bid
 - Same as Case-6.
 - Deal ID represents some combination of private first-party data from the Publisher.
 	
-## 7.4 Skippability
+## 7.4 Skippability <a name="skippability"></a>
 	
 This section clarifies the common use cases related to declaring skippability of video creatives.
 	
@@ -203,7 +203,7 @@ DSPs should confirm with publishers whether it is permissible to respond with ad
 	
 Some examples of these concepts follow:
 	
-**Bid Request** 
+**Bid Request** <a name="bidrequest"></a>
 	
 *Case-1: Skippable after N Seconds for All Creatives*
 	
@@ -239,7 +239,7 @@ In this case, the publisher will not impose skippability. Ads will only be skipp
 	
 In this case, the skip attribute is omitted which indicates that exchange does not know if skippability will be imposed by the publisher. This may be the case, for example, when the exchange is not an SSP and thus may not have control or full knowledge of the publisher’s intentions.
 	
-**Bid Response**
+**Bid Response** <a name="bidresponse"></a>
 	
 Consider Case-3 above, where the publisher does not impose skippability. If the ad markup itself will request skippability (e.g., via VPAID or VAST 3.0), then the bid must signal this intention. This is accomplished by including creative attribute 16 (i.e., Skippable) in the bid as shown below. If the markup is not going to request skippability, then this creative attribute should not be indicated.
 	
@@ -254,7 +254,7 @@ When responding to Case-3 with this skippable attribute specified in the bid, th
 	
 In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 “skipoffset” at their discretion and ads should be assumed to play non-skippable if the player does not support it.
 	
-## 7.5 Regs Resources
+## 7.5 Regs Resources <a name="regsresources"></a>
 	
 The regs object contains any legal, governmental, or industry regulations that the sender deem applicable to the request.
 	
@@ -266,26 +266,28 @@ https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Fr
 **CCPA (California Consumer Privacy Act)**
 https://github.com/InteractiveAdvertisingBureau/USPrivacy
 
-## 7.6 Pod Bidding for Video and Audio
+## 7.6 Pod Bidding for Video and Audio <a name="podbidding"></a>
 	
 Starting in version 2.6, OpenRTB now supports ‘pod bidding’ for video and audio content streams.
 An ad pod is the term describing an ad break of the type you’d see in a TV-like viewing experience or hear on a radio stream. An ad pod typically contains one or more in-stream creative assets that play out contiguously within a stream of video or audio content. Ad podding features in OpenRTB 2.6 build on capabilities in previous versions for including multiple ad requests within a single bid request object to indicate those ad requests are in some way related. Pod bidding signals communicate additional information about the pod & impression opportunities within the pod such as the sequence of the ad impressions, total pod length, maximum # of ads within a pod, multiple pod associations, and more.
 	
-**Terminology**
+**Terminology** <a name="terminology"></a>
 	
 Ad Slot: Space for an individual ad impression within a pod.
 	
 Structured Pod: The seller offers a fully defined pod structure; the number of ad slots, their slot in the ad pod, and duration is pre-defined and static.
-	
-	//insert photo on page 73
+
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(102).png)
 	
 Dynamic Pod: The seller offers a pod structure where the number of ads & the duration of each ad in the break is indeterminate, but the total duration and maximum number of ads are constrained. In other words, the total duration of the pod is known, but the number and durations of the individual ads within the break may not be defined ahead of time. This allows bidders more flexibility to optimize their selection of ads across the demand on their platform.
 	
-	//insert photo on page 74
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(101).png)
 	
 Hybrid Pod: The seller offers a pod structure containing BOTH structured and dynamic components. In other words, the ad pod is composed of some combination of ad slots with predetermined durations, and ad slots constrained by a total duration & maximum number of ads.
-	
-**Recommendations**
+
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(100).png)
+
+**Recommendations** <a name="recommendations"></a>
 	
 - Sellers should only indicate a slotinpod of 1, 2, or -1 if they can absolutely guarantee placement of an ad within the first or last slot of an ad pod.
 - Buyers should only indicate a slotinpod in response to a dynamic pod segment, including a dynamic component of a hybrid pod, if they only want to buy the first or last ad slot specifically
@@ -297,7 +299,7 @@ Hybrid Pod: The seller offers a pod structure containing BOTH structured and dyn
 - Sellers are encouraged to offer dynamic pods when possible to allow bidders to source the most optimal demand from their platforms
 - Buyers should expect that final pod construction is done by the seller. Buyers who submit N bids for a particular pod may find that the seller selects anywhere between 0 to N of those bids to construct the pod that is shown to the user. Furthermore, the seller may co-mingle bids from other buyers in that pod.
 
-**Pod bidding example scenarios**
+**Pod bidding example scenarios** <a name="podbiddingex"></a>
 	
 *“Structured” Ad Pod Request/Response*
 	
@@ -935,7 +937,7 @@ BidResponse
 
 	
 	
-## 7.7 Network vs Channel Example Cases
+## 7.7 Network vs Channel Example Cases <a name="networkvschannel"></a>
 	
 Starting in version 2.6, OpenRTB now supports Network and Channel objects. See 3.2.23 and 3.2.24 for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
 	
@@ -961,25 +963,59 @@ Example 4: A user is viewing content on an internet connected device, on a devic
 - Pluto is the network (also identified by bundleID)
 - PlutoTV Spotlight is the channel
 	
-## 7.8 Counting Billable Events and Tracked Ads
+## 7.8 Counting Billable Events and Tracked Ads <a name="countingbillableevents"></a>
 	
 There are multiple conventions for how to count billable events or tracked ads via OpenRTB, typically an impression or other such common metric. This section outlines the common ones, addresses common mistakes, and offers a comparison of the approaches.
 	
-This section addresses technical methods available for implementers to consume these events. These events have specific business definitions and criteria for counting eligibility set by the Media Rating Council, and implementers should also consult the Media Rating Council’s guidelines.
+This section addresses technical methods available for implementers to consume these events. These events have specific business definitions and criteria for counting eligibility set by the Media Rating Council, and implementers should also consult the[ Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm).
 	
 Implementers should discuss the definition of the billable event and the technical basis for counting it with their counterparties to determine a mutually acceptable approach.
 	
-**Overview of counting methodologies**
+**Overview of counting methodologies** <a name="overviewofcountingmethods"></a>
 	
-	//insert table from page 82
 	
-Method	Remarks
-Pixel in markup	Widely supported Normally fired from client-side browser Prone to discrepancies May overcount in some circumstances (i.e. mobile app) Only applicable for display
-VAST <Impression> event	Recommended for audio/video Only applicable for audio/video
-Billing notice (“burl”)	Best alignment between DSPs and exchanges to count tracked ads Minimal discrepancy Not recommended for audio/video, otherwise applicable to all creative types Usually (and recommended to be) fired server-to-server, but based on an initial client-side event
-Native eventtrackers/imptrackers/jstrackers	Only applicable to native ads
+<table>
+  <tr>
+    <td><strong>Method&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
+    <td><strong>Remarks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
+  </tr>
+  <tr>
+    <td><code>Pixel in Markup</code></td>
+    <td> Widely supported
+	    
+Normally fired from client-side browser
+	    
+Prone to discrepancies
+	    
+May overcount in some circumstances (i.e. mobile app) 
+	    
+Only applicable for display</td>
+  </tr>
+  <tr>
+    <td><code>VAST <impression> event</code></td>
+    <td>Recommended for audio/video
+
+	    Only applicable for audio/video</td>
+ </tr>
+  <tr>
+    <td><code>Billing notice ("burl")</code></td>
+    <td>Best alignment between DSPs and exchanges to count tracked ads
+	    
+Minimal discrepancy
+
+Not recommended for audio/video, otherwise applicable to all creative types
+
+Usually (and recommended to be) fired server-to-server, but based on an initial client-side event</td>
+</tr>
+  <tr>
+    <td><code>Native eventtrackers/imptrackers/jstrackers</code></td>
+    <td>Only applicable to native ads</td>
+     <tr>
+  </tr>
+</table>
 	
-**Pixel in markup (banner ads)**
+	
+**Pixel in markup (banner ads)** <a name="pixelinmarkup"></a>
 	
 This is the original convention for counting impressions/tracked ads; in this method, the OpenRTB specification itself does not address how to receive the events. The bidder self-embeds a tracking pixel in their HTML markup (i.e. an <img> tag which makes a request to the bidder’s servers). When the client device loads the markup, it fires the pixel.
 	
@@ -991,15 +1027,15 @@ For banner ads on web, this is a widely adopted approach to counting billable ev
 	
 BEST PRACTICE: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
 	
-**VAST <Impression> event (video/audio)**
+**VAST <Impression> event (video/audio)** <a name="vastimpressionevent"></a>
 	
 The VAST specification includes a provision for <Impression> objects, which demand chain participants can use to request notifications when a billable event has occurred. The IAB prescribes that for video, the VAST <Impression> event is the official signal that the billable event has occurred.
 	
 Demand chain participants are discouraged from using billing notice URLs (burl) for video/audio transactions.
 	
-**Billing notice (“burl”)**
+**Billing notice (“burl”)** <a name="billingnotice"></a>
 	
-Billing notice support was introduced in OpenRTB 2.5. In this scenario, outside of the ad markup itself, a “billing notice URL” is included in the bid response. A billing event is when a transaction results in a monetary charge from the publisher to an exchange, and subsequently from the exchange or other intermediary to one of their demand-side partners. This event is subject to publisher and exchange-specific business policies that should be conveyed clearly to their partners. For a DSP, this event signals that they can increment spend and deduct the remaining budget against the related campaign. The exchange conveys this event by invoking the URL provided by the demand source in the bid.burl attribute.
+Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outside** of the ad markup itself, a “billing notice URL” is included in the bid response. A billing event is when a transaction results in a monetary charge from the publisher to an exchange, and subsequently from the exchange or other intermediary to one of their demand-side partners. This event is subject to publisher and exchange-specific business policies that should be conveyed clearly to their partners. For a DSP, this event signals that they can increment spend and deduct the remaining budget against the related campaign. The exchange conveys this event by invoking the URL provided by the demand source in the bid.burl attribute.
 	
 BEST PRACTICE: Firing the billing notice URL represents the fulfillment of a business transaction between a publisher and an exchange, or between the exchange and its demand partner. This should not be delegated to another party including a client-side pixel, although a pixel may be the initiating signal for billing to the exchange.
 	
@@ -1007,7 +1043,7 @@ BEST PRACTICE: Exchanges, upon determining that a billable event has occurred (e
 	
 BEST PRACTICE: Exchanges are highly encouraged to standardize on a client-initiated render or viewability event as the basis for the billing event. This is generally the most consistent approach in a complex supply chain scenario composed of multiple auction decision points.
 	
-BEST PRACTICE: Publishers should generally refer to the Media Rating Council’s guidelines to determine when the criteria have been met to consider a transaction billable.
+BEST PRACTICE: Publishers should generally refer to the [Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm) to determine when the criteria have been met to consider a transaction billable.
 	
 BEST PRACTICE: The public internet is noisy and this event is financial in nature. If an entity calling a billing notice receives a response other than HTTP 200 or 204, it should consider a retry scheme (e.g., every 10 seconds for the next minute). Conversely, an entity receiving billing notices should endeavor to make their endpoint idempotent to avoid double counting.
 	
@@ -1015,21 +1051,21 @@ BEST PRACTICE: When it is possible to do so, exchanges should avoid using adm-ba
 	
 For VAST video/audio, if the bid.burl attribute is specified, it should be fired at the same time as the VAST <Impression> event. However, subtle technical issues may lead to additional discrepancies and bidders are cautioned to avoid this scenario. One option is for exchanges nearest a video supply source to use the VAST <Impression> event as their billing signal and then use the billing notice URL (burl) as described.
 	
-**Native eventtrackers, imptrackers, jstrackers**
+**Native eventtrackers, imptrackers, jstrackers** <a name="nativeeventtrackers"></a>
 	
-For native ads specifically, the OpenRTB Native specification offers options for including an impression tracking URL or script to be loaded at impression time. See the OpenRTB Native spec for more information. For native video, most platforms utilize the impression events within VAST for billing and other event notifications, rather than the structured tracking options available within the native spec.
+For native ads specifically, the OpenRTB Native specification offers options for including an impression tracking URL or script to be loaded at impression time. See the [OpenRTB Native](https://iabtechlab.com/standards/openrtb-native/) spec for more information. For native video, most platforms utilize the impression events within VAST for billing and other event notifications, rather than the structured tracking options available within the native spec.
 	
-**Win notice (“nurl”) – not a billable or tracked ad event**
+**Win notice (“nurl”) – not a billable or tracked ad event** <a name="winnoticenurl"></a>
 	
 At first glance, an auction “win” and the associated win notice (“nurl”) field appears suitable as a proxy for billable/tracked ad counting. However, winning an auction does not guarantee that an impression will indeed be served, and in fact in many cases only a small percentage of won auctions will become impressions. This occurs because of downstream auctions (i.e. client-side header bidding), inability to play back media (in video and audio), etc.
 	
 **Win notice URLs should never be used to count impressions or tracked ads.**
 	
-**Best Practices for server-side billing notifications*
+**Best Practices for server-side billing notifications* <a name="bestpracticesserverside"></a>
 	
 In some cases, publishers or their vendors may choose to fire impression notifications from a server. This is very common in long-form video, which uses server-side ad insertion to coordinate the delivery and measurement of ads to a “thin” client on the user’s device. It is also common in mobile app, where the monetization SDK uses a server-side service to fire burl notifications.
 	
-The following best practice is derived from the VAST 4.2 spec (page 17), but recommended for any impression notification (for all formats, regardless of protocol or version).
+The following best practice is derived from the [VAST 4.2 spec](https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf) (page 17), but recommended for any impression notification (for all formats, regardless of protocol or version).
 	
 BEST PRACTICE: When possible, exchanges are encouraged to send billing notice URL (burl) notifications from the server-side, to minimize discrepancies with demand partners. The billable event itself should originate from a client-side event per MRC guidelines.
 	
@@ -1040,98 +1076,4 @@ BEST PRACTICE: When firing impression notifications via HTTP request from the se
 	
 These HTTP headers allow recipients of impression notifications to run anti-IVT checks using metadata about the end user device, rather than the server itself.
 	
-BEST PRACTICE: When firing impression notifications via HTTP request from the server-side, the notifier should establish an ads.cert Call Sign and make use of the ads.cert Authenticated Connections protocol to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
-	
-# Appendix A. Additional Information
-- Creative Commons / Attribution License
- 	creativecommons.org/licenses/by/3.0
-- IAB (Interactive Advertising Bureau)
- 	www.iab.com
-- IAB Quality Assurance Guidelines (QAG):
- 	www.iab.com/guidelines/iab-quality-assurance-guidelines-qag-taxonomy/
-- JavaScript Object Notation (JSON)
- 	www.json.org
-- MMA (Mobile Marketing Association)
- 	mmaglobal.com
-- OpenRTB Project on Github
- 	github.com/openrtb/OpenRTB/
-- Apache Avro
- 	avro.apache.org
- 	Protocol Buffers (Protobuf)
-code.google.com/p/protobuf
-- Google Metro Codes
- 	code.google.com/apis/adwords/docs/appendix/metrocodes.html
-- U.N. Code for Trade and Transport Locations:
- 	www.unece.org/cefact/locode/service/location.htm
-	
-# Appendix B. Specification Change Log
-	
-This appendix serves as an index of specification changes across 2.x versions. These changes pertain only to the substance of the specification and not routine document formatting, organization, or content without technical impact.
-	
-**Version 2.5 to 2.6:**
-	
-	//insert table from page 88
-Section	Description
-3.2.1 3.2.16 4.2.3 3.2.18	Added new language field to support IETF BCP 47 IETF BCP 47 offers additional layers of granularity, for example, differentiating written language versions of the same spoken language (e.g. Traditional and Simplified Chinese) https://en.wikipedia.org/wiki/IETF_language_tag
-
-5	Removed section (Enumerated Lists) All references now point to AdCOM 1.0 / OpenRTB 3.0 Lists
-3.2.1 3.2.13 3.2.14 3.2.15 3.2.16 3.2.17 4.2.3	Objects: BidRequest, Site, App, Publisher, Content, Producer, Bid, Use of cattax for all taxonomy references
-3.2.7 3.2.8	Objects: Video, Audio Added rqddurs
-3.2.7 3.2.8	Objects: Video, Audio Added maxseq, poddur, podid, podseq, mincpmpersec, slotinpod for pod bidding support
-4.4 4.4.1	Substitution Macros Added AUCTION_MIN_TO_WIN
-4.2.3	Object: Bid Added apis
-3.2.4	Object: Imp Added rwdd
-3.2.1 3.2.14 4.2.3	Object: App, Bid, BidRequest Clarified language around use of storeid vs bundle
-3.2.4	Object Imp Added ssai
-3.2.18	Object: Device Clarified language around mccmnc and roaming
-3.2.23 3.2.24	Added Objects: Network, Channel, SupplyChain, SupplyChainNode, EIDs and UIDs
-4.2.3	Object Bid Added mtype
-3.2.6 3.2.7 3.2.16	Removed previously deprecated attributes Object: Banner, wmax, hmax, wmin, hmin Object: Video, protocol Object: Content, videoquality
-7.6	Pod Bidding for Video and Audio implementers guide
-7.7	Network and Channel object examples
-3.2.7 3.2.8 3.2.18 3.2.20 4.2.3	Deprecated attributes Object: Video, sequence Object: Audio, sequence Object: Device, didsha1, didmd5, dpidsha1, dpidmd5, macsha1, macmd5 Object: User, yob, gender Object: Bid, api
-7.8	Added Counting Billable events and tracked ads
-3.2.29 3.2.30	Object: UserAgent & Object Brand Version added
-	
-Version 2.4 to 2.5:
-	
-	
-	//insert table from page 89
-	
-Section	Description
-2.4
-Section: Data Encoding New section added.
-3.1
-Object Model: Bid Request Updated to include Source and Metric objects.
-3.2.1
-Object: BidRequest Attributes bseat, wlang, and source have been added.
-3.2.2
-Object: Source New Source object has been added including the Payment ID pchain attribute.
-3.2.4
-Object: Imp Attribute metric has been added.
-3.2.5
-Object: Metric New Metric object has been added.
-3.2.6
-Object: Banner Attribute vcm has been added.
-3.2.7
-Object: Video Attributes placement and playbackend have been added. Guidance added to use only the first element of attribute playbackmethod in preparation for future conversion to an integer.
-3.2.10
-Object: Format Attributes wratio, hratio, and wmin have been added.
-3.2.13	Object: Device Attribute mccmnc has been added. Attribute carrier has been clarified to eliminate a reference to using “WIFI” as a carrier.
-4.2.3
-Object: Bid Attributes burl, lurl, tactic, language, wratio, and hratio have been added.
-4.4
-Substitution Macros: Macros ${AUCTION_MBR} and ${AUCTION_LOSS} have been added. A best practice has been added to use “AUDIT” for unknown values when rendering for test or quality purposes.
-5.6
-List: API Frameworks Item 6 has been added.
-5.9
-List: Video Placement Types New list has been added.
-5.10
-List: Playback Methods Items 5-6 have been added.
-5.11
-List: Playback Cessation Modes New list has been added.
-5.24
-List: No-Bid Reason Codes Items 9-10 have been added.
-5.25
-List: Loss Reason Codes New list has been added.
-
+BEST PRACTICE: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
