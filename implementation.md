@@ -1033,7 +1033,7 @@ The VAST specification includes a provision for <Impression> objects, which dema
 	
 Demand chain participants are discouraged from using billing notice URLs (burl) for video/audio transactions.
 	
-**Billing notice (“burl”)** <a name="billingnotice"></a>
+## Billing notice (“burl”)** <a name="billingnotice"></a>
 	
 Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outside** of the ad markup itself, a “billing notice URL” is included in the bid response. A billing event is when a transaction results in a monetary charge from the publisher to an exchange, and subsequently from the exchange or other intermediary to one of their demand-side partners. This event is subject to publisher and exchange-specific business policies that should be conveyed clearly to their partners. For a DSP, this event signals that they can increment spend and deduct the remaining budget against the related campaign. The exchange conveys this event by invoking the URL provided by the demand source in the bid.burl attribute.
 	
