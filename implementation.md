@@ -1033,7 +1033,7 @@ The VAST specification includes a provision for <Impression> objects, which dema
 	
 Demand chain participants are discouraged from using billing notice URLs (burl) for video/audio transactions.
 	
-## Billing notice (“burl”)** <a name="billingnotice"></a>
+**Billing notice (“burl”)** <a name="billingnotice"></a>
 	
 Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outside** of the ad markup itself, a “billing notice URL” is included in the bid response. A billing event is when a transaction results in a monetary charge from the publisher to an exchange, and subsequently from the exchange or other intermediary to one of their demand-side partners. This event is subject to publisher and exchange-specific business policies that should be conveyed clearly to their partners. For a DSP, this event signals that they can increment spend and deduct the remaining budget against the related campaign. The exchange conveys this event by invoking the URL provided by the demand source in the bid.burl attribute.
 	
@@ -1061,7 +1061,7 @@ At first glance, an auction “win” and the associated win notice (“nurl”)
 	
 **Win notice URLs should never be used to count impressions or tracked ads.**
 	
-**Best Practices for server-side billing notifications* <a name="bestpracticesserverside"></a>
+## Best Practices for server-side billing notifications <a name="bestpracticesserverside"></a>
 	
 In some cases, publishers or their vendors may choose to fire impression notifications from a server. This is very common in long-form video, which uses server-side ad insertion to coordinate the delivery and measurement of ads to a “thin” client on the user’s device. It is also common in mobile app, where the monetization SDK uses a server-side service to fire burl notifications.
 	
