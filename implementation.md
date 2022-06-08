@@ -1,9 +1,9 @@
 	
-# 7 Implementation Notes <a name="7implementationnotes"></a>
+# 7. Implementation Notes <a name="7implementationnotes"></a>
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
 	
-## 7.1 No-Bid Signaling <a name="nobadsignaling"></a>
+## 7.1 - No-Bid Signaling <a name="nobadsignaling"></a>
 	
 This section covers best practices for using the optional no-bid signaling. See the [List: No-Bid Reason Codes i](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--no-bid-reason-codes-)n OpenRTB 3.0 <#_2rrrqc1>for the enumerated list of no-bid reason codes.
 	
@@ -38,7 +38,7 @@ Make best effort to classify and reject “non-human traffic” requests for ads
 - For bidders, filtering the impression means that the bidder should respond with a no-bid.
 - For both exchanges and bidders, the impression transaction records should be clearly marked in any logging systems and be removed from contributing to any event counts associated with planning, forecasting, and reporting systems.
 	
-## 7.2 Impression Expiration <a name="impressionexpiration"></a>
+## 7.2 - Impression Expiration <a name="impressionexpiration"></a>
 	
 Recapping the typical impression flow through RTB, an ad will be requested by a client (e.g., web browser, mobile app or an SDK therein) possibly through other server intermediaries, and ultimately to the RTB exchange. The exchange conducts an auction among buyers who bid with a proposed price, possibly markup for use if the bid wins (markup can also be delivered on the win notice itself), and other metadata about the bid. The exchange then selects a winner, issues a win notice to the winning bidder, and passes the markup back to the client.
 	
@@ -64,7 +64,7 @@ The following expiration times are offered as examples of reasonable delays base
 - Mobile and video interstitials: 30 Minutes (or even longer)
 - Audio or video with server-side stitching: Very Long or Unknown
 	
-## 7.3 PMP & Direct Deals <a name="pmpdirectdeals"></a>
+## 7.3 - PMP & Direct Deals <a name="pmpdirectdeals"></a>
 	
 **Best Practice Bidding Logic** <a name="bestpracticebiddinglogic"></a>
 	
@@ -189,7 +189,7 @@ With Deal ID buyers are sellers are communicating directly. The Exchange and Bid
 - Same as Case-6.
 - Deal ID represents some combination of private first-party data from the Publisher.
 	
-## 7.4 Skippability <a name="skippability"></a>
+## 7.4 - Skippability <a name="skippability"></a>
 	
 This section clarifies the common use cases related to declaring skippability of video creatives.
 	
@@ -254,7 +254,7 @@ When responding to Case-3 with this skippable attribute specified in the bid, th
 	
 In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 “skipoffset” at their discretion and ads should be assumed to play non-skippable if the player does not support it.
 	
-## 7.5 Regs Resources <a name="regsresources"></a>
+## 7.5 - Regs Resources <a name="regsresources"></a>
 	
 The regs object contains any legal, governmental, or industry regulations that the sender deem applicable to the request.
 	
@@ -266,7 +266,7 @@ https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Fr
 **CCPA (California Consumer Privacy Act)**
 https://github.com/InteractiveAdvertisingBureau/USPrivacy
 
-## 7.6 Pod Bidding for Video and Audio <a name="podbidding"></a>
+## 7.6 - Pod Bidding for Video and Audio <a name="podbidding"></a>
 	
 Starting in version 2.6, OpenRTB now supports ‘pod bidding’ for video and audio content streams.
 An ad pod is the term describing an ad break of the type you’d see in a TV-like viewing experience or hear on a radio stream. An ad pod typically contains one or more in-stream creative assets that play out contiguously within a stream of video or audio content. Ad podding features in OpenRTB 2.6 build on capabilities in previous versions for including multiple ad requests within a single bid request object to indicate those ad requests are in some way related. Pod bidding signals communicate additional information about the pod & impression opportunities within the pod such as the sequence of the ad impressions, total pod length, maximum # of ads within a pod, multiple pod associations, and more.
@@ -937,33 +937,33 @@ BidResponse
 
 	
 	
-## 7.7 Network vs Channel Example Cases <a name="networkvschannel"></a>
+## 7.7 - Network vs Channel Example Cases <a name="networkvschannel"></a>
 	
 Starting in version 2.6, OpenRTB now supports Network and Channel objects. See 3.2.23 and 3.2.24 for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
 	
-Example 1: A user viewing content on an internet connected device, on an app with multiple channel options (e.g. Discovery+ App > HGTV Channel/show)
+*Example 1*: A user viewing content on an internet connected device, on an app with multiple channel options (e.g. Discovery+ App > HGTV Channel/show)
 	
 - Discovery is the Network
 - HGTV is the Channel
 	
-Example 2: A user viewing content on an internet connected device, on an app that streams content directly (Roku > Hulu > Hulu Original show)
+*Example 2*: A user viewing content on an internet connected device, on an app that streams content directly (Roku > Hulu > Hulu Original show)
 	
 - Hulu is the network (also identified by bundleID)
 - Hulu is the channel
 	
- Example 3: A user viewing content on an internet connected device, on a device offered channel (Roku > Fubo > Comedy Central show)
+ *Example 3*: A user viewing content on an internet connected device, on a device offered channel (Roku > Fubo > Comedy Central show)
 	
 - Roku is the device
 - FuboTV is the network (also identified by bundleID)
 - Comedy Central is the channel
 	
-Example 4: A user is viewing content on an internet connected device, on a device offered channel that licenses content (Samsung TV > Pluto > Pluto TV Spotlight)
+*Example 4*: A user is viewing content on an internet connected device, on a device offered channel that licenses content (Samsung TV > Pluto > Pluto TV Spotlight)
 	
 - Samsung TV is the device
 - Pluto is the network (also identified by bundleID)
 - PlutoTV Spotlight is the channel
 	
-## 7.8 Counting Billable Events and Tracked Ads <a name="countingbillableevents"></a>
+## 7.8 - Counting Billable Events and Tracked Ads <a name="countingbillableevents"></a>
 	
 There are multiple conventions for how to count billable events or tracked ads via OpenRTB, typically an impression or other such common metric. This section outlines the common ones, addresses common mistakes, and offers a comparison of the approaches.
 	
@@ -1025,7 +1025,7 @@ For banner ads on web, this is a widely adopted approach to counting billable ev
 	
 - **Creative auditing** – markup may be loaded to scan for malvertising, etc., which may generate spurious extra billable/tracked ad events, including for unwon auctions.
 	
-BEST PRACTICE: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
+**BEST PRACTICE**: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
 	
 **VAST <Impression> event (video/audio)** <a name="vastimpressionevent"></a>
 	
@@ -1037,17 +1037,17 @@ Demand chain participants are discouraged from using billing notice URLs (burl) 
 	
 Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outside** of the ad markup itself, a “billing notice URL” is included in the bid response. A billing event is when a transaction results in a monetary charge from the publisher to an exchange, and subsequently from the exchange or other intermediary to one of their demand-side partners. This event is subject to publisher and exchange-specific business policies that should be conveyed clearly to their partners. For a DSP, this event signals that they can increment spend and deduct the remaining budget against the related campaign. The exchange conveys this event by invoking the URL provided by the demand source in the bid.burl attribute.
 	
-BEST PRACTICE: Firing the billing notice URL represents the fulfillment of a business transaction between a publisher and an exchange, or between the exchange and its demand partner. This should not be delegated to another party including a client-side pixel, although a pixel may be the initiating signal for billing to the exchange.
+**BEST PRACTICE**: Firing the billing notice URL represents the fulfillment of a business transaction between a publisher and an exchange, or between the exchange and its demand partner. This should not be delegated to another party including a client-side pixel, although a pixel may be the initiating signal for billing to the exchange.
 	
-BEST PRACTICE: Exchanges, upon determining that a billable event has occurred (e.g., receipt of client-initiated billable event), and in order to minimize discrepancies between themselves and their demand sources, should invoke the billing notice from the server-side. This should be done as "close" as possible to the moment when the exchange books revenue. See the below section regarding best practices for server-side billing notifications.
+**BEST PRACTICE**: Exchanges, upon determining that a billable event has occurred (e.g., receipt of client-initiated billable event), and in order to minimize discrepancies between themselves and their demand sources, should invoke the billing notice from the server-side. This should be done as "close" as possible to the moment when the exchange books revenue. See the below section regarding best practices for server-side billing notifications.
 	
-BEST PRACTICE: Exchanges are highly encouraged to standardize on a client-initiated render or viewability event as the basis for the billing event. This is generally the most consistent approach in a complex supply chain scenario composed of multiple auction decision points.
+**BEST PRACTICE**: Exchanges are highly encouraged to standardize on a client-initiated render or viewability event as the basis for the billing event. This is generally the most consistent approach in a complex supply chain scenario composed of multiple auction decision points.
 	
-BEST PRACTICE: Publishers should generally refer to the [Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm) to determine when the criteria have been met to consider a transaction billable.
+**BEST PRACTICE**: Publishers should generally refer to the [Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm) to determine when the criteria have been met to consider a transaction billable.
 	
-BEST PRACTICE: The public internet is noisy and this event is financial in nature. If an entity calling a billing notice receives a response other than HTTP 200 or 204, it should consider a retry scheme (e.g., every 10 seconds for the next minute). Conversely, an entity receiving billing notices should endeavor to make their endpoint idempotent to avoid double counting.
+**BEST PRACTICE**: The public internet is noisy and this event is financial in nature. If an entity calling a billing notice receives a response other than HTTP 200 or 204, it should consider a retry scheme (e.g., every 10 seconds for the next minute). Conversely, an entity receiving billing notices should endeavor to make their endpoint idempotent to avoid double counting.
 	
-BEST PRACTICE: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
+**BEST PRACTICE**: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
 	
 For VAST video/audio, if the bid.burl attribute is specified, it should be fired at the same time as the VAST <Impression> event. However, subtle technical issues may lead to additional discrepancies and bidders are cautioned to avoid this scenario. One option is for exchanges nearest a video supply source to use the VAST <Impression> event as their billing signal and then use the billing notice URL (burl) as described.
 	
@@ -1061,19 +1061,19 @@ At first glance, an auction “win” and the associated win notice (“nurl”)
 	
 **Win notice URLs should never be used to count impressions or tracked ads.**
 	
-## Best Practices for server-side billing notifications <a name="bestpracticesserverside"></a>
+### Best Practices for server-side billing notifications <a name="bestpracticesserverside"></a>
 	
 In some cases, publishers or their vendors may choose to fire impression notifications from a server. This is very common in long-form video, which uses server-side ad insertion to coordinate the delivery and measurement of ads to a “thin” client on the user’s device. It is also common in mobile app, where the monetization SDK uses a server-side service to fire burl notifications.
 	
 The following best practice is derived from the [VAST 4.2 spec](https://iabtechlab.com/wp-content/uploads/2019/06/VAST_4.2_final_june26.pdf) (page 17), but recommended for any impression notification (for all formats, regardless of protocol or version).
 	
-BEST PRACTICE: When possible, exchanges are encouraged to send billing notice URL (burl) notifications from the server-side, to minimize discrepancies with demand partners. The billable event itself should originate from a client-side event per MRC guidelines.
+**BEST PRACTICE**: When possible, exchanges are encouraged to send billing notice URL (burl) notifications from the server-side, to minimize discrepancies with demand partners. The billable event itself should originate from a client-side event per MRC guidelines.
 	
-BEST PRACTICE: When firing impression notifications via HTTP request from the server-side, the notifier should:
+**BEST PRACTICE**: When firing impression notifications via HTTP request from the server-side, the notifier should:
 	
 - Make use of the X-Forwarded-For or X-Device-IP HTTP header to indicate the IP address of the client device on behalf of which the notification is being sent.
 - Make use of the X-Device-User-Agent HTTP header to indicate the UserAgent of the client device on behalf of which the notification is being sent.
 	
 These HTTP headers allow recipients of impression notifications to run anti-IVT checks using metadata about the end user device, rather than the server itself.
 	
-BEST PRACTICE: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
+**BEST PRACTICE**: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
