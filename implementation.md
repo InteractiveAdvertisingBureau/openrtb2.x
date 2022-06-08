@@ -556,7 +556,7 @@ This scenario illustrates an example where the bid request contains 2 structured
 	
 This scenario illustrates an example where the bid request contains 1 dynamic pod, the publisher can guarantee delivery against the first or last slot, and the response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod.
 	
-BidRequest
+**BidRequest**
 
 {
 
@@ -610,7 +610,7 @@ BidRequest
 
 
 
-BidResponse
+**BidResponse**
 
 {
 
@@ -728,7 +728,7 @@ BidResponse
 This scenario illustrates an example where the bid request contains slot 1 in the first impression object and a dynamic pod to fill the duration. The response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod and the second two responses would be to fill the remainder of the pod.
 	
 
-BidRequest
+**BidRequest**
 
 {
 
@@ -823,7 +823,7 @@ BidRequest
 }
 
 
-BidResponse
+**BidResponse**
 
 {
 
