@@ -199,7 +199,7 @@ response to a skippable request and the ability to skip the ad will be provided 
 The presence of the video.skip attribute in the bid request with a value of “1” should be assumed to mean that the publisher will impose a skip button on the ad. The absence of the video.skip attribute should be assumed to mean that it is unknown whether the publisher will impose a skip button.
 	
 DSPs should confirm with publishers whether it is permissible to respond with ads that provide their own skip functionality (e.g., using VPAID to render a skip button). If bidding with such an ad and only if doing so, the bid must indicate creative attribute “16” using the attr array in the bid response.
-	// add note on page 70
+
 	
 Some examples of these concepts follow:
 	
