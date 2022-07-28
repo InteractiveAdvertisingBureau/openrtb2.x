@@ -5,23 +5,23 @@ The following section will provide brief notes on how certain objects and fields
 	
 ## 7.1 - No-Bid Signaling <a name="nobadsignaling"></a>
 	
-This section covers best practices for using the optional no-bid signaling. See the [List: No-Bid Reason Codes i](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--no-bid-reason-codes-)n OpenRTB 3.0 <#_2rrrqc1>for the enumerated list of no-bid reason codes.
+This section covers best practices for using the optional no-bid signaling. See the [List: No-Bid Reason Codes](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--no-bid-reason-codes-) in OpenRTB 3.0 for the enumerated list of no-bid reason codes.
 	
 Many exchanges support multiple response types as a no-bid:
 	
-- HTTP 204 “No Content” from the bidder (most economical in terms of bandwidth).
-- An empty JSON object:
- 	{}
-- A well-formed no bid response:
- 	{"id": "1234567890", "seatbid": []}
-- A well-formed no bid response with a reason code:
- 	{"id": "1234567890", "seatbid": [], "nbr": 2}
+- HTTP 204 “No Content” from the bidder (*most economical in terms of bandwidth*).
+- An empty JSON object:<br>
+ 	`{}`
+- A well-formed no bid response:<br>
+ 	`{"id": "1234567890", "seatbid": []}`
+- A well-formed no bid response with a reason code:<br>
+ 	`{"id": "1234567890", "seatbid": [], "nbr": 2}`
 	
 An important issue in RTB is when impressions are triggered by software robots mimicking web browsers. Such robots may be implicitly or explicitly driving these false transactions. The following represents a set of symmetric best practices for exchanges and bidders to help recognize and reject these events.
 	
 *Responsibility of the exchange*
 	
-Make best effort to classify and reject “non-human traffic” requests for ads to the exchange via the following best practices:
+Make best effort to classify and reject non-human traffic (NHT) requests for ads to the exchange via the following best practices:
 	
 - (Recommended) Filter impressions from known spiders via user-agent classification.
 - (Recommended) Filter impressions from suspected NHT via a “detector”.
@@ -44,37 +44,43 @@ Recapping the typical impression flow through RTB, an ad will be requested by a 
 	
 Winning the auction, however, does not guarantee that the ad will be successfully delivered to the client or that it will meet viewability expectations. Furthermore, policies vary among exchanges as to the criteria for billing. Most consider an ad billable upon some form of delivery or rendering vs. the auction win alone. This aligns better with the buyer’s obvious goal of ensuring that the impressions they pay for are actually displayed.
 	
-Some exchanges attempt to facilitate this alignment by placing the win notice in the winning ad markup so that it can serve as both a win notice and rendering notice. This is neither endorsed nor prohibited by OpenRTB except that it precludes the exchange from accepting markup on the win notice return as described in Section 4.3.1. Similarly, many buyers use their own tracking URL placed within their ad markup to signal rendering independent of the OpenRTB auction win notice. In video specifically, VAST supports an impression tracking URL that is often used for billing and is always distinct from the auction win notice.
+Some exchanges attempt to facilitate this alignment by placing the win notice in the winning ad markup so that it can serve as both a win notice and rendering notice. This is neither endorsed nor prohibited by OpenRTB except that it precludes the exchange from accepting markup on the win notice return as described in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectbidresponse">Section 4.3.1</a>. Similarly, many buyers use their own tracking URL placed within their ad markup to signal rendering independent of the OpenRTB auction win notice. In video specifically, VAST supports an impression tracking URL that is often used for billing and is always distinct from the auction win notice.
 	
-To abstract the concept, let us refer to “billing notice” as the firing of some notification URL at the time when the clearing price of the impression will be booked as spend. This is irrespective of whether the actual OpenRTB win notice URL is delegated to the client for firing or some other tracking URL is used.
+To abstract the concept, let us refer to “*billing notice*” as the firing of some notification URL at the time when the clearing price of the impression will be booked as spend. This is irrespective of whether the actual OpenRTB win notice URL is delegated to the client for firing or some other tracking URL is used.
 	
 For buyers, this billing notice is used to book progress toward spend goals and frequency caps and drive pacing algorithms. When the billing notice is delayed significantly, these critical functions can be seriously impaired. There are legitimate reasons for some delays such as caching. A common scenario is a video interstitial impression in a mobile app. Refining the example, consider a game where the video is prefetched during game play so that it can be shown after the current game level ends. This is important for the user experience but can delay the rendering of the ad for many minutes.
 	
 Bidders are strongly advised to track the time between the auction and the win and/or billing notices to ensure reasonable delays. If unreasonable delays are encountered frequently, bidders may elect to ignore such events and bring them to the attention of the exchange for resolution. Unfortunately, the sequence from ad request through the auction and finally to rendering and billing is fundamentally not transactional. There are simply too many parties, policies, and technologies involved and thus a good support relationship between exchange and buyer is still important.
 	
-The OpenRTB protocol does provide some real-time assistance, however. The imp.exp attribute (Section 3.2.4) in the bid request allows an exchange to provide guidance to bidders of the number of seconds that may elapse between the auction and the billing event. As usual, omitted means unknown. Bidders can then decide if they want to bid understanding the likely delay. Bidders are advised, however, to interpret this as guidance as opposed to a contract unless the exchange expresses otherwise since exchanges are not always in a position to make hard guarantees (e.g., the SDK within the client app may not be under the exchange’s control).
+The OpenRTB protocol does provide some real-time assistance, however. The `imp.exp` attribute (<a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectimp">Section 3.2.4</a>) in the bid request allows an exchange to provide guidance to bidders of the number of seconds that may elapse between the auction and the billing event. As usual, omitted means unknown. Bidders can then decide if they want to bid understanding the likely delay. Bidders are advised, however, to interpret this as guidance as opposed to a contract unless the exchange expresses otherwise since exchanges are not always in a position to make hard guarantees (e.g., the SDK within the client app may not be under the exchange’s control).
 	
-Similarly, the bid.exp attribute (Section 4.2.3) in the bid response allows the bidder to express the maximum number of seconds they are willing to tolerate between auction and billing notice. This allow the exchange to drop bids with expiration constraints it believes are likely to be violated. Bidders should not assume that a delayed billing notice greater than their specified bid expirations will not be billable. That is a policy and contract discussion between bidder and exchange and not imposed by OpenRTB.
+Similarly, the `bid.exp` attribute (<a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#433---object-bid-">Section 4.3.3</a>) in the bid response allows the bidder to express the maximum number of seconds they are willing to tolerate between auction and billing notice. This allow the exchange to drop bids with expiration constraints it believes are likely to be violated. Bidders should not assume that a delayed billing notice greater than their specified bid expirations will not be billable. That is a policy and contract discussion between bidder and exchange and not imposed by OpenRTB.
 	
 The following expiration times are offered as examples of reasonable delays based on the nature of the impression. These are only provided as rules of thumb. A more data-driven method of determining these times in specific situations is highly recommended.
-	
-- Desktop and mobile web browsers: 1 Minute
-- Mobile app banner ads that may be cached: 5 Minutes
-- Mobile app native ads that may be cached: 10 Minutes
-- Mobile and video interstitials: 30 Minutes (or even longer)
-- Audio or video with server-side stitching: Very Long or Unknown
+<table>
+  <tr>
+	  <td>Desktop and mobile web browsers</td><td>1 Minute</td></tr>
+	<tr>
+		<td>Mobile app banner ads that may be cached</td><td>5 Minutes</td></tr>
+	<tr> 
+		<td>Mobile app native ads that may be cached</td><td>10 Minutes</td></tr>
+	<tr>  
+		<td>Mobile and video interstitials</td><td>30 Minutes (or even longer)</td></tr>
+	<tr>
+		<td>Audio or video with server-side stitching</td><td>Very Long or Unknown</td></tr>
+	</table>
 	
 ## 7.3 - PMP & Direct Deals <a name="pmpdirectdeals"></a>
 	
 **Best Practice Bidding Logic** <a name="bestpracticebiddinglogic"></a>
 	
-Receive request and parse;
-Create empty bid list for response;
-If request contains the impression[].pmp object; match bids against each pmp.deals[];
-enforce targeting for dealID and seatID; append best M matching bids to response;
-If pmp.private_auction = False;
-match open auction bids against the request; append top N bids by price to response;
-Return response list to exchange;
+Receive request and parse;<br>
+Create empty bid list for response;<br>
+If request contains the `impression[].pmp` object; match bids against each `pmp.deals[]`;<br>
+enforce targeting for dealID and seatID; append best M matching bids to response;<br>
+If `pmp.private_auction` = False;<br>
+match open auction bids against the request; append top N bids by price to response;<br>
+Return response list to exchange;<br>
 	
 *Recommendations*
 - M >= 1, preferably one per matching Deal ID.
@@ -105,7 +111,7 @@ A Deal ID should be treated as a “targeting token” associated to orders, lin
 	
 **Improper Handling of the Private vs Open Market Flag** <a name="improperhandlingseatids"></a>
 	
-The pmp.private_auction flag indicates that the seller is willing or not willing to accept open market bids (i.e., “all bidders are welcome”). If this flag is not read and interpreted correctly, bid responses may be invalid. Open market bids sent to a private impression auction may be rejected and should not have been exposed to all bidders.
+The `pmp.private_auction` flag indicates that the seller is willing or not willing to accept open market bids (i.e., “all bidders are welcome”). If this flag is not read and interpreted correctly, bid responses may be invalid. Open market bids sent to a private impression auction may be rejected and should not have been exposed to all bidders.
 	
 **Improper handling of Seat IDs** <a name="improperhandlingseatids"></a>
 	
@@ -196,10 +202,11 @@ This section clarifies the common use cases related to declaring skippability of
 Under most circumstances for RTB transactions, publishers and exchanges prefer to control the ability to skip the ad. OpenRTB therefore assumes by default that a standard linear video ad can be used as the
 response to a skippable request and the ability to skip the ad will be provided by the supplier’s player automatically.
 	
-The presence of the video.skip attribute in the bid request with a value of “1” should be assumed to mean that the publisher will impose a skip button on the ad. The absence of the video.skip attribute should be assumed to mean that it is unknown whether the publisher will impose a skip button.
+The presence of the `video.skip` attribute in the bid request with a value of “1” should be assumed to mean that the publisher will impose a skip button on the ad. The absence of the `video.skip` attribute should be assumed to mean that it is unknown whether the publisher will impose a skip button.
 	
-DSPs should confirm with publishers whether it is permissible to respond with ads that provide their own skip functionality (e.g., using VPAID to render a skip button). If bidding with such an ad and only if doing so, the bid must indicate creative attribute “16” using the attr array in the bid response.
+DSPs should confirm with publishers whether it is permissible to respond with ads that provide their own skip functionality (e.g., using VPAID to render a skip button). If bidding with such an ad and only if doing so, the bid must indicate creative attribute “16” using the `attr` array in the bid response.
 
+*<b>NOTE</b>: VAST 4.0 separates VPAID interactivity from the media file so this is deprecated and only applies to earlier versions of VAST*
 	
 Some examples of these concepts follow:
 	
@@ -209,50 +216,68 @@ Some examples of these concepts follow:
 	
 In this case, the publisher will impose skippability. All ads will be skippable, but only after 5 seconds of play. Creatives with a total duration of 5 seconds or less would not be skippable since they would never reach this threshold.
 	
+```
 "video": {
 	
-..., "skip": 1, "skipafter": 5, ...
+..., 
+ "skip": 1, 
+ "skipafter": 5, 
+ ...
 	
 }
+```
 	
 *Case-2: Skippable after N Seconds for Minimum Duration Creatives*
 	
-In this case, the publisher will impose skippability. However, only creatives with a total duration greater than 15 seconds will be skippable. For ads that satisfy this minimum total duration, skippability is enabled after 5 seconds of play. Note that although these values are integers, they will compare as precise values with actual video durations. For example, a video with duration 15.1 seconds does satisfy a skipmin value of 15 (i.e., think of the skipmin value as being 15.0).
+In this case, the publisher will impose skippability. However, only creatives with a total duration greater than 15 seconds will be skippable. For ads that satisfy this minimum total duration, skippability is enabled after 5 seconds of play. Note that although these values are integers, they will compare as precise values with actual video durations. For example, a video with duration 15.1 seconds does satisfy a `skipmin` value of 15 (i.e., think of the `skipmin` value as being 15.0).
 	
+```
 "video": {
 	
-..., "skip": 1, "skipmin": 15, "skipafter": 5, ...
-	
-}
+...,
+"skip": 1, 
+"skipmin": 15, 
+"skipafter": 5, 
+...
+	}
+```
 	
 *Case-3: Non-Skippable unless Requested by the Ad Markup*
 	
 In this case, the publisher will not impose skippability. Ads will only be skippable if requested by the ad markup. This is supported by VPAID and VAST 3.0, for example.
 	
+```
 "video": {
 	
-..., "skip": 0, ...
+...,
+"skip": 0, 
+...
 	
 }
+```
 	
 *Case-4: Unknown Skippability*
 	
-In this case, the skip attribute is omitted which indicates that exchange does not know if skippability will be imposed by the publisher. This may be the case, for example, when the exchange is not an SSP and thus may not have control or full knowledge of the publisher’s intentions.
+In this case, the `skip` attribute is omitted which indicates that exchange does not know if skippability will be imposed by the publisher. This may be the case, for example, when the exchange is not an SSP and thus may not have control or full knowledge of the publisher’s intentions.
 	
 **Bid Response** <a name="bidresponse"></a>
 	
 Consider Case-3 above, where the publisher does not impose skippability. If the ad markup itself will request skippability (e.g., via VPAID or VAST 3.0), then the bid must signal this intention. This is accomplished by including creative attribute 16 (i.e., Skippable) in the bid as shown below. If the markup is not going to request skippability, then this creative attribute should not be indicated.
 	
 When responding to Case-3 with this skippable attribute specified in the bid, the publisher should provide skippability either by instructing the VAST 3.0 player to activate skippability (refer to the VAST
-3.0 “skipoffset” attribute) or by allowing the ad to render its own skip button using VPAID.
+3.0 `skipoffset` attribute) or by allowing the ad to render its own skip button using VPAID.
 	
+```
 "bid": {
 	
-..., "attr": [16], ...
+..., 
+"attr": [16], 
+...
 	
 }
+```
 	
-In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 “skipoffset” at their discretion and ads should be assumed to play non-skippable if the player does not support it.
+In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 `skipoffset` at their discretion and ads should be assumed to play non-skippable if the player does not support it.
 	
 ## 7.5 - Regs Resources <a name="regsresources"></a>
 	
@@ -260,11 +285,11 @@ The regs object contains any legal, governmental, or industry regulations that t
 	
 Please see the below resources for more details and framework specifications should you choose to implement them:
 	
-**GDPR (General Data Protection Regulation)**
-https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework
+**<a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">GDPR (General Data Protection Regulation)</a>**
 
-**CCPA (California Consumer Privacy Act)**
-https://github.com/InteractiveAdvertisingBureau/USPrivacy
+
+**<a href="https://github.com/InteractiveAdvertisingBureau/USPrivacy">CCPA (California Consumer Privacy Act)</a>**
+
 
 ## 7.6 - Pod Bidding for Video and Audio <a name="podbidding"></a>
 	
@@ -289,13 +314,13 @@ Hybrid Pod: The seller offers a pod structure containing BOTH structured and dyn
 
 **Recommendations** <a name="recommendations"></a>
 	
-- Sellers should only indicate a slotinpod of 1, 2, or -1 if they can absolutely guarantee placement of an ad within the first or last slot of an ad pod.
-- Buyers should only indicate a slotinpod in response to a dynamic pod segment, including a dynamic component of a hybrid pod, if they only want to buy the first or last ad slot specifically
-- Note that buyers should *only* return a slotinpod value in response to a Dynamic portion of a pod.
-- Buyers should avoid using the slotinpod field in bid responses for structured pods, or the structured components of hybrid pods, because the impid field already uniquely identifies the ad slot.
-- Buyers should look for mincpmpersec when available, otherwise fall back to bidfloor
-- Sellers should include either the required durations field (communicating exact durations) OR the max & min duration fields, but not both.
-- Sellers are encouraged to include the maxseq field when offering a dynamic pod with a pod duration
+- Sellers should only indicate a `slotinpod` of 1, 2, or -1 if they can absolutely guarantee placement of an ad within the first or last slot of an ad pod.
+- Buyers should only indicate a `slotinpod` in response to a dynamic pod segment, including a dynamic component of a hybrid pod, if they only want to buy the first or last ad slot specifically
+- Note that buyers should *only* return a `slotinpod` value in response to a Dynamic portion of a pod.
+- Buyers should avoid using the `slotinpod` attribute in bid responses for structured pods, or the structured components of hybrid pods, because the `impid` field already uniquely identifies the ad slot.
+- Buyers should look for `mincpmpersec` when available, otherwise fall back to `bidfloor`
+- Sellers should include either the required durations (`rqddurs`) attribute, communicating exact durations, OR the `maxduration` & `minduration` attributes, but not both.
+- Sellers are encouraged to include the `maxseq` attribute when offering a dynamic pod with a pod duration
 - Sellers are encouraged to offer dynamic pods when possible to allow bidders to source the most optimal demand from their platforms
 - Buyers should expect that final pod construction is done by the seller. Buyers who submit N bids for a particular pod may find that the seller selects anywhere between 0 to N of those bids to construct the pod that is shown to the user. Furthermore, the seller may co-mingle bids from other buyers in that pod.
 
@@ -305,7 +330,8 @@ Hybrid Pod: The seller offers a pod structure containing BOTH structured and dyn
 	
 This scenario illustrates an example where the bid request contains 2 structured ad pods, and the response corresponds to the first positions in each of the 2 signaled pods.
 	
-**BidRequest**
+```
+BidRequest
 	
 { "imp": 
 	
@@ -337,7 +363,8 @@ This scenario illustrates an example where the bid request contains 2 structured
 	
 		... 
 	
-	}, "exp": 7200, 
+	}, 
+	"exp": 7200, 
 	
 	"bidfloor": 8, 
 	
@@ -411,9 +438,7 @@ This scenario illustrates an example where the bid request contains 2 structured
 	
 			"maxduration": 30, 
 	
-			"minduration": 
-	
-			0, 
+			"minduration": 0, 
 	
 			... 
 	
@@ -476,13 +501,13 @@ This scenario illustrates an example where the bid request contains 2 structured
 	... 
 	
 }
-
+```
 	
 	
-**BidResponse**
+```
+BidResponse
 	
 { 
-	
 	"id": "9b9ee818a85d948d5231ffe839a9729a", 
 	
 	"seatbid": [{ 
@@ -551,12 +576,15 @@ This scenario illustrates an example where the bid request contains 2 structured
 	
 	], "cur": "USD" }
 	
+```
+	
 	
 *“Dynamic” Ad Pod Request/Response*
 	
 This scenario illustrates an example where the bid request contains 1 dynamic pod, the publisher can guarantee delivery against the first or last slot, and the response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod.
 	
-**BidRequest**
+```
+BidRequest
 
 {
 
@@ -607,10 +635,11 @@ This scenario illustrates an example where the bid request contains 1 dynamic po
 	...
 	
 }
+```
 
 
-
-**BidResponse**
+```
+BidResponse
 
 {
 
@@ -719,7 +748,7 @@ This scenario illustrates an example where the bid request contains 1 dynamic po
 	"cur": "USD"
 	
 }
-
+```
 
 	
 	
@@ -728,7 +757,8 @@ This scenario illustrates an example where the bid request contains 1 dynamic po
 This scenario illustrates an example where the bid request contains slot 1 in the first impression object and a dynamic pod to fill the duration. The response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod and the second two responses would be to fill the remainder of the pod.
 	
 
-**BidRequest**
+```
+BidRequest
 
 {
 
@@ -821,9 +851,10 @@ This scenario illustrates an example where the bid request contains slot 1 in th
 	...
 	
 }
+```
 
-
-**BidResponse**
+```
+BidResponse
 
 {
 
@@ -934,12 +965,13 @@ This scenario illustrates an example where the bid request contains slot 1 in th
 	"cur": "USD"
 	
 }
+```
 
 	
 	
 ## 7.7 - Network vs Channel Example Cases <a name="networkvschannel"></a>
 	
-Starting in version 2.6, OpenRTB now supports Network and Channel objects. See 3.2.23 and 3.2.24 for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
+Starting in version 2.6, OpenRTB now supports Network and Channel objects. See <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectnetwork">3.2.23</a> and <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#3224---object-channel-">3.2.24</a> for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
 	
 *Example 1*: A user viewing content on an internet connected device, on an app with multiple channel options (e.g. Discovery+ App > HGTV Channel/show)
 	
@@ -948,19 +980,19 @@ Starting in version 2.6, OpenRTB now supports Network and Channel objects. See 3
 	
 *Example 2*: A user viewing content on an internet connected device, on an app that streams content directly (Roku > Hulu > Hulu Original show)
 	
-- Hulu is the network (also identified by bundleID)
+- Hulu is the network (also identified by `bundle`)
 - Hulu is the channel
 	
  *Example 3*: A user viewing content on an internet connected device, on a device offered channel (Roku > Fubo > Comedy Central show)
 	
 - Roku is the device
-- FuboTV is the network (also identified by bundleID)
+- FuboTV is the network (also identified by `bundle`)
 - Comedy Central is the channel
 	
 *Example 4*: A user is viewing content on an internet connected device, on a device offered channel that licenses content (Samsung TV > Pluto > Pluto TV Spotlight)
 	
 - Samsung TV is the device
-- Pluto is the network (also identified by bundleID)
+- Pluto is the network (also identified by `bundle`)
 - PlutoTV Spotlight is the channel
 	
 ## 7.8 - Counting Billable Events and Tracked Ads <a name="countingbillableevents"></a>
@@ -976,41 +1008,32 @@ Implementers should discuss the definition of the billable event and the technic
 	
 <table>
   <tr>
-    <td><strong>Method&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
-    <td><strong>Remarks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
+    <td><strong>Method</strong></td>
+    <td><strong>Remarks</strong></td>
   </tr>
   <tr>
-    <td><code>Pixel in Markup</code></td>
-    <td> Widely supported
-	    
-Normally fired from client-side browser
-	    
-Prone to discrepancies
-	    
-May overcount in some circumstances (i.e. mobile app) 
-	    
-Only applicable for display</td>
+    <td>Pixel in Markup</td>
+    <td>- Widely supported<br>
+	- Normally fired from client-side browser<br>
+	- Prone to discrepancies<br>
+	- May overcount in some circumstances (i.e. mobile app)<br>
+	- Only applicable for display</td>
   </tr>
   <tr>
-    <td><code>VAST <impression> event</code></td>
-    <td>Recommended for audio/video
-
-	    Only applicable for audio/video</td>
+    <td>VAST <impression> event</td>
+    <td>- Recommended for audio/video<br>
+	- Only applicable for audio/video</td>
  </tr>
   <tr>
-    <td><code>Billing notice ("burl")</code></td>
-    <td>Best alignment between DSPs and exchanges to count tracked ads
-	    
-Minimal discrepancy
-
-Not recommended for audio/video, otherwise applicable to all creative types
-
-Usually (and recommended to be) fired server-to-server, but based on an initial client-side event</td>
+    <td>Billing notice ("burl")</td>
+    <td>- Best alignment between DSPs and exchanges to count tracked ads<br>
+	- Minimal discrepancy<br>
+	- Not recommended for audio/video, otherwise applicable to all creative types<br>
+	- Usually (and recommended to be) fired server-to-server, but based on an initial client-side event</td>
 </tr>
   <tr>
-    <td><code>Native eventtrackers/imptrackers/jstrackers</code></td>
-    <td>Only applicable to native ads</td>
-     <tr>
+    <td>Native eventtrackers/imptrackers/jstrackers</td>
+    <td>- Only applicable to native ads</td>
   </tr>
 </table>
 	
@@ -1049,7 +1072,7 @@ Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outsid
 	
 **BEST PRACTICE**: When it is possible to do so, exchanges should avoid using adm-based notifications as the determinant for billing events in the mobile app context, and instead use burl or an independent measurement approach (e.g. OMID), that is predicated upon an ad actually being displayed to the user.
 	
-For VAST video/audio, if the bid.burl attribute is specified, it should be fired at the same time as the VAST <Impression> event. However, subtle technical issues may lead to additional discrepancies and bidders are cautioned to avoid this scenario. One option is for exchanges nearest a video supply source to use the VAST <Impression> event as their billing signal and then use the billing notice URL (burl) as described.
+For VAST video/audio, if the `bid.burl` attribute is specified, it should be fired at the same time as the VAST <Impression> event. However, subtle technical issues may lead to additional discrepancies and bidders are cautioned to avoid this scenario. One option is for exchanges nearest a video supply source to use the VAST <Impression> event as their billing signal and then use the billing notice URL (burl) as described.
 	
 **Native eventtrackers, imptrackers, jstrackers** <a name="nativeeventtrackers"></a>
 	
@@ -1057,7 +1080,7 @@ For native ads specifically, the OpenRTB Native specification offers options for
 	
 **Win notice (“nurl”) – not a billable or tracked ad event** <a name="winnoticenurl"></a>
 	
-At first glance, an auction “win” and the associated win notice (“nurl”) field appears suitable as a proxy for billable/tracked ad counting. However, winning an auction does not guarantee that an impression will indeed be served, and in fact in many cases only a small percentage of won auctions will become impressions. This occurs because of downstream auctions (i.e. client-side header bidding), inability to play back media (in video and audio), etc.
+At first glance, an auction “win” and the associated win notice (`nurl`) field appears suitable as a proxy for billable/tracked ad counting. However, winning an auction does not guarantee that an impression will indeed be served, and in fact in many cases only a small percentage of won auctions will become impressions. This occurs because of downstream auctions (i.e. client-side header bidding), inability to play back media (in video and audio), etc.
 	
 **Win notice URLs should never be used to count impressions or tracked ads.**
 	
