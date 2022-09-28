@@ -11,11 +11,17 @@ Many exchanges support multiple response types as a no-bid:
 	
 - HTTP 204 “No Content” from the bidder (*most economical in terms of bandwidth*).
 - An empty JSON object:<br>
- 	`{}`
+ 	```javascript
+	{}
+	```
 - A well-formed no bid response:<br>
- 	`{"id": "1234567890", "seatbid": []}`
+ 	```javascript
+	{"id": "1234567890", "seatbid": []}
+	```
 - A well-formed no bid response with a reason code:<br>
- 	`{"id": "1234567890", "seatbid": [], "nbr": 2}`
+ 	```javascript
+	{"id": "1234567890", "seatbid": [], "nbr": 2}
+	```
 	
 An important issue in RTB is when impressions are triggered by software robots mimicking web browsers. Such robots may be implicitly or explicitly driving these false transactions. The following represents a set of symmetric best practices for exchanges and bidders to help recognize and reject these events.
 	
@@ -216,7 +222,7 @@ Some examples of these concepts follow:
 	
 In this case, the publisher will impose skippability. All ads will be skippable, but only after 5 seconds of play. Creatives with a total duration of 5 seconds or less would not be skippable since they would never reach this threshold.
 	
-```
+```javascript
 "video": {
 	
 ..., 
@@ -231,7 +237,7 @@ In this case, the publisher will impose skippability. All ads will be skippable,
 	
 In this case, the publisher will impose skippability. However, only creatives with a total duration greater than 15 seconds will be skippable. For ads that satisfy this minimum total duration, skippability is enabled after 5 seconds of play. Note that although these values are integers, they will compare as precise values with actual video durations. For example, a video with duration 15.1 seconds does satisfy a `skipmin` value of 15 (i.e., think of the `skipmin` value as being 15.0).
 	
-```
+```javascript
 "video": {
 	
 ...,
@@ -246,7 +252,7 @@ In this case, the publisher will impose skippability. However, only creatives wi
 	
 In this case, the publisher will not impose skippability. Ads will only be skippable if requested by the ad markup. This is supported by VPAID and VAST 3.0, for example.
 	
-```
+```javascript
 "video": {
 	
 ...,
@@ -267,7 +273,7 @@ Consider Case-3 above, where the publisher does not impose skippability. If the 
 When responding to Case-3 with this skippable attribute specified in the bid, the publisher should provide skippability either by instructing the VAST 3.0 player to activate skippability (refer to the VAST
 3.0 `skipoffset` attribute) or by allowing the ad to render its own skip button using VPAID.
 	
-```
+```javascript
 "bid": {
 	
 ..., 
@@ -330,7 +336,7 @@ Hybrid Pod: The seller offers a pod structure containing BOTH structured and dyn
 	
 This scenario illustrates an example where the bid request contains 2 structured ad pods, and the response corresponds to the first positions in each of the 2 signaled pods.
 	
-```
+```javascript
 BidRequest
 	
 { "imp": 
@@ -504,7 +510,7 @@ BidRequest
 ```
 	
 	
-```
+```javascript
 BidResponse
 	
 { 
@@ -583,7 +589,7 @@ BidResponse
 	
 This scenario illustrates an example where the bid request contains 1 dynamic pod, the publisher can guarantee delivery against the first or last slot, and the response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod.
 	
-```
+```javascript
 BidRequest
 
 {
@@ -638,7 +644,7 @@ BidRequest
 ```
 
 
-```
+```javascript
 BidResponse
 
 {
@@ -757,7 +763,7 @@ BidResponse
 This scenario illustrates an example where the bid request contains slot 1 in the first impression object and a dynamic pod to fill the duration. The response contains 3 bids from 3 different advertisers, for the signalled pod. The first bid in the response is only eligible for the first position in the pod and the second two responses would be to fill the remainder of the pod.
 	
 
-```
+```javascript
 BidRequest
 
 {
@@ -853,7 +859,7 @@ BidRequest
 }
 ```
 
-```
+```javascript
 BidResponse
 
 {
