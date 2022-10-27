@@ -1178,3 +1178,6 @@ This means typical lead times for creative approval are on the order of “worki
 
 For the above reasons, use of IAB Ad Management API (https://github.com/InteractiveAdvertisingBureau/AdManagementAPI/blob/master/Ad%20Management%20API%201.0%20FINAL.md) for creative submission to DOOH exchanges is strongly recommended, though many SSPs may have proprietary extensions to allow submitting ads to specific individual publishers.
 
+	
+### 7.9.4 - DOOH Example Scenarios
+	
