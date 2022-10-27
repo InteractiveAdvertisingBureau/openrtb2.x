@@ -1110,7 +1110,7 @@ These HTTP headers allow recipients of impression notifications to run anti-IVT 
 
 ## 7.9 - Digital Out-Of-Home <a name="dooh"></a>
 
-This section details the unique differences between trading the online world of digital display and real-world aspects of Digital Out-Of-Home (DOOH) media. Each sub section links to the key objects that enable DOOH to be traded using the OpenRTB standard.
+This section details the unique differences between trading the online world of digital display and real-world aspects of Digital Out-Of-Home (DOOH) media. Each sub section references the key objects that enable DOOH to be traded using the OpenRTB standard.
 	
 ### 7.9.1 -  Multiple/Variable Impressions
 The OpenRTB trading method was built around the assumption that a targeted user holds one device and is served an ad as they visit a webpage e.g. One impression = One user.
