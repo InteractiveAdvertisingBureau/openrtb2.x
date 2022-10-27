@@ -1117,15 +1117,20 @@ The OpenRTB trading method was built around the assumption that a targeted user 
 OOH Media is a medium where one advert play (a spot) is viewable by everyone who is in the vicinity of the advert being displayed e.g. One ad display = multiple viewers/users (this number can be both greater than *or* less than 1 - due to numbers being based on statistical modeling, fractional values (e.g. .32 impressions per ad display) are common. These rates are also variable as they may be based on hourly-adjusted projections, or real-time sensor data.
 
 Multiplying by decimal values (especially with a CPM) can lead to discrepancies when the ‘buy side’ and ‘sell side’ truncate decimal places. Measures need to be taken to avoid this at an account level.
+	
+The OpenRTB imp object now includes a qty object that enables the multiplier dimension
 
-### 7.9.2 Highly Variable Physical Size
+### 7.9.2 Unique Device Characterisitcs
+	
+#### 7.9.2.1 Highly Variable Physical Size
 The majority of devices that are served ads via OpenRTB are of a size that one person can hold or lean into. In OOH media the advert can be traded and served on anything from the size of a shelf edge label to the size of multiple football pitches. This far exceeds the size range of anything that can be held in the viewer's hand or hung on their living room wall.
 
 The size and direction of an OOH display not only affects the size of the audience that could see it, but also changes the chances of the audience that will see the advertisement being served.
 
 A common trait with both OOH and  digital display ads is that there are a wide variety of sizes, resolutions and aspect ratios to be accommodated as the physical displays ‘build into’ physical spaces vary, and may contain additional content (e.g. tickers, application, labels) that cause ad slot sizes to vary.
+	
 
-### 7.9.3 Private Networks / Geo-Location Information
+#### 7.9.2.2 Private Networks / Geo-Location Information
 The majority of commercial DOOH digital displays sit on ‘walled garden’ private ip networks. This protects the displays from a wide spectrum of internet security issues, vulnerabilities and attacks.
 
 This can lead to 3rd party ad serving, cookies and http event logging service being constricted by the ‘safe-lists’ of urls allowed through the ‘walled garden’ security. 
@@ -1134,21 +1139,36 @@ Many Media Owners / Publishers therefore publish proprietary ‘1st Party’ pla
 
 The use of private ip networks also means that DSPs are not able to use their normal IP address geolocation techniques to get information about where ads are delivered - though publisher-reported locations (e.g. lat/lon, geo information like address, zip, region) are almost always available. In the case of moving media (e.g. taxi-top displays, bus panels, etc.) near-real time GPS-derived information is common.
 
-### 7.9.4 Non-Persistent Connections / Longer-Than-Realtime Delays
+#### 7.9.2.3 Non-Persistent Connections / Longer-Than-Realtime Delays
 Most DOOH display panels in urban and remote connections rely on cellular networks for their network connectivity. Whilst a Media Owner may have their own private network with a telecoms provider, the network is still at the mercy of congestion on the local cell tower. Over subscription to cell towers at peak times and locations leads to the DOOH display panels having non-persistent internet connection. 
 
 To mitigate this, some DOOH Media Owners and/or publishers employ ‘forward and store’  technology and give a lead time tolerance from bid request to display. Bids may be requested in advance (to allow pre-buffering or populate “playlists'' on devices, and the confirmation of playback may be delayed due to log collection or processing within publisher systems 
 
 The current industry accepted lead time from ‘bid confirmation’ to ‘display’ can be up to 1 to 2 hours.
 
-### 7.9.5 Proprietary Device Attributes
+#### 7.9.2.4 Proprietary Device Attributes
 Unlike the TV, Tablet and Mobile phone market, there are no dominant global brands supplying digital OOH screen technology to the market. Media Owners and/or Publishers source their own screen technology from a wide variety of manufacturers, technologies and installation partners resulting in each network having its own proprietary device types,identifiers, and other attributes such as user agent strings.
 
 Some countries have attempted to create standards for describing the shape, size and format of the digital units, but to date there is no recognised global standard for identifying a digital out of home device or the users who it may reach.
 
 In the case of user agents, oftentimes non-standard strings are used by Media Owners, which has been known to plague device detection and traffic protection systems. It is advised that Media Owners comply with the HTTP user agent standards set forth by the IETF and submit their user agents to the IAB Spiders and Bots List using the "Submit here" button on this page.
 
-### 7.9.6 Commercially Critical Brand Safety
+#### 7.9.2.5 Key Object Attributes To Use For DOOH Device Reference in OpenRTB
+
+| Object Reference        | Type         | Implementation Guidance                                                                                                                                   |
+| ----------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| device.geo              | object       | Since ip may not be available, geo location  lat / lon field is required for DOOH transactions. geo.type is recommended.                                  |
+| device.devicetype       | string array | Digital out of home devices shall be identified as type 8.                                                                                                |
+| device.ppi              | integer      | Screen dimensions in inches can be calculated using ppi, w and h.                                                                                         |
+| device.ifa              | string       | A device ID used to identify an individual out of home device.                                                                                            |
+| device.ifa\_type        | string       | For DOOH this is usually given as "ppid" to show this is a publisher-provided device id or "sspid" to show this is an exchange-provided device id         |
+| device.eids             | object       | Used to send additional identifiers. e.g. geopath.org or oohspace.co.uk or to signal the ifa provider. See AdCom eids                                     |
+| imp.video.boxingallowed | integer      | For DOOH, when boxingallowed = 0, the video aspect ratio should strictly match that of the placement, as determined by the video w and h fields.          |
+| imp.dt                  | float        | Timestamp when the item is estimated to be fulfilled (e.g. when a DOOH impression will be displayed) in Unix format (i.e., milliseconds since the epoch). |
+| imp.etime               | integer      | The exposure time in seconds per view that the creative will be displayed before refreshing to the next creative.                                         |
+	
+
+### 7.9.3 Commercially Critical Brand Safety
 One bad advert being served at one time to one person is survivable. 
 One bad advert served at one time to 1000’s of people in a public place will lead to a Media Owner and/or Publisher risking their contract/permission to serve ads to networks of screens. 
 
