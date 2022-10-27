@@ -12,7 +12,14 @@ https://iabtechlab.com/openrtb
 #### AdCOM: Advertising Common Object Model
 https://github.com/InteractiveAdvertisingBureau/AdCOM
 
-#### VERSIONING POLICY TBD
+#### VERSIONING POLICY
+As of OpenRTB 2.6-202211, OpenRTB's version number is only incremented on breaking changes. In other words, OpenRTB 2.7 should be considered a distinct version from OpenRTB 2.6 when there is a need for distinguishing versions. For example, a demand source might regard the version header when parsing a bid request received from a supply source. See OpenRTB Principles.
+
+The current version of the OpenRTB specification is updated approximately once a month if there are non-breaking improvements to be released such as new fields, objects, or values in enumerated lists. Errata, such as clarifications or corrections to descriptions not materially impacting the specification itself, are also addressed during monthly updates. See Errata.
+
+Release branches are created for each monthly release and the history of these can be reviewed on GitHub. The master branch for the repository will always reflect the most recent release, whereas ongoing development work occurs in the 'develop' branch.
+
+This versioning policy is a break from historical practice for OpenRTB 2.x. In versions of OpenRTB prior to 2.6, major version numbers represent breaking changes and minor version numbers represent non-breaking changes.
 
 #### Contact
 For more information, or to get involved, please email support@iabtechlab.com.
