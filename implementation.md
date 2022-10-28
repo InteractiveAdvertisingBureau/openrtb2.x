@@ -1189,4 +1189,288 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 
 	
 ### 7.9.4 - DOOH Example Scenarios
-	
+
+## 7.9.4.1 - Banner Bid Request
+
+```javascript
+{
+    "$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1.json",
+    "id": "162059897743978051070",
+    "at": 1,
+    "imp": [
+        {
+            "id": "007",
+            "secure": 1,
+            "exp": 360,
+            "bidfloor": 5.0,
+            "bidfloorcur": "GBP",
+            "banner": {
+                "w": 1080,
+                "h": 1920,
+                "format": [
+                    {
+                        "w": 1080,
+                        "h": 1920
+                    },
+                    {
+                        "w": 720,
+                        "h": 1366
+                    }
+                ],
+                "mimes": [
+                    "image/jpg",
+                    "image/png",
+                    "text/html"
+                ]
+            },
+            "pmp": {
+                "private_auction": 0,
+                "deals": [
+                    {
+                        "id": "123",
+                        "at": 1,
+                        "bidfloor": 4.50
+                    },
+                    {
+                        "id": "333",
+                        "at": 1,
+                        "bidfloor": 3.00
+                    },
+                    {
+                        "id": "444",
+                        "at": 1,
+                        "bidfloor": 2.00
+                    }
+                ]
+            },
+            "dt": 12345670,
+            "etime": 10,
+            "qty": {
+                "multiplier": 14.2,
+                "sourcetype": 1,
+                "vendor": "route.org.uk"
+            }
+        }
+    ],
+    "device": {
+        "geo": {
+            "lat": 0.0001,
+            "long": -0.1235,
+            "lastfix": 0
+        },
+        "devicetype": 8,
+        "w": 1080,
+        "h": 1920,
+        "ppi": 72,
+        "ifa": "1235461904",
+        "ifa_type": "ppid",
+        "eids": [
+            {
+                "source": "oohspace.co.uk",
+                "uids": [
+                    {
+                        "atype": 501,
+                        "id": "1235461904"
+                    }
+                ]
+            }
+        ]
+    },
+    "dooh": {
+        "content": {},
+        "id": "15790",
+        "keywords": "Roadside, Billboard, D96",
+        "name": "This",
+        "publisher": {
+            "id": "G1",
+            "name": "Global"
+        },
+        "domain": "global.com",
+        "venuetax": 1,
+        "venuetypeid": 30101
+    },
+    "cur": [
+        "GBP"
+    ]
+}
+```
+
+## 7.9.4.1 - Banner Bid Response
+
+```javascript
+{
+	"$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1_response.json",
+	"id": "1234567890",
+	"bidid": "162059897743978051070",
+	"cur": "GBP",
+	"seatbid": [
+		{
+			"seat": "512",
+			"bid": [
+				{
+					"id": "1",
+					"impid": "102",
+					"price": 9.43,
+					"banner": {
+						"img": "http://adserver.com/creative112.jpg"
+					},
+					"burl": "http://adserver.com/billingnotice?impid=102& bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
+					"adomain": [
+						"advertiserdomain.com"
+					],
+					"cid": "campaign111",
+					"crid": "creative112",
+					"attr": [
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						12
+					],
+					"w": 1080,
+					"h": 1920,
+					"cat": [
+						"IAB1"
+					]
+				}
+			]
+		}
+	]
+}
+```
+
+## 7.9.4.1 - Video Bid Request
+
+```javascript
+{
+    "$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1.json",
+    "id": "873465983764395",
+    "at": 1,
+    "imp": [
+        {
+            "id": "123456",
+            "secure": 1,
+            "exp": 720,
+            "bidfloor": 4.8,
+            "bidfloorcur": "GBP",
+            "video": {
+                "boxingallowed": 1,
+                "w": 960,
+                "h": 480,
+                "maxduration": 20,
+                "minduration": 20,
+                "mimes": [
+                    "video/jpeg",
+                    "video/mp4",
+                    "video/mov"
+                ]
+            },
+            "pmp": {
+                "private_auction": 1,
+                "deals": [
+                    {
+                        "id": "V123",
+                        "at": 1,
+                        "bidfloor": 4.50
+                    }
+                ]
+            },
+            "dt": 1647010095,
+            "qty": {
+                "multiplier": 14.2,
+                "sourcetype": 0,
+                "vendor": "route.org.uk"
+            }
+        }
+    ],
+    "device": {
+        "geo": {
+            "lat": 51.51112,
+            "long": -0.09043,
+            "lastfix": 0
+        },
+        "devicetype": 8,
+        "w": 960,
+        "h": 480,
+        "ppi": 3,
+        "ifa": "1234928801",
+        "ifa_type": "ppid",
+        "eids": [
+            {
+                "source": "oohspace.co.uk",
+                "uids": [
+                    {
+                        "atype": 501,
+                        "id": "1234928801"
+                    }
+                ]
+            }
+        ]
+    },
+    "dooh": {
+        "content": {},
+        "id": "1Frame",
+        "keywords": "LargeFormat,CANNON STREET STN,CANNON STREET,MAIN CONCOURSE",
+        "name": "Transvision",
+        "publisher": {
+            "id": "VJCDUK",
+            "name": "viooh"
+        },
+        "domain": "viooh.com",
+        "venuetax": 1,
+        "venuetypeid": 10602
+    },
+    "cur": [
+        "GBP"
+    ]
+}
+```
+
+## 7.9.4.1 - Video Bid Response
+
+```javascript
+{
+	"$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1_response.json",
+	"id": "1234567890",
+	"bidid": "162059897743978051070",
+	"cur": "GBP",
+	"seatbid": [
+		{
+			"seat": "512",
+			"bid": [
+				{
+					"id": "1",
+					"impid": "102",
+					"price": 9.43,
+					"nurl": "http://adserver.com/winnotice?impid=102&bidid=abc1123",
+					"burl": "http://adserver.com/billingnotice?impid=102&bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
+					"adm": "<?xml version="1.0" encoding="UTF-8"?><VAST version="4.0"><Ad id="79ba491b-dfe1-5044-9d8e-758ae874e24f"> <InLine><AdSystem>AdServer</AdSystem><AdTitle><![CDATA[DOOH Video ad]></AdTitle><Error><![CDATA[https://adserver.com/event/error]]></Error><Impression><![CDATA[https://adserver.com/event/impression]]></Impression><Creatives> <Creative id="79ba491b-dfe1-5044-9d8e-758ae874e24f"><Linear> <Duration>00:00:10</Duration> <MediaFiles><MediaFile delivery="progressive" bitrate="8326" width="1920" height="1080" type="video/mp4" scalable="true" maintainAspectRatio="true"> <![CDATA[https://adserver.com/creative.mp4]]> </MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>",
+					"adomain": [
+						"advertiserdomain.com"
+					],
+					"cid": "campaign111",
+					"crid": "creative112",
+					"attr": [
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						12
+					],
+					"w": 1920,
+					"h": 1080,
+					"cat": [
+						"IAB1"
+					]
+				}
+			]
+		}
+	]
+}
+```
