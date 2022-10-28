@@ -1154,6 +1154,7 @@ Some countries have attempted to create standards for describing the shape, size
 In the case of user agents, oftentimes non-standard strings are used by Media Owners, which has been known to plague device detection and traffic protection systems. It is advised that Media Owners comply with the HTTP user agent standards set forth by the IETF and submit their user agents to the IAB Spiders and Bots List using the "Submit here" button on this page.
 
 #### 7.9.2.5 Key Object Attributes To Use For DOOH Device Reference in OpenRTB
+Key objects such as imp.qty and dooh have been added to the OpenRTB specification to enable the programmatic trading of the medium. The following table gives guidance to the use of more common OpenRTB object references when transacting DOOH bids.
 
 | Object Reference        | Type                | Implementation Guidance                                                                                                                                                                                                                   |
 | ----------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
