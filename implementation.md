@@ -1179,10 +1179,27 @@ This means typical lead times for creative approval are on the order of “worki
 
 For the above reasons, use of IAB Ad Management API (https://github.com/InteractiveAdvertisingBureau/AdManagementAPI/blob/master/Ad%20Management%20API%201.0%20FINAL.md) for creative submission to DOOH exchanges is strongly recommended, though many SSPs may have proprietary extensions to allow submitting ads to specific individual publishers.
 
-	
-### 7.9.4 - DOOH Example Scenarios
 
-#### 7.9.4.1 - DOOH Banner Bid Request
+### 7.9.4 DOOH Pricing
+Bid price and clearing price should be expressed as a CPM rate per impression.  
+For example, if an advertiser is bidding $2.50 CPM on a 1st price auction, and the auction is for 30.3 impressions:
+multiplier = 30.3 (Impression multiplier from bid request)
+bid.price = 2.50 (Bid price in CPM from bid response)
+
+If the advertiser wins, tracking URL (e.g. burl) macros will contain the following values:
+${AUCTION_PRICE} = 2.50 (The clearing price of the auction)
+${AUCTION_MULTIPLIER} = 30.3 (The total quantity of impressions won; for confirmation only. This should always be less than or equal to the multiplier value sent in the bid request. This value is a float value greater than zero and may be less than one.)
+
+To calculate the total cost of the transaction:
+(AUCTION_PRICE / 1000) * AUCTION_MULTIPLIER = COST
+(2.50 / 1000) * 30.3 = $0.07575
+
+The above auction would translate to an invoice of $0.07575.
+
+	
+### 7.9.5 - DOOH Example Scenarios
+
+#### 7.9.5.1 - DOOH Banner Bid Request
 
 ```javascript
 {
@@ -1287,7 +1304,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-#### 7.9.4.2 - Banner Bid Response
+#### 7.9.5.2 - Banner Bid Response
 
 ```javascript
 {
@@ -1334,7 +1351,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-#### 7.9.4.3 - DOOH Video Bid Request
+#### 7.9.5.3 - DOOH Video Bid Request
 
 ```javascript
 {
@@ -1421,7 +1438,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-#### 7.9.4.4 - DOOH Video Bid Response
+#### 7.9.5.4 - DOOH Video Bid Response
 
 ```javascript
 {
