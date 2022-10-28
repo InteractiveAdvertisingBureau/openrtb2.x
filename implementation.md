@@ -1190,7 +1190,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 	
 ### 7.9.4 - DOOH Example Scenarios
 
-## 7.9.4.1 - Banner Bid Request
+#### 7.9.4.1 - DOOH Banner Bid Request
 
 ```javascript
 {
@@ -1295,7 +1295,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-## 7.9.4.1 - Banner Bid Response
+#### 7.9.4.2 - Banner Bid Response
 
 ```javascript
 {
@@ -1342,7 +1342,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-## 7.9.4.1 - Video Bid Request
+#### 7.9.4.3 - DOOH Video Bid Request
 
 ```javascript
 {
@@ -1429,7 +1429,7 @@ For the above reasons, use of IAB Ad Management API (https://github.com/Interact
 }
 ```
 
-## 7.9.4.1 - Video Bid Response
+#### 7.9.4.4 - DOOH Video Bid Response
 
 ```javascript
 {
