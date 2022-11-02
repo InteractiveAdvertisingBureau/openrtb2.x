@@ -37,7 +37,7 @@ Over the course of each month, the Programmatic Supply Chain Working Group and C
 - ask the author(s) for additional changes
 - reject it (with a rationale)
 
-On the last Friday of the month, if there are any approved PRs in the `develop` branch, the following steps are executed:
+During the last week of the month, if there are any approved PRs in the `develop` branch, the following steps are executed:
 
 1. A PR is created to merge the `develop` branch into the `main` branch.
 1. A new Release and Tag are created concurrently. The naming convention for the release is "OpenRTB v2.6-YYYYMM", and the tag is "2.6-YYYYMM" where YYYYMM is the date code (e.g. 202301 for January 2023).
