@@ -25,7 +25,7 @@ This versioning policy is a break from historical practice for OpenRTB 2.x. In v
 1. Create a new branch based on `develop`, giving your new branch a short but descriptive name (e.g. if you're adding support for a new flux capacitor object, you could call the branch "add-flux-capacitor")
 1. Make the desired changes in your branch, with one commit per logical change (e.g. if you're adding 2 distinct features in your branch, create 2 distinct commits). Give each of your commits a short but descriptive "Summary" name, and then provide a longer "Description" to fully explain your proposed changes.
 1. (Optional) Consider doing a round of internal reviews/feedback within your own organization, and make any additional updates in your own branch.
-1. Once you're happy with your branch, create a new Pull Request (PR) to propose merging your changes into the `develop` branch.
+1. Once you're happy with your branch, publish it to GitHub. Then create a new Pull Request (PR) to propose merging your changes into the `develop` branch.
 1. The OpenRTB Commit Group will review your change, leave comments, and may propose changes. You may need to make additional commits to receive approval for your PR.
 1. Once your PR is approved, it will be merged into the `main` branch at the time of the next monthly release. Details below on how the Release Process works.
 1. (Sometimes) It's possible, especially if your PR is open for a long time, that it cannot be automatically merged into the `develop` branch. In this case, there will be a message in the PR asking you to resolve conflicts before the PR can be merged.
