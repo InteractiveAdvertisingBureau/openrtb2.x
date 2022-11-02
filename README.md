@@ -11,11 +11,11 @@ https://iabtechlab.com/openrtb
 https://github.com/InteractiveAdvertisingBureau/AdCOM
 
 #### Versioning Policy
-As of OpenRTB 2.6-202210, OpenRTB's version number is only incremented on breaking changes. In other words, OpenRTB 2.7 should be considered a distinct version from OpenRTB 2.6 when there is a need for distinguishing versions. For example, a demand source might regard the version header when parsing a bid request received from a supply source. See OpenRTB Principles.
+As of OpenRTB 2.6-202211, OpenRTB's version number is only incremented on breaking changes. In other words, OpenRTB 2.7 should be considered a distinct version from OpenRTB 2.6 when there is a need for distinguishing versions. For example, a demand source might regard the version header when parsing a bid request received from a supply source. See OpenRTB Principles.
 
 The current version of the OpenRTB specification is updated approximately once a month if there are non-breaking improvements to be released such as new fields, objects, or values in enumerated lists. Errata, such as clarifications or corrections to descriptions not materially impacting the specification itself, are also addressed during monthly updates. See Errata.
 
-The format for version numbering includes major and minor version and a date code. For example, 2.6-202210 represents the release for October 2022. The following releases may be 2.6-202211 (November), 2.6-202212 (December), 2.6-202301 (January), etc.
+The format for version numbering includes major and minor version and a date code. For example, 2.6-202211 represents the release for November 2022. The following releases may be 2.6-202212 (December), 2.6-202301 (January), etc.
 
 This versioning policy is a break from historical practice for OpenRTB 2.x. In versions of OpenRTB prior to 2.6, major version numbers represent breaking changes and minor version numbers represent non-breaking changes.
 
@@ -26,13 +26,13 @@ This versioning policy is a break from historical practice for OpenRTB 2.x. In v
 1. Make the desired changes in your branch, with one commit per logical change (e.g. if you're adding 2 distinct features in your branch, create 2 distinct commits). Give each of your commits a short but descriptive "Summary" name, and then provide a longer "Description" to fully explain your proposed changes.
 1. (Optional) Consider doing a round of internal reviews/feedback within your own organization, and make any additional updates in your own branch.
 1. Once you're happy with your branch, publish it to GitHub. Then create a new Pull Request (PR) to propose merging your changes into the `develop` branch.
-1. The OpenRTB Commit Group will review your change, leave comments, and may propose changes. You may need to make additional commits to receive approval for your PR.
+1. The Programmatic Supply Chain Working Group and Commit Group will review your update(s), leave comments, and may propose changes. You may need to make additional commits to receive approval for your PR.
 1. Once your PR is approved, it will be merged into the `main` branch at the time of the next monthly release. Details below on how the Release Process works.
 1. (Sometimes) It's possible, especially if your PR is open for a long time, that it cannot be automatically merged into the `develop` branch. In this case, there will be a message in the PR asking you to resolve conflicts before the PR can be merged.
 
 #### Monthly Release-Cutting Process (for repo admins)
 
-Over the course of each month, the OpenRTB Commit Group may review any submitted PRs and take the following possible actions for each:
+Over the course of each month, the Programmatic Supply Chain Working Group and Commit Group may review any submitted PRs and take the following possible actions for each:
 - approve it for inclusion in the next release
 - ask the author(s) for additional changes
 - reject it (with a rationale)
@@ -40,7 +40,7 @@ Over the course of each month, the OpenRTB Commit Group may review any submitted
 On the last Friday of the month, if there are any approved PRs in the `develop` branch, the following steps are executed:
 
 1. A PR is created to merge the `develop` branch into the `main` branch.
-1. A new Release and Tag are create concurrently. The naming convention for the release is "OpenRTB v2.6-YYYYYY", and the tag is "2.6-YYYYYY" where YYYYYY is the date code (e.g. 202301 for January 2023).
+1. A new Release and Tag are created concurrently. The naming convention for the release is "OpenRTB v2.6-YYYYMM", and the tag is "2.6-YYYYMM" where YYYYMM is the date code (e.g. 202301 for January 2023).
 
 The result of this process is that tagged releases are created for each release of OpenRTB, and the history of these is easily reviewed. The `main` branch for the repository will always reflect the most recent release, and ongoing development work will always occur in the `develop` branch.
 
