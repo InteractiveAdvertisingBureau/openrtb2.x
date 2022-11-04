@@ -1203,7 +1203,6 @@ The above auction would translate to an invoice of $0.07575.
 
 ```javascript
 {
-    "$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1.json",
     "id": "162059897743978051070",
     "at": 1,
     "imp": [
@@ -1308,7 +1307,6 @@ The above auction would translate to an invoice of $0.07575.
 
 ```javascript
 {
-	"$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1_response.json",
 	"id": "1234567890",
 	"bidid": "162059897743978051070",
 	"cur": "GBP",
@@ -1355,7 +1353,6 @@ The above auction would translate to an invoice of $0.07575.
 
 ```javascript
 {
-    "$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1.json",
     "id": "873465983764395",
     "at": 1,
     "imp": [
@@ -1442,7 +1439,6 @@ The above auction would translate to an invoice of $0.07575.
 
 ```javascript
 {
-	"$schema": "https://raw.githubusercontent.com/knittingmedia/OpenRTB/main/Schema/OpenRTB_OOH_V1_response.json",
 	"id": "1234567890",
 	"bidid": "162059897743978051070",
 	"cur": "GBP",
