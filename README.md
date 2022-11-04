@@ -28,7 +28,7 @@ This versioning policy is a break from historical practice for OpenRTB 2.x. In v
 1. Once you're happy with your branch, publish it to GitHub. Then create a new Pull Request (PR) to propose merging your changes into the `develop` branch.
 1. The Programmatic Supply Chain Working Group and Commit Group will review your update(s), leave comments, and may propose changes. You may need to make additional commits to receive approval for your PR.
 1. Once your PR is approved, it will be merged into the `main` branch at the time of the next monthly release. Details below on how the Release Process works.
-1. (Sometimes) It's possible, especially if your PR is open for a long time, that it cannot be automatically merged into the `develop` branch. In this case, there will be a message in the PR asking you to resolve conflicts before the PR can be merged.
+1. (Optional) If your PR has been open for a long time, it's possible that it cannot be automatically merged into the `develop` branch. In this case, there will be a message in the PR asking you to resolve conflicts before it can be merged.
 
 #### Monthly Release-Cutting Process (for repo admins)
 
