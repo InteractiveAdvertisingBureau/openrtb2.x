@@ -1161,7 +1161,8 @@ Key objects such as imp.qty and dooh have been added to the OpenRTB specificatio
 | device.geo              | object              | Since ip may not be available, geo location  lat / lon field is required for DOOH transactions. geo.type is recommended.                                                                                                                  |
 | device.devicetype       | string array        | Digital out of home devices shall be identified as type 8.                                                                                                                                                                                |
 | device.ppi              | integer             | Screen dimensions in inches can be calculated using ppi, w and h.                                                                                                                                                                         |
-| device.ifa              | string              | A device ID used to identify an individual out of home device.                                                                                                                                                                            |
+| device.ifa              | string              | A device ID used to identify an individual out of home device. The device.ifa should not be used as a user identifier, but may be used for purposes like frequency capping. 
+                                                                                                                                                                           |
 | device.ifa\_type        | string              | For DOOH this is usually given as "ppid" to show this is a publisher-provided device id or "sspid" to show this is an exchange-provided device id                                                                                         |
 | device.eids             | object              | Used to send additional identifiers. e.g. geopath.org or oohspace.co.uk or to signal the ifa provider. See AdCom eids                                                                                                                     |
 | imp.video.boxingallowed | integer             | For DOOH, when boxingallowed = 0, the video aspect ratio should strictly match that of the placement, as determined by the video w and h fields.                                                                                          |
@@ -1197,9 +1198,15 @@ To calculate the total cost of the transaction:
 The above auction would translate to an invoice of $0.07575.
 
 	
-### 7.9.5 - DOOH Example Scenarios
+### 7.9.5 Auction Notifications
+In DOOH, there can be significant delay between winning an auction, and the creative actually being rendered. For this reason, it is strongly recommended to separate the win and billing events, following OpenRTB best practises:
+nurl - Auction event notification URL fired when a bid has won the auction. Not a guarantee that impressions will occur.
+burl - Auction event billing URL fired when the creative has rendered on screen and impression[s] are billable.
 
-#### 7.9.5.1 - DOOH Banner Bid Request
+	
+### 7.9.6 - DOOH Example Scenarios
+
+#### 7.9.6.1 - DOOH Banner Bid Request
 
 ```javascript
 {
@@ -1303,7 +1310,7 @@ The above auction would translate to an invoice of $0.07575.
 }
 ```
 
-#### 7.9.5.2 - Banner Bid Response
+#### 7.9.6.2 - Banner Bid Response
 
 ```javascript
 {
@@ -1349,7 +1356,7 @@ The above auction would translate to an invoice of $0.07575.
 }
 ```
 
-#### 7.9.5.3 - DOOH Video Bid Request
+#### 7.9.6.3 - DOOH Video Bid Request
 
 ```javascript
 {
@@ -1435,7 +1442,7 @@ The above auction would translate to an invoice of $0.07575.
 }
 ```
 
-#### 7.9.5.4 - DOOH Video Bid Response
+#### 7.9.6.4 - DOOH Video Bid Response
 
 ```javascript
 {
