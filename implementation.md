@@ -1199,8 +1199,8 @@ The above auction would translate to an invoice of $0.07575.
 	
 ### 7.9.5 Auction Notifications
 In DOOH, there can be significant delay between winning an auction, and the creative actually being rendered. For this reason, it is strongly recommended to separate the win and billing events, following OpenRTB best practises:
-nurl - Auction event notification URL fired when a bid has won the auction. Not a guarantee that impressions will occur.
-burl - Auction event billing URL fired when the creative has rendered on screen and impression[s] are billable.
+- nurl - Auction event notification URL fired when a bid has won the auction. Not a guarantee that impressions will occur.
+- burl - Auction event billing URL fired when the creative has rendered on screen and impression[s] are billable.
 
 	
 ### 7.9.6 - DOOH Example Scenarios
