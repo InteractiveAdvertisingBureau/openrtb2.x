@@ -1106,3 +1106,379 @@ The following best practice is derived from the [VAST 4.2 spec](https://iabtechl
 These HTTP headers allow recipients of impression notifications to run anti-IVT checks using metadata about the end user device, rather than the server itself.
 	
 **BEST PRACTICE**: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
+	
+
+## 7.9 - Digital Out-Of-Home <a name="dooh"></a>
+
+This section details the unique differences between trading the online world of digital display and real-world aspects of Digital Out-Of-Home (DOOH) media. Each sub section references the key objects that enable DOOH to be traded using the OpenRTB standard.
+	
+### 7.9.1 -  Multiple/Variable Impressions
+The OpenRTB trading method was built around the assumption that a targeted user holds one device and is served an ad as they visit a webpage e.g. One impression = One user.
+OOH Media is a medium where one advert play (a spot) is viewable by everyone who is in the vicinity of the advert being displayed e.g. One ad display = multiple viewers/users (this number can be both greater than *or* less than 1 - due to numbers being based on statistical modeling, fractional values (e.g. .32 impressions per ad display) are common. These rates are also variable as they may be based on hourly-adjusted projections, or real-time sensor data.
+
+Multiplying by decimal values (especially with a CPM) can lead to discrepancies when the ‘buy side’ and ‘sell side’ truncate decimal places. Measures need to be taken to avoid this at an account level.
+	
+The OpenRTB imp object now includes a qty object that enables the multiplier dimension
+
+### 7.9.2 Unique Device Characterisitcs
+	
+#### 7.9.2.1 Highly Variable Physical Size
+The majority of devices that are served ads via OpenRTB are of a size that one person can hold or lean into. In OOH media the advert can be traded and served on anything from the size of a shelf edge label to the size of multiple football pitches. This far exceeds the size range of anything that can be held in the viewer's hand or hung on their living room wall.
+
+The size and direction of an OOH display not only affects the size of the audience that could see it, but also changes the chances of the audience that will see the advertisement being served.
+
+A common trait with both OOH and  digital display ads is that there are a wide variety of sizes, resolutions and aspect ratios to be accommodated as the physical displays ‘build into’ physical spaces vary, and may contain additional content (e.g. tickers, application, labels) that cause ad slot sizes to vary.
+	
+
+#### 7.9.2.2 Private Networks / Geo-Location Information
+The majority of commercial DOOH digital displays sit on ‘walled garden’ private ip networks. This protects the displays from a wide spectrum of internet security issues, vulnerabilities and attacks.
+
+This can lead to 3rd party ad serving, cookies and http event logging service being constricted by the ‘safe-lists’ of urls allowed through the ‘walled garden’ security. 
+
+Many Media Owners / Publishers therefore publish proprietary ‘1st Party’ playout reports and confirmations and use ‘1st Party’ ad servers and/or CMS systems.
+
+The use of private ip networks also means that DSPs are not able to use their normal IP address geolocation techniques to get information about where ads are delivered - though publisher-reported locations (e.g. lat/lon, geo information like address, zip, region) are almost always available. In the case of moving media (e.g. taxi-top displays, bus panels, etc.) near-real time GPS-derived information is common.
+
+#### 7.9.2.3 Non-Persistent Connections / Longer-Than-Realtime Delays
+Most DOOH display panels in urban and remote connections rely on cellular networks for their network connectivity. Whilst a Media Owner may have their own private network with a telecoms provider, the network is still at the mercy of congestion on the local cell tower. Over subscription to cell towers at peak times and locations leads to the DOOH display panels having non-persistent internet connection. 
+
+To mitigate this, some DOOH Media Owners and/or publishers employ ‘forward and store’  technology and give a lead time tolerance from bid request to display. Bids may be requested in advance (to allow pre-buffering or populate “playlists'' on devices, and the confirmation of playback may be delayed due to log collection or processing within publisher systems 
+
+The current industry accepted lead time from ‘bid confirmation’ to ‘display’ can be up to 1 to 2 hours.
+
+#### 7.9.2.4 Proprietary Device Attributes
+Unlike the TV, Tablet and Mobile phone market, there are no dominant global brands supplying digital OOH screen technology to the market. Media Owners and/or Publishers source their own screen technology from a wide variety of manufacturers, technologies and installation partners resulting in each network having its own proprietary device types,identifiers, and other attributes such as user agent strings.
+
+Some countries have attempted to create standards for describing the shape, size and format of the digital units, but to date there is no recognised global standard for identifying a digital out of home device or the users who it may reach.
+
+In the case of user agents, oftentimes non-standard strings are used by Media Owners, which has been known to plague device detection and traffic protection systems. It is advised that Media Owners comply with the HTTP user agent standards set forth by the IETF and submit their user agents to the IAB Spiders and Bots List using the "Submit here" button on this page.
+
+#### 7.9.2.5 Key Object Attributes To Use For DOOH Device Reference in OpenRTB
+Key objects such as imp.qty and dooh have been added to the OpenRTB specification to enable the programmatic trading of the medium. The following table gives guidance to the use of more common OpenRTB object references when transacting DOOH bids.
+
+| Object Reference        | Type                | Implementation Guidance                                                                                                                                                                                                                   |
+| ----------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| device.geo              | object              | Since ip may not be available, geo location  lat / lon field is required for DOOH transactions. geo.type is recommended.                                                                                                                  |
+| device.devicetype       | string array        | Digital out of home devices shall be identified as type 8.                                                                                                                                                                                |
+| device.ppi              | integer             | Screen dimensions in inches can be calculated using ppi, w and h.                                                                                                                                                                         |
+| device.ifa              | string              | A device ID used to identify an individual out of home device. The device.ifa should not be used as a user identifier or for audience targeting purposes, but may be used for purposes like frequency capping.|
+| device.ifa_type        | string              | For DOOH this is usually given as "ppid" to show this is a publisher-provided device id or "sspid" to show this is an exchange-provided device id                                                                                         |
+| device.eids             | object              | Used to send additional identifiers. e.g. geopath.org or oohspace.co.uk or to signal the ifa provider. See AdCom eids                                                                                                                     |
+| imp.video.boxingallowed | integer             | For DOOH, when boxingallowed = 0, the video aspect ratio should strictly match that of the placement, as determined by the video w and h fields.                                                                                          |
+| imp.dt                  | float               | Timestamp when the item is estimated to be fulfilled (e.g. when a DOOH impression will be displayed) in Unix format (i.e., milliseconds since the epoch).                                                                                 |
+                                                                                                             
+### 7.9.3 Commercially Critical Ad Quality
+One bad advert being served at one time to one person is survivable. 
+One bad advert served at one time to 1000’s of people in a public place will lead to a Media Owner and/or Publisher risking their contract/permission to serve ads to networks of screens. 
+
+All ads being served on large commercial networks need to be manually pre-approved (typically involving human, visual review) by the publisher (and in some cases other 3rd parties e.g. venue landlords) before any bids can be accepted for display.
+
+This means typical lead times for creative approval are on the order of “working days” - though they may be expedited through operational processes. It also means many publishers and networks will prohibit creative rotation, dynamic content, or changes post-approval - pending further review. 3rd-Party AdServing (3PAS) support (and support for HTML) is possible, but not guaranteed - including limitations of variations of typical banner ads like dynamic content, animation, or DCO.
+
+For the above reasons, use of IAB Ad Management API (https://github.com/InteractiveAdvertisingBureau/AdManagementAPI/blob/master/Ad%20Management%20API%201.0%20FINAL.md) for creative submission to DOOH exchanges is strongly recommended, though many SSPs may have proprietary extensions to allow submitting ads to specific individual publishers.
+
+
+### 7.9.4 DOOH Pricing
+Bid price and clearing price should be expressed as a CPM rate per impression.  
+For example, if an advertiser is bidding $2.50 CPM on a 1st price auction, and the auction is for 30.3 impressions:
+multiplier = 30.3 (Impression multiplier from bid request)
+bid.price = 2.50 (Bid price in CPM from bid response)
+
+If the advertiser wins, tracking URL (e.g. burl) macros will contain the following values:
+${AUCTION_PRICE} = 2.50 (The clearing price of the auction)
+${AUCTION_MULTIPLIER} = 30.3 (The total quantity of impressions won; for confirmation only. This should always be less than or equal to the multiplier value sent in the bid request. This value is a float value greater than zero and may be less than one.)
+
+To calculate the total cost of the transaction:
+(AUCTION_PRICE / 1000) * AUCTION_MULTIPLIER = COST
+(2.50 / 1000) * 30.3 = $0.07575
+
+The above auction would translate to an invoice of $0.07575.
+
+	
+### 7.9.5 Auction Notifications
+In DOOH, there can be significant delay between winning an auction, and the creative actually being rendered. For this reason, it is strongly recommended to separate the win and billing events, following OpenRTB best practises:
+- nurl - Auction event notification URL fired when a bid has won the auction. Not a guarantee that impressions will occur.
+- burl - Auction event billing URL fired when the creative has rendered on screen and impression[s] are billable.
+
+	
+### 7.9.6 - DOOH Example Scenarios
+
+#### 7.9.6.1 - DOOH Banner Bid Request
+
+```javascript
+{
+    "id": "162059897743978051070",
+    "at": 1,
+    "imp": [
+        {
+            "id": "007",
+            "secure": 1,
+            "exp": 360,
+            "bidfloor": 5.0,
+            "bidfloorcur": "GBP",
+            "banner": {
+                "w": 1080,
+                "h": 1920,
+                "format": [
+                    {
+                        "w": 1080,
+                        "h": 1920
+                    },
+                    {
+                        "w": 720,
+                        "h": 1366
+                    }
+                ],
+                "mimes": [
+                    "image/jpg",
+                    "image/png",
+                    "text/html"
+                ]
+            },
+            "pmp": {
+                "private_auction": 0,
+                "deals": [
+                    {
+                        "id": "123",
+                        "at": 1,
+                        "bidfloor": 4.50
+                    },
+                    {
+                        "id": "333",
+                        "at": 1,
+                        "bidfloor": 3.00
+                    },
+                    {
+                        "id": "444",
+                        "at": 1,
+                        "bidfloor": 2.00
+                    }
+                ]
+            },
+            "dt": 12345670,
+            "qty": {
+                "multiplier": 14.2,
+                "sourcetype": 1,
+                "vendor": "route.org.uk"
+            }
+        }
+    ],
+    "device": {
+        "geo": {
+            "lat": 0.0001,
+            "long": -0.1235,
+            "lastfix": 0
+        },
+        "devicetype": 8,
+        "w": 1080,
+        "h": 1920,
+        "ppi": 72,
+        "ifa": "1235461904",
+        "ifa_type": "ppid",
+        "eids": [
+            {
+                "source": "oohspace.co.uk",
+                "uids": [
+                    {
+                        "atype": 501,
+                        "id": "1235461904"
+                    }
+                ]
+            }
+        ]
+    },
+    "dooh": {
+        "content": {},
+        "id": "15790",
+        "keywords": "Roadside, Billboard, D96",
+        "name": "This",
+        "publisher": {
+            "id": "G1",
+            "name": "Global"
+        },
+        "domain": "global.com",
+        "venuetax": 1,
+        "venuetypeid": 30101
+    },
+    "cur": [
+        "GBP"
+    ]
+}
+```
+
+#### 7.9.6.2 - Banner Bid Response
+
+```javascript
+{
+	"id": "1234567890",
+	"bidid": "162059897743978051070",
+	"cur": "GBP",
+	"seatbid": [
+		{
+			"seat": "512",
+			"bid": [
+				{
+					"id": "1",
+					"impid": "102",
+					"price": 9.43,
+					"banner": {
+						"img": "http://adserver.com/creative112.jpg"
+					},
+					"burl": "http://adserver.com/billingnotice?impid=102& bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
+					"adomain": [
+						"advertiserdomain.com"
+					],
+					"cid": "campaign111",
+					"crid": "creative112",
+					"attr": [
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						12
+					],
+					"w": 1080,
+					"h": 1920,
+					"cat": [
+						"IAB1"
+					]
+				}
+			]
+		}
+	]
+}
+```
+
+#### 7.9.6.3 - DOOH Video Bid Request
+
+```javascript
+{
+    "id": "873465983764395",
+    "at": 1,
+    "imp": [
+        {
+            "id": "123456",
+            "secure": 1,
+            "exp": 720,
+            "bidfloor": 4.8,
+            "bidfloorcur": "GBP",
+            "video": {
+                "boxingallowed": 1,
+                "w": 960,
+                "h": 480,
+                "maxduration": 20,
+                "minduration": 20,
+                "mimes": [
+                    "video/jpeg",
+                    "video/mp4",
+                    "video/mov"
+                ]
+            },
+            "pmp": {
+                "private_auction": 1,
+                "deals": [
+                    {
+                        "id": "V123",
+                        "at": 1,
+                        "bidfloor": 4.50
+                    }
+                ]
+            },
+            "dt": 1647010095,
+            "qty": {
+                "multiplier": 14.2,
+                "sourcetype": 0,
+                "vendor": "route.org.uk"
+            }
+        }
+    ],
+    "device": {
+        "geo": {
+            "lat": 51.51112,
+            "long": -0.09043,
+            "lastfix": 0
+        },
+        "devicetype": 8,
+        "w": 960,
+        "h": 480,
+        "ppi": 3,
+        "ifa": "1234928801",
+        "ifa_type": "ppid",
+        "eids": [
+            {
+                "source": "oohspace.co.uk",
+                "uids": [
+                    {
+                        "atype": 501,
+                        "id": "1234928801"
+                    }
+                ]
+            }
+        ]
+    },
+    "dooh": {
+        "content": {},
+        "id": "1Frame",
+        "keywords": "LargeFormat,CANNON STREET STN,CANNON STREET,MAIN CONCOURSE",
+        "name": "Transvision",
+        "publisher": {
+            "id": "VJCDUK",
+            "name": "viooh"
+        },
+        "domain": "viooh.com",
+        "venuetax": 1,
+        "venuetypeid": 10602
+    },
+    "cur": [
+        "GBP"
+    ]
+}
+```
+
+#### 7.9.6.4 - DOOH Video Bid Response
+
+```javascript
+{
+	"id": "1234567890",
+	"bidid": "162059897743978051070",
+	"cur": "GBP",
+	"seatbid": [
+		{
+			"seat": "512",
+			"bid": [
+				{
+					"id": "1",
+					"impid": "102",
+					"price": 9.43,
+					"nurl": "http://adserver.com/winnotice?impid=102&bidid=abc1123",
+					"burl": "http://adserver.com/billingnotice?impid=102&bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
+					"adm": "<?xml version="1.0" encoding="UTF-8"?><VAST version="4.0"><Ad id="79ba491b-dfe1-5044-9d8e-758ae874e24f"> <InLine><AdSystem>AdServer</AdSystem><AdTitle><![CDATA[DOOH Video ad]></AdTitle><Error><![CDATA[https://adserver.com/event/error]]></Error><Impression><![CDATA[https://adserver.com/event/impression]]></Impression><Creatives> <Creative id="79ba491b-dfe1-5044-9d8e-758ae874e24f"><Linear> <Duration>00:00:10</Duration> <MediaFiles><MediaFile delivery="progressive" bitrate="8326" width="1920" height="1080" type="video/mp4" scalable="true" maintainAspectRatio="true"> <![CDATA[https://adserver.com/creative.mp4]]> </MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>",
+					"adomain": [
+						"advertiserdomain.com"
+					],
+					"cid": "campaign111",
+					"crid": "creative112",
+					"attr": [
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						12
+					],
+					"w": 1920,
+					"h": 1080,
+					"cat": [
+						"IAB1"
+					]
+				}
+			]
+		}
+	]
+}
+```
