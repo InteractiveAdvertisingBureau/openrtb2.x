@@ -1166,9 +1166,7 @@ Key objects such as imp.qty and dooh have been added to the OpenRTB specificatio
 | device.eids             | object              | Used to send additional identifiers. e.g. geopath.org or oohspace.co.uk or to signal the ifa provider. See AdCom eids                                                                                                                     |
 | imp.video.boxingallowed | integer             | For DOOH, when boxingallowed = 0, the video aspect ratio should strictly match that of the placement, as determined by the video w and h fields.                                                                                          |
 | imp.dt                  | float               | Timestamp when the item is estimated to be fulfilled (e.g. when a DOOH impression will be displayed) in Unix format (i.e., milliseconds since the epoch).                                                                                 |
-| imp.etime               | integer             | The exposure time in seconds per view that the creative will be displayed before refreshing to the next creative.                                                                                                                         |
-	
-
+                                                                                                             
 ### 7.9.3 Commercially Critical Ad Quality
 One bad advert being served at one time to one person is survivable. 
 One bad advert served at one time to 1000’s of people in a public place will lead to a Media Owner and/or Publisher risking their contract/permission to serve ads to networks of screens. 
@@ -1258,7 +1256,6 @@ In DOOH, there can be significant delay between winning an auction, and the crea
                 ]
             },
             "dt": 12345670,
-            "etime": 10,
             "qty": {
                 "multiplier": 14.2,
                 "sourcetype": 1,
