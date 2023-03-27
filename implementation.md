@@ -1513,7 +1513,7 @@ Video ads that are played without video content. During playback, it must be the
 
 The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a new attribute (<code>plcmt</code> in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/develop/2.6.md#327---object-video-">Object: Video</a>) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
 
-If a publisher or player would like to send both the legacy value for In-Stream and the updated definition of Accompanying Content it should send the legacy value of placement=1 in the new value in the <code>placement</code> attribute and the updated value of plcmt=2 using the<code>plcmt</code> attribute attributes in the video object. 
+If a publisher or player would like to send both the legacy value for In-Stream and the updated definition of Accompanying Content it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=2 using the <code>plcmt</code> attribute attributes in the video object. 
 
 Here is an example ad request: 
 
