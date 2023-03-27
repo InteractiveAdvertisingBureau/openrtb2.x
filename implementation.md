@@ -1483,21 +1483,43 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 }
 ```
 
-## 7.10 - Using plcmt attribute in Object: Video
+## 7.10 - Updated In-Stream Values
+#### 7.10.1 - Examples 
+#### 7.10.1.1<strong> Instream Video:</strong>
+Pre-roll, mid-roll, and post-roll ads that are played before, during or after the streaming video content that the consumer has requested. Instream video must be set to “sound on” by default at player start, or have explicitly clear user intent to watch the video content. While there may be other content surrounding the player, the video content must be the focus of the user’s visit. It should remain the primary content on the page and the only video player in-view capable of audio when playing. If the player converts to floating/sticky subsequent ad calls should accurately convey the updated player size.
+	
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/Instream.gif)
+	
+#### 7.10.1.2<strong> Accompanying Content:</strong>
+Pre-roll, mid-roll, and post-roll ads that are played before, during, or after streaming video content. The video player loads and plays before, between, or after paragraphs of text or graphical content, and starts playing only when it enters the viewport. Accompanying content should only start playback upon entering the viewport. It may convert to a floating/sticky player as it scrolls off the page.
+
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/Accompanying%20Content.gif)
+
+#### 7.10.1.3<strong> Interstitial: </strong>
+Video ads that are played without video content. During playback, it must be the primary focus of the page and take up the majority of the viewport and cannot be scrolled out of view. This can be in placements like in-app video or slideshows.
+
+Example file not available 
+
+#### 7.10.1.4<strong> No Content/Standalone: </strong>
+Video ads that are played without video content. During playback, it must be the primary focus of the page and take up the majority of the viewport and cannot be scrolled out of view. This can be in placements like in-app video or slideshows.
+ 
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/No%20Content_Standalone%20-%20Slider.gif)
+
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/No%20Content_Standalone%20-%20Slideshow.gif)
+
+
+
+#### 7.10.2 - Using plcmt attribute in Object: Video
 
 The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a new attribute (<code>plcmt</code> in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/develop/2.6.md#327---object-video-">Object: Video</a>) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
 
-When a publisher or player will have to update its definitions, here is how to implement the new values while continuing to send the legacy values. 
+If a publisher or player would like to send both the legacy value for In-Stream and the updated definition of Accompanying Content it should send the legacy value of placement=1 in the new value in the <code>placement</code> attribute and the updated value of plcmt=2 using the<code>plcmt</code> attribute attributes in the video object. 
 
-Here is an example:
-https://files.slack.com/files-tmb/T3WQ79516-F04QTM0GKKQ-ce4336f598/accompanying_content_480.gif
-
-In this example, a player that would like to send both the legacy value for in-stream and the updated value for accompanying content would use  both the <code>placement</code> and <code>plcmt</code> attributes in the video object. 
+Here is an example ad request: 
 
 	"video": {
 	“placement”: “1”
 	“plcmt”: “2” 
 	}
-
 
 The presence of the <code>placement</code> attribute refers to the legacy <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--placement-subtypes---video-"> List: Placement Subtypes - Video in AdCOM </a>. It describes the inventory as In-stream per that definition. The presence of the <code>plcmt</code> attribute points to the updated <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--plcmt-subtypes---video-">List: Plcmt Subtypes - Video</a> and defines the same inventory as “Accompanying Content” under the updated definition. 
