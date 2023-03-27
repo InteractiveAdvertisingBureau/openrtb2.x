@@ -1483,21 +1483,21 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 }
 ```
 
-## 7.10 - Using plcmnt attribute in Object: Video
+## 7.10 - Using plcmt attribute in Object: Video
 
-The release of updated definitions in AdCOM List: Plcmnt Subtypes – Video) and a new attribute (plcmnt in Object: Video) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
+The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a new attribute (<code>plcmt</code> in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/develop/2.6.md#327---object-video-">Object: Video</a>) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
 
 When a publisher or player will have to update its definitions, here is how to implement the new values while continuing to send the legacy values. 
 
 Here is an example:
 https://files.slack.com/files-tmb/T3WQ79516-F04QTM0GKKQ-ce4336f598/accompanying_content_480.gif
 
-In this example, a player that would like to send both the legacy value for in-stream and the updated value for accompanying content would use  both the placement and plcmnt attributes in the video object. 
+In this example, a player that would like to send both the legacy value for in-stream and the updated value for accompanying content would use  both the <code>placement</code> and <code>plcmt</code> attributes in the video object. 
 
 	"video": {
 	“placement”: “1”
-	“plcmnt”: “2” 
+	“plcmt”: “2” 
 	}
 
 
-The presence of the placement attribute refers to the legacy <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--placement-subtypes---video-"> List: Placement Subtypes - Video in AdCOM </a>. It describes the inventory as In-stream per that definition. The presence of the plcmt attribute points to the updated <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--plcmt-subtypes---video-">List: Plcmt Subtypes - Video</a> and defines the same inventory as “Accompanying Content” under the updated definition. 
+The presence of the <code>placement</code> attribute refers to the legacy <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--placement-subtypes---video-"> List: Placement Subtypes - Video in AdCOM </a>. It describes the inventory as In-stream per that definition. The presence of the <code>plcmt</code> attribute points to the updated <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--plcmt-subtypes---video-">List: Plcmt Subtypes - Video</a> and defines the same inventory as “Accompanying Content” under the updated definition. 
