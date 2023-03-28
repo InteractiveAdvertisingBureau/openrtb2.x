@@ -1500,8 +1500,7 @@ Video ads that are played without video content. During playback, it must be the
 
 Example file not available 
 
-#### 7.10.1.4<strong> No Content/Standalone: </strong>
-Video ads that are played without video content. During playback, it must be the primary focus of the page and take up the majority of the viewport and cannot be scrolled out of view. This can be in placements like in-app video or slideshows.
+#### 7.10.1.4<strong> No Content/Standalone: </strong> Video ads that are played without streaming video content. This can be in placements like slideshows, native feeds, in-content or sticky/floating.
 
 ![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/No%20Content_Standalone%20-%20Slideshow.gif)
 
