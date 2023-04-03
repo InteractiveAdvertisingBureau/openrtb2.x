@@ -1483,7 +1483,7 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 }
 ```
 
-## 7.10 - Updated In-Stream Values
+## 7.10 - Updated Video Signals
 #### 7.10.1 - Examples 
 #### 7.10.1.1<strong> Instream Video:</strong>
 Pre-roll, mid-roll, and post-roll ads that are played before, during or after the streaming video content that the consumer has requested. Instream video must be set to “sound on” by default at player start, or have explicitly clear user intent to watch the video content. While there may be other content surrounding the player, the video content must be the focus of the user’s visit. It should remain the primary content on the page and the only video player in-view capable of audio when playing. If the player converts to floating/sticky subsequent ad calls should accurately convey the updated player size.
