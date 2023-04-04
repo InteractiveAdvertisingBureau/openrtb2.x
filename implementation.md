@@ -1537,7 +1537,7 @@ Here is an example ad request:
 	
 <strong> Case 3: muted pre-roll </strong>
 	
-If a publisher or player would like to send both the legacy value for In-stream to support DSPs that have no other way to identify pre-roll, mid-roll, or post-roll and the updated definition of Accompanying Content because the video begins muted it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=2 using the <code>plcmt</code> attribute attributes in the video object. 
+If a publisher or player would like to send both the legacy value for In-stream to support DSPs that have no other way to identify pre-roll, mid-roll, or post-roll and the updated definition of Accompanying Content because the video begins muted it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=2 using the <code>plcmt</code> attribute in the video object. 
 
 Here is an example ad request: 
 
