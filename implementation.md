@@ -1537,12 +1537,26 @@ Here is an example ad request:
 	
 <strong> Case 3: muted pre-roll </strong>
 	
-If a publisher or player would like to send both the legacy value for In-stream to support DSPs that have no other way to identify pre-roll, mid-roll, or post-roll and the updated definition of Accompanying Content because the video begins muted it should send the legacy value of <code>placement=1</code> using the legacy <code>placement</code> attribute and the updated value of <code>plcmt=2</code> using the <code>plcmt</code> attribute in the video object. Muted pre-roll that only has <code>video.placement = 1</code> without the additional field of <code>video.plcmt = 2</code> is not declared accurately. 
+If a publisher or player would like to send both the legacy value for In-stream to support DSPs that have no other way to identify pre-roll, mid-roll, or post-roll and the updated definition of Accompanying Content because the video begins muted it should send the legacy value of <code>placement=1</code> using the legacy <code>placement</code> attribute and the updated value of <code>plcmt=2</code> using the <code>plcmt</code> attribute in the video object. 
+
+Muted pre-roll that only has <code>video.placement = 1</code> without the additional field of <code>video.plcmt = 2</code> is not declared accurately. 
 
 Here is an example ad request: 
 
 	"video": {
 	“placement”: “1”
 	“plcmt”: “2” 
+	}
+
+Here is an example invalid ad request: 
+
+	"video": {
+	“placement”: “1”
+	}
+
+If providers are unable to pass `plcmt`, here is an alternative valid ad request until they are able to transition to the first example: 
+
+	"video": {
+	“placement”: “3”
 	}
 
