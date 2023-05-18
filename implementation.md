@@ -1512,7 +1512,7 @@ The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a
 
 <strong> Case 1: In-stream to Instream </strong>
 	
-If a publisher or player would like to send both the legacy value for In-Stream and the updated definition of Instream it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=2 using the <code>plcmt</code> attribute attributes in the video object. 
+If a publisher or player would like to send both the legacy value for In-Stream and the updated definition of Instream it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=1 using the <code>plcmt</code> attribute attributes in the video object. 
 
 Here is an example ad request: 
 
@@ -1532,5 +1532,16 @@ Here is an example ad request:
 	"video": {
 	“placement”: “3”
 	“plcmt”: “4” 
+	}
+
+<strong> Case 3: In-stream to Accompanying Content</strong>
+	
+If a publisher or player would like to send both the legacy value for In-stream and the updated definition of Accompanying Content it should send the legacy value of placement=1 using the legacy <code>placement</code> attribute and the updated value of plcmt=2 using the <code>plcmt</code> attribute attributes in the video object. 
+
+Here is an example ad request: 
+
+	"video": {
+	“placement”: “1”
+	“plcmt”: “2” 
 	}
 
