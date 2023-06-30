@@ -1534,3 +1534,314 @@ Here is an example ad request:
 	“plcmt”: “4” 
 	}
 
+<!-----
+
+You have some errors, warnings, or alerts. If you are using reckless mode, turn it off to see inline alerts.
+* ERRORs: 0
+* WARNINGs: 0
+* ALERTS: 1
+
+Conversion time: 0.907 seconds.
+
+
+Using this Markdown file:
+
+1. Paste this output into your source file.
+2. See the notes and action items below regarding this conversion run.
+3. Check the rendered output (headings, lists, code blocks, tables) for proper
+   formatting and use a linkchecker before you publish this page.
+
+Conversion notes:
+
+* Docs to Markdown version 1.0β34
+* Fri Jun 30 2023 07:52:01 GMT-0700 (PDT)
+* Source doc: Programmatic Signaling for Podcast Inventory
+* Tables are currently converted to HTML tables.
+* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server. NOTE: Images in exported zip file from Google Docs may not appear in  the same order as they do in your doc. Please check the images!
+
+
+WARNING:
+You have 2 H1 headings. You may want to use the "H1 -> H2" option to demote all headings by one level.
+
+----->
+
+
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 1.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
+
+
+
+<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+
+
+![alt_text](images/image1.png "image_tooltip")
+
+
+
+# Podcast Implementation Guidelines 
+
+
+# for OpenRTB v2.x
+
+**Note to reviewers: **the following text is being proposed for addition to the [OpenRTB 2.x Implementation Notes](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md) under a new subsection for 7.11.
+
+ 
+
+
+## 7.11 Signaling Podcast Inventory
+
+As the Podcast Industry continues to grow and mature, it is important for the industry to adhere to advertising and content guidelines successfully established in other channels. This guide serves as a tool to consolidate and highlight a clear way to pass the most important signals available today in podcasting through programmatic channels. 
+
+ 
+
+While IAB Tech Lab advises that all partners participating in the programmatic buying and selling of podcast inventory should pass all prescribed information below, this is first and foremost a technical guideline built to outline process, and does not supersede individual business relationships established by buyers and sellers. It does, however, fully define how data should be sent.
+
+In the tables below, an added column for “Value” is used to define the expected information in the listed field for podcast inventory. This is additional information beyond the description of the field provided formally in OpenRTB and helps to reduce ambiguity about how to use the field to signal podcast inventory.
+
+
+### 7.11.1 Identity Signals in the Device Object
+
+Programmatic advertising is an operational tool built to simplify the process of buying and selling inventory. To accomplish that simplicity, it is important not only to provide as many data signals as possible for a medium, but also to pass them predictably in the prescribed parameters.
+
+ 
+
+Identity signals enable all sides of programmatic advertising to augment data, providing a unique value proposition to their clients. Some channels offer additional ID types, such as cookie IDs, device IDs, and other proprietary solutions as a match point. To supplement for these ID’s, podcast ad servers or SSPs should pass a consistent synthetic ID composed of a hashed IP address and Device User Agent to provide a probabilistic alternative for buyers looking for this type of anchor.
+
+ 
+
+The IAB Tech Lab recommends passing the following values as identified in the OpenRTB spec:
+
+
+<table>
+  <tr>
+   <td colspan="2" >Object: Device
+   </td>
+   <td>
+   </td>
+   <td colspan="2" >
+   </td>
+   <td> 
+   </td>
+  </tr>
+  <tr>
+   <td>Field
+   </td>
+   <td colspan="2" >Value
+   </td>
+   <td>Type
+   </td>
+   <td colspan="2" >Description
+   </td>
+  </tr>
+  <tr>
+   <td>ua
+   </td>
+   <td colspan="2" >User agent
+   </td>
+   <td>string
+   </td>
+   <td colspan="2" >A raw user agent string from the browser. See ua field under<a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#3218---object-device-"> device object</a> for more details.
+   </td>
+  </tr>
+  <tr>
+   <td>sau
+   </td>
+   <td colspan="2" >User agent
+   </td>
+   <td>object
+   </td>
+   <td colspan="2" >Structured user agent as an object detailing device make, model, app, version etc.
+   </td>
+  </tr>
+  <tr>
+   <td>ip
+   </td>
+   <td colspan="2" >Ip address
+   </td>
+   <td>string
+   </td>
+   <td colspan="2" >IPv4 address closest to device.
+   </td>
+  </tr>
+  <tr>
+   <td>ifa
+   </td>
+   <td colspan="2" >Device ID
+   </td>
+   <td>string
+   </td>
+   <td colspan="2" >For podcast specifically, SSPs should fill in using a persistent synthetic ID.
+   </td>
+  </tr>
+</table>
+
+
+
+### 7.11.2 Signaling ifa_type in the Device Object
+
+The identifier for advertisers (ifa) type is signaled in OpenRTB using [device.ext](https://github.com/ChrisBasis/openrtb/blob/master/extensions/community_extensions/ifa_type.md) to indicate the source of the id (i.e. device, publisher, SSP, or session-based). It does not enumerate platform specific ids (e.g. Roku, Apple, or Android). When the ifa_type is provided by the device (device.ext.ifa_type=dpid), the platform can and should be inferred based on other signals within OpenRTB.
+
+
+### 7.11.3 Supply Chain Validation
+
+Please refer to PLACEHOLDER FOR ADS.TXT GUIDANCE for information on ways to reconcile the sellers ads.txt, the confirmation of the sellers.json, and act as the foundation for Brand Safety and Suitability in podcasting, which is quickly becoming table stakes for advertising industry wide. 
+
+ 
+
+Note: Inventory that does not provide these values should be expected to be classified as “unverifiable” with the expectation that buyers are likely to de-prioritize. The passing of these signals from podcast channels will enable larger programmatic budgets from advertisers adhering to premium buying standards.
+
+
+### 7.11.4 Content Signals
+
+Providing clear identification of content is just as important as listener identification signals. Podcasting has a wealth of knowledge contained within episode, show, and genre that will empower robust analytics and activation opportunities by programmatic partners.
+
+ 
+
+ 
+
+
+<table>
+  <tr>
+   <td colspan="2" >Object: Content
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>Field
+   </td>
+   <td>Value
+   </td>
+   <td>Type
+   </td>
+   <td>Description
+   </td>
+  </tr>
+  <tr>
+   <td>series
+   </td>
+   <td>show name
+   </td>
+   <td>string
+   </td>
+   <td>Content title.
+   </td>
+  </tr>
+  <tr>
+   <td>title
+   </td>
+   <td>episode title
+   </td>
+   <td>string
+   </td>
+   <td>Content series.
+   </td>
+  </tr>
+  <tr>
+   <td>genre
+   </td>
+   <td>category
+   </td>
+   <td>array of string
+   </td>
+   <td>Genre that best describes the content (e.g., true crime, comedy, etc.). IAB podcasts genre taxonomy preferred. 
+   </td>
+  </tr>
+  <tr>
+   <td>len
+   </td>
+   <td>duration
+   </td>
+   <td>integer
+   </td>
+   <td>length of content in seconds
+   </td>
+  </tr>
+  <tr>
+   <td>id
+   </td>
+   <td>GUID
+   </td>
+   <td>string
+   </td>
+   <td>Unique ID identifying episode
+   </td>
+  </tr>
+  <tr>
+   <td>url
+   </td>
+   <td>RSS URL
+   </td>
+   <td>string
+   </td>
+   <td>Unique URL identifying show
+   </td>
+  </tr>
+</table>
+
+
+ 
+
+Note: for the above id and url fields, providing GUID and RSS URL are unique to podcast inventory to support signaling podcast inventory specifically.
+
+
+### Audio Signals
+
+Additionally, the following audio signals should be provided as part of identifying the content..
+
+ 
+
+
+<table>
+  <tr>
+   <td colspan="2" >Object: Audio
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>Field
+   </td>
+   <td>Value
+   </td>
+   <td>Type
+   </td>
+   <td>Description
+   </td>
+  </tr>
+  <tr>
+   <td>startdelay
+   </td>
+   <td>ad position
+   </td>
+   <td>integer
+   </td>
+   <td>Indicates the start delay in seconds for pre-roll, mid-roll, or post-roll ad placements. Refer to List: <a href="https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--start-delay-modes-">Start Delay Modes</a> in AdCOM 1.0.
+   </td>
+  </tr>
+  <tr>
+   <td>podid
+   </td>
+   <td>
+   </td>
+   <td>string
+   </td>
+   <td>Unique identifier indicating that an impression opportunity belongs to an audioad pod. If multiple impression opportunities within a bid request share the same podid, this indicates that those impression opportunities belong to the same audio ad pod.
+   </td>
+  </tr>
+</table>
+
+
+
+### Updates and Feedback
+
+Thank you for your attention to these important implementation guidelines for signaling podcast inventory. We are open to your feedback and suggestions that will help us achieve our above stated goals. For questions or comments on these implementation guidelines, please post an issue or email [support@iabtechlab.com](mailto:support@iabtechlab.com). 
