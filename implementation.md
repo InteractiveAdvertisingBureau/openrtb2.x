@@ -308,15 +308,15 @@ Ad Slot: Space for an individual ad impression within a pod.
 	
 Structured Pod: The seller offers a fully defined pod structure; the number of ad slots, their slot in the ad pod, and duration is pre-defined and static.
 
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(102).png)
+![](assets/structured_pod.png)
 	
 Dynamic Pod: The seller offers a pod structure where the number of ads & the duration of each ad in the break is indeterminate, but the total duration and maximum number of ads are constrained. In other words, the total duration of the pod is known, but the number and durations of the individual ads within the break may not be defined ahead of time. This allows bidders more flexibility to optimize their selection of ads across the demand on their platform.
 	
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(101).png)
+![](assets/dynamic_pod.png)
 	
 Hybrid Pod: The seller offers a pod structure containing BOTH structured and dynamic components. In other words, the ad pod is composed of some combination of ad slots with predetermined durations, and ad slots constrained by a total duration & maximum number of ads.
 
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/864a56706b106eda94c03abefaa01dd43544864c/assets/Screenshot%20(100).png)
+![](assets/hybrid_pod.png)
 
 **Recommendations**
 	
