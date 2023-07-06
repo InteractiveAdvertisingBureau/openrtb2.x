@@ -1,9 +1,9 @@
 	
-# 7. Implementation Notes
+# 7. Implementation Notes <a name="implementationnotes"></a>
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
 	
-## 7.1 - No-Bid Signaling
+## 7.1 - No-Bid Signaling <a name="nobidsignaling"></a>
 	
 This section covers best practices for using the optional no-bid signaling. See the [List: No-Bid Reason Codes](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--no-bid-reason-codes-) in OpenRTB 3.0 for the enumerated list of no-bid reason codes.
 	
@@ -44,13 +44,13 @@ Make best effort to classify and reject non-human traffic (NHT) requests for ads
 - For bidders, filtering the impression means that the bidder should respond with a no-bid.
 - For both exchanges and bidders, the impression transaction records should be clearly marked in any logging systems and be removed from contributing to any event counts associated with planning, forecasting, and reporting systems.
 	
-## 7.2 - Impression Expiration
+## 7.2 - Impression Expiration <a name="impressionexpiration"></a>
 	
 Recapping the typical impression flow through RTB, an ad will be requested by a client (e.g., web browser, mobile app or an SDK therein) possibly through other server intermediaries, and ultimately to the RTB exchange. The exchange conducts an auction among buyers who bid with a proposed price, possibly markup for use if the bid wins (markup can also be delivered on the win notice itself), and other metadata about the bid. The exchange then selects a winner, issues a win notice to the winning bidder, and passes the markup back to the client.
 	
 Winning the auction, however, does not guarantee that the ad will be successfully delivered to the client or that it will meet viewability expectations. Furthermore, policies vary among exchanges as to the criteria for billing. Most consider an ad billable upon some form of delivery or rendering vs. the auction win alone. This aligns better with the buyer’s obvious goal of ensuring that the impressions they pay for are actually displayed.
 	
-Some exchanges attempt to facilitate this alignment by placing the win notice in the winning ad markup so that it can serve as both a win notice and rendering notice. This is neither endorsed nor prohibited by OpenRTB except that it precludes the exchange from accepting markup on the win notice return as described in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectbidresponse">Section 4.3.1</a>. Similarly, many buyers use their own tracking URL placed within their ad markup to signal rendering independent of the OpenRTB auction win notice. In video specifically, VAST supports an impression tracking URL that is often used for billing and is always distinct from the auction win notice.
+Some exchanges attempt to facilitate this alignment by placing the win notice in the winning ad markup so that it can serve as both a win notice and rendering notice. This is neither endorsed nor prohibited by OpenRTB except that it precludes the exchange from accepting markup on the win notice return as described in [Section 4.2.1](2.6.md#objectbidresponse). Similarly, many buyers use their own tracking URL placed within their ad markup to signal rendering independent of the OpenRTB auction win notice. In video specifically, VAST supports an impression tracking URL that is often used for billing and is always distinct from the auction win notice.
 	
 To abstract the concept, let us refer to “*billing notice*” as the firing of some notification URL at the time when the clearing price of the impression will be booked as spend. This is irrespective of whether the actual OpenRTB win notice URL is delegated to the client for firing or some other tracking URL is used.
 	
@@ -58,9 +58,9 @@ For buyers, this billing notice is used to book progress toward spend goals and 
 	
 Bidders are strongly advised to track the time between the auction and the win and/or billing notices to ensure reasonable delays. If unreasonable delays are encountered frequently, bidders may elect to ignore such events and bring them to the attention of the exchange for resolution. Unfortunately, the sequence from ad request through the auction and finally to rendering and billing is fundamentally not transactional. There are simply too many parties, policies, and technologies involved and thus a good support relationship between exchange and buyer is still important.
 	
-The OpenRTB protocol does provide some real-time assistance, however. The `imp.exp` attribute (<a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectimp">Section 3.2.4</a>) in the bid request allows an exchange to provide guidance to bidders of the number of seconds that may elapse between the auction and the billing event. As usual, omitted means unknown. Bidders can then decide if they want to bid understanding the likely delay. Bidders are advised, however, to interpret this as guidance as opposed to a contract unless the exchange expresses otherwise since exchanges are not always in a position to make hard guarantees (e.g., the SDK within the client app may not be under the exchange’s control).
+The OpenRTB protocol does provide some real-time assistance, however. The `imp.exp` attribute ([Section 3.2.4](2.6.md#objectimp)) in the bid request allows an exchange to provide guidance to bidders of the number of seconds that may elapse between the auction and the billing event. As usual, omitted means unknown. Bidders can then decide if they want to bid understanding the likely delay. Bidders are advised, however, to interpret this as guidance as opposed to a contract unless the exchange expresses otherwise since exchanges are not always in a position to make hard guarantees (e.g., the SDK within the client app may not be under the exchange’s control).
 	
-Similarly, the `bid.exp` attribute (<a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#433---object-bid-">Section 4.3.3</a>) in the bid response allows the bidder to express the maximum number of seconds they are willing to tolerate between auction and billing notice. This allow the exchange to drop bids with expiration constraints it believes are likely to be violated. Bidders should not assume that a delayed billing notice greater than their specified bid expirations will not be billable. That is a policy and contract discussion between bidder and exchange and not imposed by OpenRTB.
+Similarly, the `bid.exp` attribute ([Section 4.2.3](2.6.md#objectbid)) in the bid response allows the bidder to express the maximum number of seconds they are willing to tolerate between auction and billing notice. This allow the exchange to drop bids with expiration constraints it believes are likely to be violated. Bidders should not assume that a delayed billing notice greater than their specified bid expirations will not be billable. That is a policy and contract discussion between bidder and exchange and not imposed by OpenRTB.
 	
 The following expiration times are offered as examples of reasonable delays based on the nature of the impression. These are only provided as rules of thumb. A more data-driven method of determining these times in specific situations is highly recommended.
 <table>
@@ -76,7 +76,7 @@ The following expiration times are offered as examples of reasonable delays base
 		<td>Audio or video with server-side stitching</td><td>Very Long or Unknown</td></tr>
 	</table>
 	
-## 7.3 - PMP & Direct Deals
+## 7.3 - PMP & Direct Deals <a name="pmpanddirectdeals"></a>
 	
 **Best Practice Bidding Logic**
 	
@@ -201,7 +201,7 @@ With Deal ID buyers are sellers are communicating directly. The Exchange and Bid
 - Same as Case-6.
 - Deal ID represents some combination of private first-party data from the Publisher.
 	
-## 7.4 - Skippability
+## 7.4 - Skippability <a name="skippability"></a>
 	
 This section clarifies the common use cases related to declaring skippability of video creatives.
 	
@@ -285,7 +285,7 @@ When responding to Case-3 with this skippable attribute specified in the bid, th
 	
 In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 `skipoffset` at their discretion and ads should be assumed to play non-skippable if the player does not support it.
 	
-## 7.5 - Regs Resources
+## 7.5 - Regs Resources <a name="regsresources"></a>
 	
 The regs object contains any legal, governmental, or industry regulations that the sender deem applicable to the request.
 	
@@ -297,7 +297,7 @@ Please see the below resources for more details and framework specifications sho
 **<a href="https://github.com/InteractiveAdvertisingBureau/USPrivacy">CCPA (California Consumer Privacy Act)</a>**
 
 
-## 7.6 - Pod Bidding for Video and Audio
+## 7.6 - Pod Bidding for Video and Audio <a name="podbidding"></a>
 	
 Starting in version 2.6, OpenRTB now supports ‘pod bidding’ for video and audio content streams.
 An ad pod is the term describing an ad break of the type you’d see in a TV-like viewing experience or hear on a radio stream. An ad pod typically contains one or more in-stream creative assets that play out contiguously within a stream of video or audio content. Ad podding features in OpenRTB 2.6 build on capabilities in previous versions for including multiple ad requests within a single bid request object to indicate those ad requests are in some way related. Pod bidding signals communicate additional information about the pod & impression opportunities within the pod such as the sequence of the ad impressions, total pod length, maximum # of ads within a pod, multiple pod associations, and more.
@@ -975,9 +975,9 @@ BidResponse
 
 	
 	
-## 7.7 - Network vs Channel Example Cases
+## 7.7 - Network vs Channel Example Cases <a name="networkandchannel"></a>
 	
-Starting in version 2.6, OpenRTB now supports Network and Channel objects. See <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#objectnetwork">3.2.23</a> and <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#3224---object-channel-">3.2.24</a> for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
+Starting in version 2.6, OpenRTB now supports Network and Channel objects. See [3.2.23](2.6.md#objectnetwork) and [3.2.24](2.6.md#objectchannel) for details).While these examples are straight forward for traditional linear television, the options for CTV consumption warrant a few examples.
 	
 *Example 1*: A user viewing content on an internet connected device, on an app with multiple channel options (e.g. Discovery+ App > HGTV Channel/show)
 	
@@ -1001,7 +1001,7 @@ Starting in version 2.6, OpenRTB now supports Network and Channel objects. See <
 - Pluto is the network (also identified by `bundle`)
 - PlutoTV Spotlight is the channel
 	
-## 7.8 - Counting Billable Events and Tracked Ads
+## 7.8 - Counting Billable Events and Tracked Ads <a name="counting"></a>
 	
 There are multiple conventions for how to count billable events or tracked ads via OpenRTB, typically an impression or other such common metric. This section outlines the common ones, addresses common mistakes, and offers a comparison of the approaches.
 	
@@ -1108,7 +1108,7 @@ These HTTP headers allow recipients of impression notifications to run anti-IVT 
 **BEST PRACTICE**: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
 	
 
-## 7.9 - Digital Out-Of-Home
+## 7.9 - Digital Out-Of-Home <a name="dooh"></a>
 
 This section details the unique differences between trading the online world of digital display and real-world aspects of Digital Out-Of-Home (DOOH) media. Each sub section references the key objects that enable DOOH to be traded using the OpenRTB standard.
 	
@@ -1483,17 +1483,17 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 }
 ```
 
-## 7.10 - Updated Video Signals
+## 7.10 - Updated Video Signals <a name="videosignals"></a>
 #### 7.10.1 - Examples 
 #### 7.10.1.1<strong> Instream Video:</strong>
 Pre-roll, mid-roll, and post-roll ads that are played before, during or after the streaming video content that the consumer has requested. Instream video must be set to “sound on” by default at player start, or have explicitly clear user intent to watch the video content. While there may be other content surrounding the player, the video content must be the focus of the user’s visit. It should remain the primary content on the page and the only video player in-view capable of audio when playing. If the player converts to floating/sticky subsequent ad calls should accurately convey the updated player size.
 	
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/Instream.gif)
+![](assets/Instream.gif)
 	
 #### 7.10.1.2<strong> Accompanying Content:</strong>
 Pre-roll, mid-roll, and post-roll ads that are played before, during, or after streaming video content. The video player loads and plays before, between, or after paragraphs of text or graphical content, and starts playing only when it enters the viewport. Accompanying content should only start playback upon entering the viewport. It may convert to a floating/sticky player as it scrolls off the page.
 
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/Accompanying%20Content.gif)
+![](assets/Accompanying%20Content.gif)
 
 #### 7.10.1.3<strong> Interstitial: </strong>
 Video ads that are played without video content. During playback, it must be the primary focus of the page and take up the majority of the viewport and cannot be scrolled out of view. This can be in placements like in-app video or slideshows.
@@ -1503,12 +1503,12 @@ Example file coming soon!
 #### 7.10.1.4<strong> No Content/Standalone: </strong> 
 Video ads that are played without streaming video content. This can be in placements like slideshows, native feeds, in-content or sticky/floating.
 
-![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/No%20Content_Standalone%20-%20Slideshow.gif)
+![](assets/No%20Content_Standalone%20-%20Slideshow.gif)
 
 
 #### 7.10.2 - Using plcmt attribute in Object: Video
 
-The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a new attribute (<code>plcmt</code> in <a href="https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/develop/2.6.md#327---object-video-">Object: Video</a>) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
+The release of updated definitions in AdCOM List: Plcmt Subtypes – Video and a new attribute (<code>plcmt</code> in [Object: Video](2.6.md#objectvideo)) to give publishers a way to signal video inventory in a way that more closely aligns with the updated ad format guidelines without breaking existing workstreams. 
 
 <strong> Case 1: In-stream to Instream </strong>
 	
