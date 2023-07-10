@@ -1534,3 +1534,23 @@ Here is an example ad request:
 	“plcmt”: “4” 
 	}
 
+## 7.11 - Guidance on the Use of Floors <a name="floors"></a>
+
+### 7.11.1 - History of Floors Fields
+
+In versions of OpenRTB prior to 2.6-202307, floors were provided in the `Imp` and `Deal` objects with the fields `imp.bidfloor` and `deal.bidfloor`, respectively. The initial release of OpenRTB 2.6 (PDF version, pre-GitHub) introduced the `mincpmpersec` field in the `Audio` and `Video` objects, which was the first time that floor-related information was associated with specific formats.
+
+As of OpenRTB 2.6-202307, `mincpmpersec` was also added to the `Deal` object, to allow sellers of audio or video supply to indicate to buyers the relationship between the duration of ads and their floor price in the ad server (in recognition of the fact that in audio/video ad serving, longer duration ads are typically priced higher than shorter ones). Concurrently, a new object serving a similar purpose, known as Duration Floors (see [Object: DurFloors](2.6.md#objectdurfloors)), was added to the `Audio` and `Video` objects, as well as the `Deal` object. The purpose of Duration Floors is to allow sellers to express a nonlinear relationship between the duration of creatives and the associated floor price of the impression opportunity.
+
+### 7.11.2 - How Sellers Should Provide Floor Guidance
+
+Sellers may specify floors in 3 locations within a BidRequest:
+- `Imp` (via `imp.bidfloor`)
+- `Video` or `Audio` (via `video.mincpmpersec` or `video.durfloors`, or `audio.mincpmpersec` or `audio.durfloors`)
+- `Deal` (via `deal.bidfloor` or `deal.mincpmpersec` or `deal.durfloors`)
+
+In the `Video` and `Audio` objects, sellers must only include one form of floor guidance. In other words, a seller should either provide `mincpmpersec` or `durfloors`. Similarly, in the `Deal` object, a seller should either provide `mincpmpersec` or `durfloors` or `bidfloor`.
+
+### 7.11.2 - How Buyers Should Interpret Floor Guidance
+
+Buyers bidding with a specific Deal ID should use the floor guidance provided in the corresponding `Deal` object. If there is no floor guidance in the `Deal` object or the buyer is bidding on an Open Market impression opportunity, the buyer should use the floor guidance provided in the corresponding `Video` or `Audio` object to inform their bids. Finally, if no floors are provided in the `Video` or `Audio` objects or the buyer is bidding on a Native or Banner impression opportunity, the buyer should use the floor guidance provided in the `Imp` object.
