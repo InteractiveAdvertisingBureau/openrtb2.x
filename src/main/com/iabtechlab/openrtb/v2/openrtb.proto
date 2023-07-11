@@ -1,0 +1,37 @@
+syntax = "proto2";
+
+option java_outer_classname = "OpenRtb";
+package com.iabtechlab.openrtb.v2;
+
+// Copyright 2020 IAB Tech Lab
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// OpenRTB extensions ("ext" fields in the spec & JSON representation)
+// are represented here by Protocol Buffer extensions. This proto only
+// reserves the range of IDs 100-9999 at every extensible object. Beware
+// that upstream authors of a message may reserve extension IDs for their
+// own use, so an author is not free to propagate a message adding their
+// own extensions.
+
+// OpenRTB 2.0: The top-level bid request object contains a globally unique
+// bid request or auction ID. This id attribute is required as is at least one
+// impression object (Section 3.2.2). Other attributes in this top-level object
+// establish rules and restrictions that apply to all impressions being offered.
+//
+// There are also several subordinate objects that provide detailed data to
+// potential buyers. Among these are the Site and App objects, which describe
+// the type of published media in which the impression(s) appear.
+// These objects are highly recommended, but only one applies to a given
+// bid request depending on whether the media is browser-based web content
+// or a non-browser application, respectively.
