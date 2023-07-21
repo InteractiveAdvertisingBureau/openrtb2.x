@@ -1488,7 +1488,7 @@ message BidRequest {
       optional string keywords = 5;
 
       // Array of keywords about the user. Only one of keywords or kwarray may be present.
-      repeated string kwarray = 0;
+      repeated string kwarray = 9;
     }
 
     // Optional feature to pass bidder data set in the exchange's cookie.
@@ -1506,7 +1506,7 @@ message BidRequest {
 
     // When GDPR regulations are in effect this attribute contains the
     // Transparency and Consent Framework’s Consent String data structure.
-    optional string consent = 9;
+    optional string consent = 10;
 
     // Details for support of a standard protocol for multiple third party
     // identity providers.
