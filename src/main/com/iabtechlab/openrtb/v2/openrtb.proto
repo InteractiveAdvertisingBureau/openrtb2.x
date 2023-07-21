@@ -267,13 +267,13 @@ message BidRequest {
     optional string us_privacy = 6;
 
     // Global Privacy Platform string containing encoded consumer privacy choices.
-    optional string gpp = 3;
+    optional string gpp = 2;
 
     // Array of GPP string section ID(s) in force for the current transaction.
     // In most cases, this field should have a single section ID. In rare
     // occasions where such a single section ID can not be determined, the
     // field may contain up to 2 values, separated by a comma.
-    repeated int32 gpp_sid = 4 [packed = true];
+    repeated int32 gpp_sid = 3 [packed = true];
 
     // Retired fields.
     reserved 2;
