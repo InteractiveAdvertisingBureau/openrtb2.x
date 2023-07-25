@@ -187,7 +187,7 @@ message BidRequest {
       // Version of the supply chain specification in use, in the format of
       // "major.minor". For example, for version 1.0 of the spec, use the string
       // "1.0".
-      optional string ver = 2;
+      optional string ver = 3;
 
       // Array of SupplyChainNode objects in the order of the chain. In a
       // complete supply chain, the first node represents the initial
@@ -195,7 +195,7 @@ message BidRequest {
       // owner of the site, app, or other medium. In an incomplete supply chain,
       // it represents the first known node. The last node represents the entity
       // sending this bid request.
-      repeated SupplyChainNode nodes = 3;
+      repeated SupplyChainNode nodes = 2;
 
       // This object is associated with a SupplyChain object as an array of
       // nodes. These nodes define the identity of an entity participating in
@@ -494,8 +494,21 @@ message BidRequest {
       // relative to the associated video, where 0 = concurrent, 1 = end-card.
       optional bool vcm = 16;
 
-      // Retired fields.
-      reserved 11 to 14;
+      // Maximum width in device independent pixels (DIPS).
+      // DEPRECATED in OpenRTB 2.4+, REMOVED in 2.6+; prefer the field format.
+      optional int32 wmax = 11 [deprecated = true];
+
+      // Maximum height in device independent pixels (DIPS).
+      // DEPRECATED in OpenRTB 2.4+, REMOVED in 2.6+; prefer the field format.
+      optional int32 hmax = 12 [deprecated = true];
+
+      // Minimum width in device independent pixels (DIPS).
+      // DEPRECATED in OpenRTB 2.4+, REMOVED in 2.6+; prefer the field format.
+      optional int32 wmin = 13 [deprecated = true];
+
+      // Minimum height in device independent pixels (DIPS).
+      // DEPRECATED in OpenRTB 2.4+, REMOVED in 2.6+; prefer the field format.
+      optional int32 hmin = 14 [deprecated = true];
 
       // Extensions.
       extensions 100 to 9999;
@@ -699,8 +712,11 @@ message BidRequest {
       // Refer to enum com.iabtechlab.adcom.v1.CompanionType for generic values.
       repeated int32 companiontype = 20 [packed = true];
 
+      // DEPRECATED in OpenRTB 2.3+, REMOVED in 2.6.
+      optional int32 protocol = 5 [deprecated = true];
+
       // Retired fields.
-      reserved 5, 22;
+      reserved 22;
 
       // Extensions.
       extensions 100 to 9999;
@@ -1695,25 +1711,25 @@ message BidRequest {
 
     // Placeholder for vendor specific extensions to this object.
     extensions 100 to 9999;
-  }
 
-  // OpenRTB 2.6: Further identification based on User-Agent Client Hints, the
-  // BrandVersion object is used to identify a device’s browser or similar
-  // software component, and the user agent's execution platform or operating
-  // system.
-  message BrandVersion {
-    // A brand identifier, for example, "Chrome" or "Windows". The value may be
-    // sourced from the User-Agent Client Hints headers, representing either
-    // the user agent brand (from the Sec-CH-UA-Full-Version header) or the
-    // platform brand (from the Sec-CH-UA-Platform header).
-    optional string brand = 1;
+    // OpenRTB 2.6: Further identification based on User-Agent Client Hints, the
+    // BrandVersion object is used to identify a device’s browser or similar
+    // software component, and the user agent's execution platform or operating
+    // system.
+    message BrandVersion {
+      // A brand identifier, for example, "Chrome" or "Windows". The value may be
+      // sourced from the User-Agent Client Hints headers, representing either
+      // the user agent brand (from the Sec-CH-UA-Full-Version header) or the
+      // platform brand (from the Sec-CH-UA-Platform header).
+      optional string brand = 1;
 
-    // A sequence of version components, in descending hierarchical order
-    // (major, minor, micro, ...).
-    repeated string version = 2;
+      // A sequence of version components, in descending hierarchical order
+      // (major, minor, micro, ...).
+      repeated string version = 2;
 
-    // Placeholder for vendor specific extensions to this object.
-    extensions 100 to 9999;
+      // Placeholder for vendor specific extensions to this object.
+      extensions 100 to 9999;
+    }
   }
 
   // A programmatic impression is often referred to as a ‘spot’ in digital
