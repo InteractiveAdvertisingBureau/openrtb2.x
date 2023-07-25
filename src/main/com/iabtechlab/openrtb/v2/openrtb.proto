@@ -1246,7 +1246,7 @@ message BidRequest {
 
     // Additional content data. Each Data object represents a different
     // data source.
-    repeated Data data = 26;
+    repeated Data data = 28;
 
     // Details about the network the content is on.
     optional Network network = 30;
@@ -1255,7 +1255,7 @@ message BidRequest {
     optional Channel channel = 31;
 
     // Retired fields.
-    reserved 8;
+    reserved 8, 26;
 
     // Extensions.
     extensions 100 to 9999;
