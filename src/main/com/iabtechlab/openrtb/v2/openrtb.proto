@@ -275,9 +275,6 @@ message BidRequest {
     // field may contain up to 2 values, separated by a comma.
     repeated int32 gpp_sid = 3 [packed = true];
 
-    // Retired fields.
-    reserved 2;
-
     // Extensions.
     extensions 100 to 9999;
   }
