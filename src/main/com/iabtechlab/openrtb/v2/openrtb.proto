@@ -1202,6 +1202,10 @@ message BidRequest {
     // Refer to enum com.iabtechlab.adcom.v1.ProductionQuality for generic values.
     optional int32 prodq = 25;
 
+    // Video quality.
+    // Refer to enum com.iabtechlab.adcom.v1.ProductionQuality for generic values.
+    optional int32 videoquality = 8 [deprecated = true];
+
     // Type of content (game, video, text, etc.).
     optional int32 context = 20;
 
@@ -1255,7 +1259,7 @@ message BidRequest {
     optional Channel channel = 31;
 
     // Retired fields.
-    reserved 8, 26;
+    reserved 26;
 
     // Extensions.
     extensions 100 to 9999;
