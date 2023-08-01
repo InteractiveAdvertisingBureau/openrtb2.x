@@ -3,6 +3,16 @@
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
 
+### [7.1 - No-Bid Signaling](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#71---no-bid-signaling-)
+### [7.2 - Impression Expiration](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#72---impression-expiration-)
+### [7.3 - PMP & Direct Deals](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#73---pmp--direct-deals-)
+### [7.4 - Skippability](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#74---skippability-)
+### [7.5 - Regs Resources](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#75---regs-resources-)
+### [7.6 - Pod Bidding for Video and Audio](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#76---pod-bidding-for-video-and-audio-)
+### [7.7 - Network vs Channel Example Cases](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#77---network-vs-channel-example-cases-)
+### [7.8 - Counting Billable Events and Tracked Ads](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#78---counting-billable-events-and-tracked-ads-)
+### [7.9 - Digital Out-Of-Home](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#79---digital-out-of-home-)
+### [7.10 - Updated Video Signals](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#710---updated-video-signals)
 ### [7.11 - Signaling Podcast Inventory](signalingpodcastinventory)
 	
 ## 7.1 - No-Bid Signaling <a name="nobadsignaling"></a>
@@ -45,6 +55,8 @@ Make best effort to classify and reject non-human traffic (NHT) requests for ads
 - For exchanges, filtering the impression means that the exchange should respond to the “ad call” with either a blank HTTP 204 response or an unpaid ad (PSA) and not offered to any bidders.
 - For bidders, filtering the impression means that the bidder should respond with a no-bid.
 - For both exchanges and bidders, the impression transaction records should be clearly marked in any logging systems and be removed from contributing to any event counts associated with planning, forecasting, and reporting systems.
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 	
 ## 7.2 - Impression Expiration <a name="impressionexpiration"></a>
 	
@@ -77,7 +89,9 @@ The following expiration times are offered as examples of reasonable delays base
 	<tr>
 		<td>Audio or video with server-side stitching</td><td>Very Long or Unknown</td></tr>
 	</table>
-	
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
+
 ## 7.3 - PMP & Direct Deals <a name="pmpdirectdeals"></a>
 	
 **Best Practice Bidding Logic** <a name="bestpracticebiddinglogic"></a>
@@ -202,7 +216,9 @@ With Deal ID buyers are sellers are communicating directly. The Exchange and Bid
 	
 - Same as Case-6.
 - Deal ID represents some combination of private first-party data from the Publisher.
-	
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
+ 
 ## 7.4 - Skippability <a name="skippability"></a>
 	
 This section clarifies the common use cases related to declaring skippability of video creatives.
@@ -286,6 +302,8 @@ When responding to Case-3 with this skippable attribute specified in the bid, th
 ```
 	
 In Case-1 and Case-2 where the publisher may impose its own skippability, creative attribute 16 should not be specified. Furthermore, publishers are advised to filter responses containing attribute 16 since this could conflict with the skip button rendered by the publisher. When using a VAST 3.0 response, publishers may choose to implement support for VAST 3.0 `skipoffset` at their discretion and ads should be assumed to play non-skippable if the player does not support it.
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 	
 ## 7.5 - Regs Resources <a name="regsresources"></a>
 	
@@ -298,6 +316,7 @@ Please see the below resources for more details and framework specifications sho
 
 **<a href="https://github.com/InteractiveAdvertisingBureau/USPrivacy">CCPA (California Consumer Privacy Act)</a>**
 
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 
 ## 7.6 - Pod Bidding for Video and Audio <a name="podbidding"></a>
 	
@@ -975,7 +994,7 @@ BidResponse
 }
 ```
 
-	
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)	
 	
 ## 7.7 - Network vs Channel Example Cases <a name="networkvschannel"></a>
 	
@@ -1002,7 +1021,9 @@ Starting in version 2.6, OpenRTB now supports Network and Channel objects. See <
 - Samsung TV is the device
 - Pluto is the network (also identified by `bundle`)
 - PlutoTV Spotlight is the channel
-	
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
+
 ## 7.8 - Counting Billable Events and Tracked Ads <a name="countingbillableevents"></a>
 	
 There are multiple conventions for how to count billable events or tracked ads via OpenRTB, typically an impression or other such common metric. This section outlines the common ones, addresses common mistakes, and offers a comparison of the approaches.
@@ -1109,10 +1130,13 @@ These HTTP headers allow recipients of impression notifications to run anti-IVT 
 	
 **BEST PRACTICE**: When firing impression notifications via HTTP request from the server-side, the notifier should establish an [ads.cert Call Sign](https://iabtechlab.com/wp-content/uploads/2021/09/2-ads-cert-call-signs-pc.pdf) and make use of the [ads.cert Authenticated Connections protocol](https://iabtechlab.com/wp-content/uploads/2021/09/3-ads-cert-authenticated-connections-pc.pdf) to cryptographically sign notifications. This allows recipients of impression notifications, who’ve established ads.cert Call Signs of their own, to authenticate the sender for anti-fraud purposes.
 	
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 
 ## 7.9 - Digital Out-Of-Home <a name="dooh"></a>
 
 This section details the unique differences between trading the online world of digital display and real-world aspects of Digital Out-Of-Home (DOOH) media. Each sub section references the key objects that enable DOOH to be traded using the OpenRTB standard.
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 	
 ### 7.9.1 -  Multiple/Variable Impressions
 The OpenRTB trading method was built around the assumption that a targeted user holds one device and is served an ad as they visit a webpage e.g. One impression = One user.
@@ -1485,6 +1509,8 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 }
 ```
 
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
+
 ## 7.10 - Updated Video Signals
 #### 7.10.1 - Examples 
 #### 7.10.1.1<strong> Instream Video:</strong>
@@ -1535,6 +1561,8 @@ Here is an example ad request:
 	“placement”: “3”
 	“plcmt”: “4” 
 	}
+
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
 
 ## 7.11 - Signaling Podcast Inventory <a name="signalingpodcastinventory"></a>
 
@@ -1600,3 +1628,4 @@ Providing clear identification of content is just as important as listener ident
 ### 7.11.3 - Updates and Feedback for Signaling Podcast Inventory
 Thank you for your attention to these important implementation guidelines for signaling podcast inventory. We are open to your feedback and suggestions that will help us achieve our above stated goals. For questions or comments on these implementation guidelines, please post an issue or email support@iabtechlab.com.
 
+[Top](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#7-implementation-notes-)
