@@ -1010,15 +1010,13 @@ message BidRequest {
     // Details about the Content (Section 3.2.9) within the site.
     optional Content content = 12;
 
-    oneof keywords_oneof {
-      // Comma separated list of keywords about the site. Only one of keywords or
-      // kwarray may be present.
-      optional string keywords = 13;
+    // Comma separated list of keywords about the site. Only one of keywords or
+    // kwarray may be present.
+    optional string keywords = 13;
 
-      // Array of keywords about the site. Only one of keywords or kwarray may be
-      // present.
-      repeated string kwarray = 0;
-    }
+    // Array of keywords about the site. Only one of keywords or kwarray may be
+    // present.
+    repeated string kwarray = 0;
 
     // A domain to be used for inventory authorization in the case of inventory
     // sharing arrangements between a site owner and content owner. This field
@@ -1093,15 +1091,13 @@ message BidRequest {
     // Details about the Content (Section 3.2.9) within the app.
     optional Content content = 12;
 
-    oneof keywords_oneof {
-      // Comma separated list of keywords about the app. Only one of keywords or
-      // kwarray may be present.
-      optional string keywords = 13;
+    // Comma separated list of keywords about the app. Only one of keywords or
+    // kwarray may be present.
+    optional string keywords = 13;
 
-      // Array of keywords about the app. Only one of keywords or kwarray may be
-      // present.
-      repeated string kwarray = 0;
-    }
+    // Array of keywords about the app. Only one of keywords or kwarray may be
+    // present.
+    repeated string kwarray = 0;
 
     // A domain to be used for inventory authorization in the case of inventory
     // sharing arrangements between an app owner and content owner. This field
@@ -1500,13 +1496,11 @@ message BidRequest {
     // Gender as "M" male, "F" female, "O" Other. (Null indicates unknown)
     optional string gender = 4 [deprecated = true];
 
-    oneof keywords_oneof {
-      // Comma separated list of keywords, interests, or intent. Only one of keywords or kwarray may be present.
-      optional string keywords = 5;
+    // Comma separated list of keywords, interests, or intent. Only one of keywords or kwarray may be present.
+    optional string keywords = 5;
 
-      // Array of keywords about the user. Only one of keywords or kwarray may be present.
-      repeated string kwarray = 9;
-    }
+    // Array of keywords about the user. Only one of keywords or kwarray may be present.
+    repeated string kwarray = 9;
 
     // Optional feature to pass bidder data set in the exchange's cookie.
     // The string must be in base85 cookie safe characters and be in any format.
