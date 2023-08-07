@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+import "openrtb.proto";
+option java_outer_classname = "OpenRtbExt";
+package com.iabtechlab.openrtb.v2;
+
+// Copyright 2019 IAB Tech Lab
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Ad Exchange extensions for the Regs object.
+message RegsExt {
+  // Callers should fill this field solely based on whether the impression
+  // will serve to an EEA user, based on information available to them. It
+  // does not constitute legal guidance on GDPR.
+  // Deprecated, recommended to use regs.gdpr instead.
+  optional bool gdpr = 1 [deprecated = true];
+
+  // OpenRTB Extension for US Privacy (CCPA)
+  // Deprecated, recommended to use regs.us_privacy instead.
+  optional string us_privacy = 2 [deprecated = true];
+
+  // This is to be populated the value of the `Sec-GPC` HTTP header from
+  // the user agent where the ad will be shown. Vendors with access to that
+  // header must populate this field with that value. Vendors receiving an
+  // OpenRTB request must populate this with the value of the same field 
+  // from the request. No other usage of this field is valid. E.g., vendors 
+  // are not to copy the GPC signal from the GPP string to this field.
+  optional string gpc = 3;
+}
+
+extend com.iabtechlab.openrtb.v2.BidRequest.Regs {
+  // Extension key for the Adx Regs.ext
+  optional RegsExt regs = 201;
+}
+
+message UniversalId {
+  // Cookie or platform-native identifier.
+  optional string id = 1;
+
+  // Type of user agent the match is from.  It is highly recommended to set
+  // this, as many DSPs separate app-native IDs from browser-based IDs and
+  // require a type value for ID resolution.
+  // Refer to enum com.iabtechlab.adcom.v1.enums.AgentType for generic values.
+  optional int32 atype = 2;
+
+  // Extensions.
+  extensions 100 to 9999;
+}
+
+// Extended identifiers support in the OpenRTB specification allows buyers to
+// use audience data in real-time bidding.  The exchange should ensure that
+// business agreements allow for the sending of this data.  Note, it is
+// assumed that exchanges and DSPs will collaborate with the appropriate
+// regulatory agencies and ID vendor(s) to ensure compliance.
+message ExtendedId {
+  // Source or technology provider responsible for the set of included IDs.
+  // Expressed as a top-level domain.
+  optional string source = 1;
+
+  // Array of extended ID UID objects from the given source.
+  repeated UniversalId uids = 2;
+
+  // Extensions.
+  extensions 100 to 9999;
+}
+
+// Ad Exchange extensions for the User object.
+message UserExt {
+  // Consent string as specified in the IAB Transparency and Consent
+  // Framework v2.
+  // Deprecated, recommended to use user.consent instead.
+  optional string consent = 1 [deprecated = true];
+
+  // Extended (third-party) identifiers for this user.
+  repeated ExtendedId eids = 2;
+}
+
+extend com.iabtechlab.openrtb.v2.BidRequest.User {
+  // Extension key for User standard extensions.
+  optional UserExt user = 202;
+}
+
+// This object represents both the links in the supply chain as well as an
+// indicator whether or not the supply chain is complete.
+message SupplyChain {
+  // Flag indicating whether the chain contains all nodes involved in the
+  // transaction leading back to the owner of the site, app or other medium of
+  // the inventory, where 0 = no, 1 = yes.
+  optional bool complete = 1;
+
+  // Version of the supply chain specification in use, in the format of
+  // “major.minor”. For example, for version 1.0 of the spec, use the string
+  // “1.0”.
+  optional string ver = 2;
+
+  // Array of SupplyChainNode objects in the order of the chain. In a complete
+  // supply chain, the first node represents the initial advertising system and
+  // seller ID involved in the transaction, i.e. the owner of the site, app, or
+  // other medium. In an incomplete supply chain, it represents the first known
+  // node. The last node represents the entity sending this bid request.
+  repeated com.iabtechlab.openrtb.v2.BidRequest.Source.SupplyChain.SupplyChainNode nodes = 3;
+
+  // Extensions.
+  extensions 100 to 9999;
+}
+
+// Ad Exchange extensions for the Source object.
+message SourceExt {
+  // The SupplyChain object enables buyers to see all parties who are selling or
+  // reselling a given bid request.
+  optional SupplyChain schain = 1;
+
+  // Identifier of the OM SDK integration. This is the same as the "name"
+  // parameter of the OMID Partner object.
+  optional string omidpn = 2;
+
+  // Version of the OM SDK integration. This is the same as the "versionString"
+  // parameter of the OMID Partner object.
+  optional string omidpv = 3;
+}
+
+extend com.iabtechlab.openrtb.v2.BidRequest.Source {
+  // Extension key for Source standard extensions.
+  optional SourceExt source = 203;
+}
+
+// Ad Exchange extensions for the Data object.
+message DataExt {
+  // Taxonomy for the segments in this Data object.
+  // Refer to enum SegmentTaxonomy (to be added) for generic values.
+  optional int32 segtax = 1;
+}
+
+extend com.iabtechlab.openrtb.v2.BidRequest.Data {
+  // Extension key for Data standard extensions.
+  optional DataExt data = 207;
+}
+
+// Ad Exchange extensions for the Imp object.
+message ImpExt {
+  // Distinct, persistent id for each ad unit on a page.
+  optional string gpid = 1;
+}
+
+extend com.iabtechlab.openrtb.v2.BidRequest.Imp {
+  // Extension key for Imp standard extensions.
+  optional ImpExt imp = 208;
+}
