@@ -56,7 +56,7 @@ message BidRequest {
     // This object should be included if the ad supported content is a Digital
     // Out-Of-Home screen. A bid request with a DOOH object must not contain a
     // site or app object.
-    Dooh dooh = 0;
+    Dooh dooh = 22;
   }
 
   // Details via a Device object (Section 3.2.11) about the user's
@@ -379,15 +379,15 @@ message BidRequest {
     // A means of passing a multiplier in the bid request, representing the
     // total quantity of impressions for adverts that display to more than one
     // person.
-    optional Qty qty = 0;
+    optional Qty qty = 20;
 
     // Timestamp when the item is estimated to be fulfilled (e.g. when a DOOH
     // impression will be displayed) in Unix format (i.e., milliseconds since
     // the epoch).
-    optional double dt = 0;
+    optional double dt = 21;
 
     // Details about ad slots being refreshed automatically.
-    optional Refresh refresh = 0;
+    optional Refresh refresh = 22;
 
     // Extensions.
     extensions 100 to 9999;
@@ -1016,7 +1016,7 @@ message BidRequest {
 
     // Array of keywords about the site. Only one of keywords or kwarray may be
     // present.
-    repeated string kwarray = 0;
+    repeated string kwarray = 14;
 
     // A domain to be used for inventory authorization in the case of inventory
     // sharing arrangements between a site owner and content owner. This field
@@ -1027,7 +1027,7 @@ message BidRequest {
     // Authorization for supply from the inventorypartnerdomain will be
     // published in the ads.txt file on the root of that domain. Refer to the
     // ads.txt 1.1 spec for more details.
-    optional string inventorypartnerdomain = 0;
+    optional string inventorypartnerdomain = 17;
 
     // Extensions.
     extensions 100 to 9999;
@@ -1097,7 +1097,7 @@ message BidRequest {
 
     // Array of keywords about the app. Only one of keywords or kwarray may be
     // present.
-    repeated string kwarray = 0;
+    repeated string kwarray = 14;
 
     // A domain to be used for inventory authorization in the case of inventory
     // sharing arrangements between an app owner and content owner. This field
@@ -1108,7 +1108,7 @@ message BidRequest {
     // Authorization for supply from the inventorypartnerdomain will be
     // published in the ads.txt file on the root of that domain. Refer to the
     // ads.txt 1.1 spec for more details.
-    optional string inventorypartnerdomain = 0;
+    optional string inventorypartnerdomain = 18;
 
     // Extensions.
     extensions 100 to 9999;
@@ -1220,9 +1220,9 @@ message BidRequest {
     // keywords or kwarray may be present.
     optional string keywords = 9;
 
-    // Array of keywords about the site. Only one of keywords or kwarray may be
+    // Array of keywords about the content. Only one of keywords or kwarray may be
     // present.
-    repeated string kwarray = 0;
+    repeated string kwarray = 12;
 
     // 0 = not live, 1 = content is live (e.g., stream, live blog).
     optional bool livestream = 13;
@@ -2495,7 +2495,7 @@ message NativeResponse {
     // To be agreed individually with the exchange, an array of key:value
     // objects for custom tracking, for example the account number of the DSP
     // with a tracking company. I.e., {“accountnumber”:”123”}.
-    optional string customdata = 0;
+    optional string customdata = 4;
 
     // Extensions.
     extensions 100 to 9999;
