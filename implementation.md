@@ -1592,10 +1592,6 @@ IAB Tech Lab recommends passing the following values as identified in the OpenRT
 #### Signaling ifa_type in the Device Object
 
 The identifier for advertisers (ifa) type is signaled in OpenRTB using [device.ext](https://github.com/ChrisBasis/openrtb/blob/master/extensions/community_extensions/ifa_type.md) to indicate the source of the id (i.e. device, publisher, SSP, or session-based). It does not enumerate platform specific ids such as Roku, Apple, or Android. When the ifa_type is provided by the device (device.ext.ifa_type=dpid), the platform is inferred based on other signals within OpenRTB.
-
-#### Supply Chain Validation
-
-Please refer to PLACEHOLDER FOR ADS.TXT GUIDANCE for information on ways to reconcile the sellers ads.txt, the confirmation of the sellers.json, and act as the foundation for Brand Safety and Suitability in podcasting, which is quickly becoming table stakes for advertising industry wide. 
  
 **Note:** Inventory that does not provide these values should be expected to be classified as “unverifiable” with the expectation that buyers are likely to de-prioritize. The passing of these signals from podcast channels will enable larger programmatic budgets from advertisers adhering to premium buying standards.
 
