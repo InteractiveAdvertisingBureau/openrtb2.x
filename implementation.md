@@ -1498,7 +1498,7 @@ Pre-roll, mid-roll, and post-roll ads that are played before, during, or after s
 #### 7.10.1.3<strong> Interstitial: </strong>
 Video ads that are played without video content. During playback, it must be the primary focus of the page and take up the majority of the viewport and cannot be scrolled out of view. This can be in placements like in-app video or slideshows.
 
-Example file coming soon!
+![](https://github.com/hillslatt/openrtb2.x/blob/develop/assets/interstitial.gif)
 
 #### 7.10.1.4<strong> No Content/Standalone: </strong> 
 Video ads that are played without streaming video content. This can be in placements like slideshows, native feeds, in-content or sticky/floating.
