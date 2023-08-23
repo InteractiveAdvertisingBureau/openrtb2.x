@@ -261,10 +261,10 @@ message BidRequest {
     optional bool coppa = 1;
 
     // Flag that indicates whether or not the request is subject to GDPR regulations.
-    optional bool gdpr = 5;
+    optional bool gdpr = 4;
 
     // Communicates signals regarding consumer privacy under US privacy regulation.
-    optional string us_privacy = 6;
+    optional string us_privacy = 5;
 
     // Global Privacy Platform string containing encoded consumer privacy choices.
     optional string gpp = 2;
