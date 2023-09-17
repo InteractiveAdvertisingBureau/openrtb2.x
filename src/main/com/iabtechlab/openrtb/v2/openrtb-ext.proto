@@ -83,7 +83,7 @@ message UserExt {
   optional string consent = 1 [deprecated = true];
 
   // Extended (third-party) identifiers for this user.
-  repeated ExtendedId eids = 2;
+  repeated ExtendedId eids = 2 [deprecated = true]
 }
 
 extend com.iabtechlab.openrtb.v2.BidRequest.User {
@@ -119,7 +119,7 @@ message SupplyChain {
 message SourceExt {
   // The SupplyChain object enables buyers to see all parties who are selling or
   // reselling a given bid request.
-  optional SupplyChain schain = 1;
+  optional SupplyChain schain = 1 [deprecated = true];
 
   // Identifier of the OM SDK integration. This is the same as the "name"
   // parameter of the OMID Partner object.
