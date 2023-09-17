@@ -1,6 +1,6 @@
-syntax = "proto3";
+syntax = "proto2";
 
-import "openrtb.proto";
+import "com/iabtechlab/openrtb/v2/openrtb.proto";
 option java_outer_classname = "OpenRtbExt";
 package com.iabtechlab.openrtb.v2;
 
@@ -83,7 +83,7 @@ message UserExt {
   optional string consent = 1 [deprecated = true];
 
   // Extended (third-party) identifiers for this user.
-  repeated ExtendedId eids = 2 [deprecated = true]
+  repeated ExtendedId eids = 2 [deprecated = true];
 }
 
 extend com.iabtechlab.openrtb.v2.BidRequest.User {
