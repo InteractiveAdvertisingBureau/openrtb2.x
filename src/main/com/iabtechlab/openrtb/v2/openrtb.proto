@@ -2573,19 +2573,19 @@ message NativeResponse {
 // OpenRTB 2.0: types of ads that can be accepted by the exchange unless
 // restricted by publisher site settings.
 enum BannerAdType {
-  BannerAdType_UNKNOWN = 0;
+  BANNER_AD_TYPE_UNKNOWN = 0;
 
   // "Usually mobile".
-  XHTML_TEXT_AD = 1;
+  BANNER_AD_TYPE_XHTML_TEXT_AD = 1;
 
   // "Usually mobile".
-  XHTML_BANNER_AD = 2;
+  BANNER_AD_TYPE_XHTML_BANNER_AD = 2;
 
   // Javascript must be valid XHTML (ie, script tags included).
-  JAVASCRIPT_AD = 3;
+  BANNER_AD_TYPE_JAVASCRIPT_AD = 3;
 
   // Iframe.
-  IFRAME = 4;
+  BANNER_AD_TYPE_IFRAME = 4;
 }
 
 // ***** OpenRTB Native enums **************************************************
@@ -2594,14 +2594,14 @@ enum BannerAdType {
 // support all asset variants or introduce new ones unique to that system.
 // To be deprecated.
 enum LayoutId {
-  LayoutId_UNKNOWN = 0;
-  CONTENT_WALL = 1;
-  APP_WALL = 2;
-  NEWS_FEED = 3;
-  CHAT_LIST = 4;
-  CAROUSEL = 5;
-  CONTENT_STREAM = 6;
-  GRID = 7;
+  LAYOUT_ID_UNKNOWN = 0;
+  LAYOUT_ID_CONTENT_WALL = 1;
+  LAYOUT_ID_APP_WALL = 2;
+  LAYOUT_ID_NEWS_FEED = 3;
+  LAYOUT_ID_CHAT_LIST = 4;
+  LAYOUT_ID_CAROUSEL = 5;
+  LAYOUT_ID_CONTENT_STREAM = 6;
+  LAYOUT_ID_GRID = 7;
   // Exchange-specific values above 500.
 }
 
@@ -2612,12 +2612,12 @@ enum LayoutId {
 // An implementing exchange may not support all asset variants or introduce
 // new ones unique to that system.
 enum AdUnitId {
-  AdUnitId_UNKNOWN = 0;
-  PAID_SEARCH_UNIT = 1;
-  RECOMMENDATION_WIDGET = 2;
-  PROMOTED_LISTING = 3;
-  IAB_IN_AD_NATIVE = 4;
-  ADUNITID_CUSTOM = 5;
+  AD_UNIT_ID_UNKNOWN = 0;
+  AD_UNIT_ID_PAID_SEARCH_UNIT = 1;
+  AD_UNIT_ID_RECOMMENDATION_WIDGET = 2;
+  AD_UNIT_ID_PROMOTED_LISTING = 3;
+  AD_UNIT_ID_IAB_IN_AD_NATIVE = 4;
+  AD_UNIT_ID_ADUNITID_CUSTOM = 5;
   // Exchange-specific values above 500.
 }
 
@@ -2628,17 +2628,17 @@ enum AdUnitId {
 // may not exist on the page - for example it's expected that most
 // content platforms have some social components, etc.
 enum ContextType {
-  ContextType_UNKNOWN = 0;
+  CONTEXT_TYPE_UNKNOWN = 0;
 
   // Content-centric context such as newsfeed, article, image gallery,
   // video gallery, or similar.
-  CONTENT = 1;
+  CONTEXT_TYPE_CONTENT = 1;
 
   // Social-centric context such as social network feed, email,
   // chat, or similar.
-  SOCIAL = 2;
+  CONTEXT_TYPE_SOCIAL = 2;
 
   // Product context such as product listings, details, recommendations,
   // reviews, or similar.
-  PRODUCT = 3;
+  CONTEXT_TYPE_PRODUCT = 3;
 }
