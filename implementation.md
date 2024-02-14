@@ -1005,7 +1005,7 @@ Starting in version 2.6, OpenRTB now supports Network and Channel objects. See [
 	
 There are multiple conventions for how to count billable events or tracked ads via OpenRTB, typically an impression or other such common metric. This section outlines the common ones, addresses common mistakes, and offers a comparison of the approaches.
 	
-This section addresses technical methods available for implementers to consume these events. These events have specific business definitions and criteria for counting eligibility set by the Media Rating Council, and implementers should also consult the[ Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm).
+This section addresses technical methods available for implementers to consume these events. These events have specific business definitions and criteria for counting eligibility set by the Media Rating Council, and implementers should also consult the[ Media Rating Council’s guidelines](https://mediaratingcouncil.org/standards-and-guidelines).
 	
 Implementers should discuss the definition of the billable event and the technical basis for counting it with their counterparties to determine a mutually acceptable approach.
 	
@@ -1072,7 +1072,7 @@ Billing notice support was introduced in OpenRTB 2.5. In this scenario, **outsid
 	
 **BEST PRACTICE**: Exchanges are highly encouraged to standardize on a client-initiated render or viewability event as the basis for the billing event. This is generally the most consistent approach in a complex supply chain scenario composed of multiple auction decision points.
 	
-**BEST PRACTICE**: Publishers should generally refer to the [Media Rating Council’s guidelines](http://mediaratingcouncil.org/Standards.htm) to determine when the criteria have been met to consider a transaction billable.
+**BEST PRACTICE**: Publishers should generally refer to the [Media Rating Council’s guidelines](https://mediaratingcouncil.org/standards-and-guidelines) to determine when the criteria have been met to consider a transaction billable.
 	
 **BEST PRACTICE**: The public internet is noisy and this event is financial in nature. If an entity calling a billing notice receives a response other than HTTP 200 or 204, it should consider a retry scheme (e.g., every 10 seconds for the next minute). Conversely, an entity receiving billing notices should endeavor to make their endpoint idempotent to avoid double counting.
 	
