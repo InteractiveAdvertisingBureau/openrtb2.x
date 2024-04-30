@@ -1603,13 +1603,15 @@ Different iterations of possible combinations are listed in the following table.
 
 ### 7.12.3 - json Examples
 #### 7.12.3.1 User and Device IDs
+
 ##### Example 1. DSP cookie derived from real-time cookie sync, subsequently observable
 "user": {
-	"buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a",
- 	"eids": {
-    	[
-     	"uids": 
-      		"atype": "2"
-		]
-  	}
-   }
+    "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a",
+    "eids": [
+  {
+  "uids": [
+  	"atype": "2"
+]
+    }
+    ]
+}
