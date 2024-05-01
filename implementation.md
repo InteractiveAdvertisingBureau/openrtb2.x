@@ -1592,7 +1592,7 @@ Different iterations of possible combinations are listed in the following table.
   <tr>
     <td>2</td>
     <td>In-app impressions, which will typically contain a type of device ID (or rather, the privacy-compliant versions of device IDs).</td>
-    <td>Match method that pertains to a single application on a single device, regardless of how the match was done. Applicable mm values could be either 5 or 6</td>  
+    <td>Match method that pertains to a single application on a single device, regardless of how the match was done. Applicable mm values could be either 1, 5 or 6</td>  
   </tr>
   <tr>
     <td>3</td>
