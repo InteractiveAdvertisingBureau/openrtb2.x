@@ -1558,12 +1558,13 @@ Buyers bidding with a specific Deal ID should use the floor guidance provided in
 ## 7.12 - ID Match Method Guidance <a name="idmm"></a>
 
 ### 7.12.1 - Best Practices for Disclosing ID Matches
-
 Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see Appendix: Cookie Syncing) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
 
-For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s id.
+For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s ID.
 
-If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming EID. For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4,5,6), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4,5,6). See example #4 below as an illustration.
+If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming Extended Identifier (EID). For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4,5,6), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4,5,6).
+
+Example 4 below outlines a workflow where an SSP is able to match to the DSP ID based on a Cookie Based Sync (mm=2) but becasue they recieved a bridged ID from the publisher (mm=3) they retain the match method of 3 to the DSP.
 
 Items in the EID array with <code>mm</code> values of 1 or 2 are generally optional/informational, but some buyers may find it useful for sellers to provide them.
 
@@ -1573,7 +1574,7 @@ Items in the EID array with <code>mm</code> values of 1 or 2 are generally optio
 <b>EXAMPLES FOR PUBLIC COMMENT ONLY</b> adsrvr.org, id5.com, liveramp.com, and others.<br></br>
 - <code>matcher</code> is the party that created the match included in the ID array, this could be a device graph vendor, or the publisher themselves.
 
-### 7.12.3 - Singaling both Agent Type and Match Method
+### 7.12.3 - Signaling both Agent Type and Match Method
 Values in the <code>atype</code> attribute should be used to describe the level of the ID in the bidstream and can apply to multiple match methods. 
 
 Different iterations of possible combinations are listed in the following table. Additional json examples for how to use <code>atype</code> alongside match method (<code>mm</code>) signaling can be found in the next section.
@@ -1658,7 +1659,7 @@ There exist scenarios in which a party may use an alternate approach to infer a 
                 "uids": [
                     {
                         "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-			"atype": "1"
+			"atype": "3"
                     }
                 ]
             }
@@ -1686,8 +1687,8 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
             "mm": 3,
             "uids": [
                 {
-                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
-		    "atype": "1"
+                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+		    "atype": "3",
                 }
             ]
         },
@@ -1697,7 +1698,8 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
             "mm": 3,
             "uids": [
                 {
-                    "id": "3d89748d-74bb-44f1-9908-298090dc2944"
+                    "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+		    "atype": "1",
                 }
             ]
         }
@@ -1719,8 +1721,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": 1,
             "uids": [
                 {
-                    "id": "3d89748d-74bb-44f1-9908-298090dc2944"
-		    "atype": "3"
+                    "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+		    "atype": "1",
                 }
             ]
         },
@@ -1731,7 +1733,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": 4,
             "uids": [
                 {
-                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
+                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+		    "atype": "3",
                 }
             ]
         }
@@ -1752,8 +1755,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": 3,
             "uids": [
                 {
-                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
-		    "atype": "2"
+                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+		    "atype": "2",
                 }
             ]
         },
@@ -1764,7 +1767,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": 3,
             "uids": [
                 {
-                    "id": "e7f8c5f2-6b4e-4565-8b0a-53d8b730143e"
+                    "id": "e7f8c5f2-6b4e-4565-8b0a-53d8b730143e",
+		    "atype": "3",
                 }
             ]
         }
@@ -1788,8 +1792,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": 4,
             "uids": [
                 {
-                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
-		    "atype": "3"
+                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+		    "atype": "3",
                 }
             ]
         }
@@ -1810,8 +1814,8 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "mm": "6",
             "uids": [
                 {
-                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
-		    "atype": "1"
+                    "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+		    "atype": "2",
                 }
             ]
         }
