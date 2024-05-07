@@ -1569,7 +1569,7 @@ Example 4 below outlines a workflow where an SSP is able to match to the DSP ID 
 Items in the EID array with <code>mm</code> values of 1 or 2 are generally optional/informational, but some buyers may find it useful for sellers to provide them.
 
 ### 7.12.2 - Roles Overview
-- <code>inserter</code> is the party that’s putting the ID into the bid request - Typically a Publisher or an SSP. In other words, the party that made the decision to put the id in the bidstream. In the case of header bidders, the inserter is the Publisher.<br></br>
+- <code>inserter</code> is the party that’s putting the ID into the bid request - Typically a Publisher or an SSP. In other words, the party that made the decision to put the id in the bidstream. In the case of header bidders, the <code>inserter</code> is the Publisher.<br></br>
 - <code>source</code>is the party that defined/created an ID. In the case of universal or alt-IDs, it’s the domain of the party who defined/created the ID itself. In the case of cookie IDs, it’s the domain of the party who the cookie belongs to.<br>
 <b>EXAMPLES FOR PUBLIC COMMENT ONLY</b> adsrvr.org, id5.com, liveramp.com, and others.<br></br>
 - <code>matcher</code> is the party that created the match included in the ID array, this could be a device graph vendor, or the publisher themselves.
