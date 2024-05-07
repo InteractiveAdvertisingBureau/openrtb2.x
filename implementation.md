@@ -1611,15 +1611,6 @@ Different iterations of possible combinations are listed in the following table.
 {
     "user": {
         "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a",
-        "eids": [
-            {
-                "uids": [
-                    {
-                        "atype": 1
-                    }
-                ]
-            }
-        ]
     }
 }
 ```
@@ -1629,15 +1620,6 @@ Different iterations of possible combinations are listed in the following table.
 {
     "device": {
         "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4",
-        "eids": [
-            {
-                "uids": [
-                    {
-                        "atype": 2
-                    }
-                ]
-            }
-        ]
     }
 }
 ```
@@ -1793,7 +1775,7 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "uids": [
                 {
                     "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-		    "atype": 3,
+		    "atype": 2,
                 }
             ]
         }
@@ -1815,7 +1797,6 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
             "uids": [
                 {
                     "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-		    "atype": 2,
                 }
             ]
         }
