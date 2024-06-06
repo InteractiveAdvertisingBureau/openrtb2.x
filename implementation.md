@@ -1554,3 +1554,257 @@ In the `Video` and `Audio` objects, sellers must only include one form of floor 
 ### 7.11.2 - How Buyers Should Interpret Floor Guidance
 
 Buyers bidding with a specific Deal ID should use the floor guidance provided in the corresponding `Deal` object. If there is no floor guidance in the `Deal` object or the buyer is bidding on an Open Market impression opportunity, the buyer should use the floor guidance provided in the corresponding `Video` or `Audio` object to inform their bids. Finally, if no floors are provided in the `Video` or `Audio` objects or the buyer is bidding on a Native or Banner impression opportunity, the buyer should use the floor guidance provided in the `Imp` object.
+
+## 7.12 - ID Match Method Guidance <a name="idmm"></a>
+
+### 7.12.1 - Best Practices for Disclosing ID Matches
+Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see Appendix: Cookie Syncing) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
+
+For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s ID.
+
+If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming Extended Identifier (EID). For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4,5,6), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4,5,6).
+
+Example 4 below outlines a workflow where an SSP is able to match to the DSP ID based on a Cookie Based Sync (<code>mm</code>=2) but becasue they recieved a bridged ID from the publisher (<code>mm</code>=3) they retain the match method of 3 to the DSP.
+
+Items in the EID array with <code>mm</code> values of 1 or 2 are generally optional/informational, but some buyers may find it useful for sellers to provide them.
+
+### 7.12.2 - Roles Overview
+- <code>inserter</code> is the party that’s putting the ID into the bid request - Typically a Publisher or an SSP. In other words, the party that made the decision to put the id in the bidstream. In the case of header bidders, the <code>inserter</code> is the Publisher.<br></br>
+- <code>source</code>is the party that defined/created an ID. In the case of universal or alt-IDs, it’s the domain of the party who defined/created the ID itself. In the case of cookie IDs, it’s the domain of the party who the cookie belongs to.<br>
+<b>EXAMPLES FOR PUBLIC COMMENT ONLY</b> adsrvr.org, id5.com, liveramp.com, and others.<br></br>
+- <code>matcher</code> is the party that created the match included in the ID array, this could be a device graph vendor, or the publisher themselves.
+
+### 7.12.3 - Signaling both Agent Type and Match Method
+Values in the <code>atype</code> attribute should be used to describe the level of the ID in the bidstream and can apply to multiple match methods. 
+
+Different iterations of possible combinations are listed in the following table. Additional json examples for how to use <code>atype</code> alongside match method (<code>mm</code>) signaling can be found in the next section.
+
+<table>
+  <tr>
+    <td><strong>atype Value</strong></td>
+    <td><strong>atype Definition</strong></td>
+    <td><strong>Possible Match Methods</strong></td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>An ID which is tied to a specific web browser or device (cookie-based, probabilistic, or other).</td>
+    <td>Any match method that pertains to one and only one browser and/or device, regardless of the method used to do the match. Any single mm value of 1, 2, 5, 6 could be applicable</td>  
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>In-app impressions, which will typically contain a type of device ID (or rather, the privacy-compliant versions of device IDs).</td>
+    <td>Match method that pertains to a single application on a single device, regardless of how the match was done. Applicable mm values could be either 1, 5 or 6</td>  
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>A person-based ID, i.e., that is the same across devices.</td>
+    <td>Match method that pertains to multiple devices, regardless of how the match was done. Applicable mm values could be either 3, 4</td> 
+  </tr>
+</table>
+
+### 7.12.4 - json Examples
+
+#### 7.12.4.1 User and Device IDs
+
+##### Example 1. DSP cookie derived from real-time cookie sync, subsequently observable
+```
+{
+  "user": {
+    "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a"
+  }
+}
+```
+
+##### Example 2. Resettable advertising ID generated by operating system
+```
+{
+  "device": {
+    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
+  }
+}
+```
+
+#### 7.12.4.2 Derrived IDs for a Single Property
+There exist scenarios in which a party may use an alternate approach to infer a DSP cookie user ID or IFA that is believed to apply or be related to the user, but cannot be directly observed. These scenarios should be conveyed using the below mechanism.
+
+##### Example 3: Request from Pub → SSP, user ID matched on hashed email, cookie not observable by SSP in the customary way
+
+```
+{
+  "user": {
+    "eids": [
+      {
+        "inserter": "pub.com",
+        "matcher": "graphvendor.com",
+        "source": "sspdomain.com",
+        "mm": "3",
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "atype": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+Note that there is no <code>buyeruid</code> in the example above. If the SSP does not have an explicit agreement from the DSP that they want to receive matched IDs in the <code>buyeruid</code> field, they would simply forward the above request to the DSP (either removing the eids array if the DSP doesn’t want to receive IDs from graphvendor.com, or retaining the array if the DSP does want to receive IDs from graphvendor.com in eids). 
+
+##### Example 4: Request from SSP → DSP corresponding to the above request from pub, where the SSP has set the DSP’s buyeruid based on a hosted cookie match table and the bridged ID they received from the pub (based on prior arrangement with the DSP only)
+
+If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that would be done as follows:
+
+<b>NOTE:</b> This method should be used ONLY in cases where a previous arrangement has been made directly between the sell-side and the DSP to express a matched ID in <code>buyeruid</code>. If no agreement is in place, the ids in question should be sent in the EIDS array. 
+
+```
+{
+  "user": {
+    "buyeruid": "3d89748d-74bb-44f1-9908-298090dc2944",
+    "eids": [
+      {
+        "matcher": "graphvendor.com",
+        "inserter": "pub.com",
+        "source": "sspdomain.com",
+        "mm": 3,
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "atype": 3
+          }
+        ]
+      },
+      {
+        "inserter": "sspdomain.com",
+        "source": "dspdomain.com",
+        "mm": 3,
+        "uids": [
+          {
+            "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+            "atype": 1
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+note that <code>mm</code>:3 is retained in this example, because the match is built on top of an ID that was itself based on cross-domain authentication (e.g. via hashed email)
+
+#### 7.12.4.3 Derrived IDs Across Multiple Properties or Devices
+##### Example 5: SSP matches their own ID to an email-based hash to provide a universal ID to the DSP in the buyeruid field (based on prior arrangement to put it in buyeruid)
+```
+{
+  "user": {
+    "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a",
+    "eids": [
+      {
+        "source": "sspdomain.com",
+        "mm": 1,
+        "uids": [
+          {
+            "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+            "atype": 1
+          }
+        ]
+      },
+      {
+        "matcher": "idvendor.com",
+        "inserter": "sspdomain.com",
+        "source": "universalid.com",
+        "mm": 4,
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "atype": 3
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+##### Example 6: On a CTV request, the publisher also provides the IFA and an alternative ID of an Apple device within that same household, based on authenticated logins across apps
+
+```
+{
+  "user": {
+    "eids": [
+      {
+        "matcher": "app-pub.com",
+        "inserter": "app-pub.com",
+        "source": "apple.com",
+        "mm": 3,
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "atype": 2
+          }
+        ]
+      },
+      {
+        "matcher": "app-pub.com",
+        "inserter": "app-pub.com",
+        "source": "alt-id.org",
+        "mm": 3,
+        "uids": [
+          {
+            "id": "e7f8c5f2-6b4e-4565-8b0a-53d8b730143e",
+            "atype": 3
+          }
+        ]
+      }
+    ]
+  },
+  "device": {
+    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
+  }
+}
+```
+
+##### Example 7: On a CTV request, the publisher provides the IFA of the TV, but also adds the IFA of an Apple device within that same household to the extended IDs array, based on the household’s IP and a device graph
+```
+{
+  "user": {
+    "eids": [
+      {
+        "matcher": "graphvendor.com",
+        "inserter": "app-pub.com",
+        "source": "apple.com",
+        "mm": 4,
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "atype": 2
+          }
+        ]
+      }
+    ]
+  },
+  "device": {
+    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
+  }
+}
+```
+#### 7.12.4.4 Session IDs
+##### Example 8: FAST (free ad-supported TV) app developer provides an ID to the SSP for a non-authenticated user, on a request with no OS-provided device ID
+```
+{
+  "user": {
+    "eids": [
+      {
+        "inserter": "app-pub.com",
+        "source": "app-pub.com",
+        "mm": "6",
+        "uids": [
+          {
+            "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
+          }
+        ]
+      }
+    ]
+  },
+  "device": {}
+}
+```
+
