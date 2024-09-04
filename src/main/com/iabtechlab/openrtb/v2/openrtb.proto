@@ -119,10 +119,19 @@ message BidRequest {
   // one of wlang or wlangb should be present.
   repeated string wlangb = 20;
 
-  // Blocked advertiser categories using the specified category taxonomy. The
-  // taxonomy to be used is defined by the cattax field. If no cattax field is
-  // supplied IAB Content Taxonomy 1.0 is assumed.
-  repeated string bcat = 12;
+  oneof categories_oneof {
+    // Allowed advertiser categories using the specified category taxonomy. The
+    // taxonomy to be used is defined by the cattax field. If no cattax field
+    // is supplied IAB Content Taxonomy 1.0 is assumed. Only one of acat or
+    // bcat should be present.
+    repeated string acat = X;
+
+    // Blocked advertiser categories using the specified category taxonomy. The
+    // taxonomy to be used is defined by the cattax field. If no cattax field
+    // is supplied IAB Content Taxonomy 1.0 is assumed. Only one of acat or
+    // bcat should be present.
+    repeated string bcat = 12;
+  }
 
   // The taxonomy in use for bcat.
   // Refer to the enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
