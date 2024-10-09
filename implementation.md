@@ -1623,7 +1623,7 @@ Different iterations of possible combinations are listed in the following table.
 }
 ```
 
-#### 7.12.4.2 Derrived IDs for a Single Property
+#### 7.12.4.2 Derived IDs for a Single Property
 There exist scenarios in which a party may use an alternate approach to infer a DSP cookie user ID or IFA that is believed to apply or be related to the user, but cannot be directly observed. These scenarios should be conveyed using the below mechanism.
 
 ##### Example 3: Request from Pub → SSP, user ID matched on hashed email, cookie not observable by SSP in the customary way
@@ -1690,7 +1690,7 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
 ```
 note that <code>mm</code> value of 3 is retained in this example, because the match is built on top of an ID that was itself based on cross-domain authentication (e.g. via hashed email)
 
-#### 7.12.4.3 Derrived IDs Across Multiple Properties or Devices
+#### 7.12.4.3 Derived IDs Across Multiple Properties or Devices
 ##### Example 5: SSP matches their own ID to an email-based hash to provide a universal ID to the DSP in the buyeruid field (based on prior arrangement to put it in buyeruid)
 ```
 {
