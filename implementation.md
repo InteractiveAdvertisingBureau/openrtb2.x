@@ -1558,11 +1558,11 @@ Buyers bidding with a specific Deal ID should use the floor guidance provided in
 ## 7.12 - ID Match Method Guidance <a name="idmm"></a>
 
 ### 7.12.1 - Best Practices for Disclosing ID Matches
-Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see Appendix: Cookie Syncing) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
+Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see [Appendix: Cookie Syncing](https://github.com/hillslatt/openrtb2.x/blob/develop/2.6.md#appendix-c-cookie-based-id-syncing-)) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
 
 For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s ID.
 
-If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming Extended Identifier (EID). For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4,5,6), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4,5,6).
+If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming Extended Identifier (EID). For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4, or 5), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4, or 5).
 
 Example 4 below outlines a workflow where an SSP is able to match to the DSP ID based on a Cookie Based Sync (<code>mm</code>=2) but becasue they recieved a bridged ID from the publisher (<code>mm</code>=3) they retain the match method of 3 to the DSP.
 
@@ -1587,17 +1587,17 @@ Different iterations of possible combinations are listed in the following table.
   <tr>
     <td>1</td>
     <td>An ID which is tied to a specific web browser or device (cookie-based, probabilistic, or other).</td>
-    <td>Any match method that pertains to one and only one browser and/or device, regardless of the method used to do the match. Any single mm value of 1, 2, 5, 6 could be applicable</td>  
+    <td>Any match method that pertains to one and only one browser and/or device, regardless of the method used to do the match. Any <code>mm</code> value could be applicable</td>  
   </tr>
   <tr>
     <td>2</td>
     <td>In-app impressions, which will typically contain a type of device ID (or rather, the privacy-compliant versions of device IDs).</td>
-    <td>Match method that pertains to a single application on a single device, regardless of how the match was done. Applicable mm values could be either 1, 5 or 6</td>  
+    <td>Match method that pertains to a single application on a single device, regardless of how the match was done. Any <code>mm</code> value could be applicable, but will most likely be 3, 4, or 5.</td>  
   </tr>
   <tr>
     <td>3</td>
     <td>A person-based ID, i.e., that is the same across devices.</td>
-    <td>Match method that pertains to multiple devices, regardless of how the match was done. Applicable mm values could be either 3, 4</td> 
+    <td>Match method that pertains to multiple devices, regardless of how the match was done. Any <code>mm</code> value could be applicable, but will most likely be 3 or 5.</td>  </td> 
   </tr>
 </table>
 
@@ -1640,7 +1640,7 @@ There exist scenarios in which a party may use an alternate approach to infer a 
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": 3
+            "atype": "3"
           }
         ]
       }
@@ -1665,22 +1665,22 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
         "matcher": "graphvendor.com",
         "inserter": "pub.com",
         "source": "sspdomain.com",
-        "mm": 3,
+        "mm": "3",
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": 3
+            "atype": "3"
           }
         ]
       },
       {
         "inserter": "sspdomain.com",
         "source": "dspdomain.com",
-        "mm": 3,
+        "mm": "3",
         "uids": [
           {
             "id": "3d89748d-74bb-44f1-9908-298090dc2944",
-            "atype": 1
+            "atype": "1"
           }
         ]
       }
@@ -1688,7 +1688,7 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
   }
 }
 ```
-note that <code>mm</code>:3 is retained in this example, because the match is built on top of an ID that was itself based on cross-domain authentication (e.g. via hashed email)
+note that <code>mm</code> value of 3 is retained in this example, because the match is built on top of an ID that was itself based on cross-domain authentication (e.g. via hashed email)
 
 #### 7.12.4.3 Derrived IDs Across Multiple Properties or Devices
 ##### Example 5: SSP matches their own ID to an email-based hash to provide a universal ID to the DSP in the buyeruid field (based on prior arrangement to put it in buyeruid)
@@ -1699,11 +1699,11 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
     "eids": [
       {
         "source": "sspdomain.com",
-        "mm": 1,
+        "mm": "1",
         "uids": [
           {
             "id": "3d89748d-74bb-44f1-9908-298090dc2944",
-            "atype": 1
+            "atype": "1"
           }
         ]
       },
@@ -1711,11 +1711,11 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
         "matcher": "idvendor.com",
         "inserter": "sspdomain.com",
         "source": "universalid.com",
-        "mm": 4,
+        "mm": "5",
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": 3
+            "atype": "3"
           }
         ]
       }
@@ -1733,11 +1733,11 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
         "matcher": "app-pub.com",
         "inserter": "app-pub.com",
         "source": "apple.com",
-        "mm": 3,
+        "mm": "3",
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": 2
+            "atype": "2"
           }
         ]
       },
@@ -1745,11 +1745,11 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
         "matcher": "app-pub.com",
         "inserter": "app-pub.com",
         "source": "alt-id.org",
-        "mm": 3,
+        "mm": "3",
         "uids": [
           {
             "id": "e7f8c5f2-6b4e-4565-8b0a-53d8b730143e",
-            "atype": 3
+            "atype": "3"
           }
         ]
       }
@@ -1770,11 +1770,11 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
         "matcher": "graphvendor.com",
         "inserter": "app-pub.com",
         "source": "apple.com",
-        "mm": 4,
+        "mm": "5",
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": 2
+            "atype": "2"
           }
         ]
       }
@@ -1794,7 +1794,7 @@ note that <code>mm</code>:3 is retained in this example, because the match is bu
       {
         "inserter": "app-pub.com",
         "source": "app-pub.com",
-        "mm": "6",
+        "mm": "4",
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
