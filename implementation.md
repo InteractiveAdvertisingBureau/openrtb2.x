@@ -1555,10 +1555,10 @@ In the `Video` and `Audio` objects, sellers must only include one form of floor 
 
 Buyers bidding with a specific Deal ID should use the floor guidance provided in the corresponding `Deal` object. If there is no floor guidance in the `Deal` object or the buyer is bidding on an Open Market impression opportunity, the buyer should use the floor guidance provided in the corresponding `Video` or `Audio` object to inform their bids. Finally, if no floors are provided in the `Video` or `Audio` objects or the buyer is bidding on a Native or Banner impression opportunity, the buyer should use the floor guidance provided in the `Imp` object.
 
-## 7.12 - ID Match Method Guidance <a name="idmm"></a>
+##  - ID Match Method Guidance <a name="idmm"></a>
 
 ### 7.12.1 - Best Practices for Disclosing ID Matches
-Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see [Appendix: Cookie Syncing](https://github.com/hillslatt/openrtb2.x/blob/develop/2.6.md#appendix-c-cookie-based-id-syncing-)) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
+Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see [Appendix: Cookie Syncing](https://github.com/hillslatt/openrtb2.x/blob/main/2.6.md#appendix-c-cookie-based-id-syncing-)) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
 
 For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s ID.
 
