@@ -1564,13 +1564,13 @@ For an Exchange to properly disclose that an ID substitution has occurred by a p
 
 If a linkage is made by any party (e.g. a SSP to a DSP cookie ID) based on an incoming EID where <code>mm</code> does not equal 1 or 2, then the ID sent to the recipient must inherit the <code>mm</code> value of the incoming Extended Identifier (EID). For example, if a SSP receives an ID based on any kind of matching (<code>mm</code> values 3,4, or 5), then even if the ID they send to the DSP is based on a cookie exchange, it must also indicate that matching occurred (i.e. <code>mm</code> values 3,4, or 5).
 
-Example 4 below outlines a workflow where an SSP is able to match to the DSP ID based on a Cookie Based Sync (<code>mm</code>=2) but becasue they recieved a bridged ID from the publisher (<code>mm</code>=3) they retain the match method of 3 to the DSP.
+Example 4 below outlines a workflow where an SSP is able to match to the DSP ID based on a Cookie Based Sync (<code>mm</code>=2) but because they received a bridged ID from the publisher (<code>mm</code>=3) they retain the match method of 3 to the DSP.
 
 Items in the EID array with <code>mm</code> values of 1 or 2 are generally optional/informational, but some buyers may find it useful for sellers to provide them.
 
 ### 7.12.2 - Roles Overview
-- <code>inserter</code> is the party that’s putting the ID into the bid request - Typically a Publisher or an SSP. In other words, the party that made the decision to put the id in the bidstream. In the case of header bidders, the <code>inserter</code> is the Publisher.<br></br>
-- <code>source</code>is the party that defined/created an ID. In the case of universal or alt-IDs, it’s the domain of the party who defined/created the ID itself. In the case of cookie IDs, it’s the domain of the party who the cookie belongs to.<br>
+- <code>inserter</code> is the party that’s putting the ID into the bid request - Typically a Publisher or an SSP. In other words, the party that made the decision to put the ID in the bidstream. In the case of header bidders, the <code>inserter</code> is the Publisher.<br></br>
+- <code>source</code>is the party that defined/created an ID. In the case of universal or alt-IDs, it’s the domain of the party who defined/created the ID itself. In the case of cookie IDs, it’s the domain of the party who the cookie belongs to Prior to sending a partner’s cookie, you are strongly encouraged to verify their preferred EID <code>source</code> value.<br>
 - <code>matcher</code> is the party that created the match included in the ID array, this could be a device graph vendor, or the publisher themselves.
 
 ### 7.12.3 - Signaling both Agent Type and Match Method
@@ -1609,7 +1609,7 @@ Different iterations of possible combinations are listed in the following table.
 ```
 {
   "user": {
-    "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a"
+    "buyeruid": "FQAGL4yyYwOBNgDZ4PUqAQA8ewN"
   }
 }
 ```
@@ -1624,7 +1624,7 @@ Different iterations of possible combinations are listed in the following table.
 ```
 
 #### 7.12.4.2 Derived IDs for a Single Property
-There exist scenarios in which a party may use an alternate approach to infer a DSP cookie user ID or IFA that is believed to apply or be related to the user, but cannot be directly observed. These scenarios should be conveyed using the below mechanism.
+There exist scenarios in which a party may use an alternate approach to infer a partners (typically a DSP or SSP) cookie user ID or IFA that is believed to apply or be related to the user, but cannot be directly observed. These scenarios should be conveyed using the below mechanism.
 
 ##### Example 3: Request from Pub → SSP, user ID matched on hashed email, cookie not observable by SSP in the customary way
 
@@ -1639,7 +1639,7 @@ There exist scenarios in which a party may use an alternate approach to infer a 
         "mm": "3",
         "uids": [
           {
-            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "id": "ZK5GQGDZ-M-DK5U",
             "atype": "3"
           }
         ]
@@ -1650,7 +1650,7 @@ There exist scenarios in which a party may use an alternate approach to infer a 
 ```
 Note that there is no <code>buyeruid</code> in the example above. If the SSP does not have an explicit agreement from the DSP that they want to receive matched IDs in the <code>buyeruid</code> field, they would simply forward the above request to the DSP (either removing the eids array if the DSP doesn’t want to receive IDs from graphvendor.com, or retaining the array if the DSP does want to receive IDs from graphvendor.com in eids). 
 
-##### Example 4: Request from SSP → DSP corresponding to the above request from pub, where the SSP has set the DSP’s buyeruid based on a hosted cookie match table and the bridged ID they received from the pub (based on prior arrangement with the DSP only)
+##### Example 4: Request from SSP → DSP corresponding to the above request from pub, where the SSP has set the DSP’s buyeruid based on a hosted cookie match table look up using the bridged ID they received from the pub (based on prior arrangement with the DSP only)
 
 If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that would be done as follows:
 
@@ -1659,16 +1659,16 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
 ```
 {
   "user": {
-    "buyeruid": "3d89748d-74bb-44f1-9908-298090dc2944",
+    "buyeruid": "FQAGL4yyYwOBNgDZ4PUqAQA8ewN",
     "eids": [
       {
-        "matcher": "graphvendor.com",
         "inserter": "pub.com",
+	"matcher": "graphvendor.com",
         "source": "sspdomain.com",
         "mm": "3",
         "uids": [
           {
-            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "id": "ZK5GQGDZ-M-DK5U",
             "atype": "3"
           }
         ]
@@ -1679,7 +1679,7 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
         "mm": "3",
         "uids": [
           {
-            "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+            "id": "FQAGL4yyYwOBNgDZ4PUqAQA8ewN",
             "atype": "1"
           }
         ]
@@ -1691,30 +1691,30 @@ If an arrangement exists to put a matched DSP ID in <code>buyeruid</code>, that 
 note that <code>mm</code> value of 3 is retained in this example, because the match is built on top of an ID that was itself based on cross-domain authentication (e.g. via hashed email)
 
 #### 7.12.4.3 Derived IDs Across Multiple Properties or Devices
-##### Example 5: SSP matches their own ID to an email-based hash to provide a universal ID to the DSP in the buyeruid field (based on prior arrangement to put it in buyeruid)
+##### Example 5: SSP matches their ID to an email-based hash to provide a universal ID to the DSP in the buyeruid field (based on prior arrangement to put it in buyeruid)
 ```
 {
   "user": {
-    "buyeruid": "fac13741-0648-436a-88cf-aceafdf45c9a",
+    "buyeruid": "JE6!-1XvQEfD3cLpz7k1zAgY85k0PRJgkXdno7R2NXvKVhKsoSY8qpSb",
     "eids": [
       {
         "source": "sspdomain.com",
         "mm": "1",
         "uids": [
           {
-            "id": "3d89748d-74bb-44f1-9908-298090dc2944",
+            "id": "ZK5GQGDZ-M-DK5U",
             "atype": "1"
           }
         ]
       },
       {
-        "matcher": "idvendor.com",
         "inserter": "sspdomain.com",
+	"matcher": "idvendor.com",
         "source": "universalid.com",
         "mm": "5",
         "uids": [
           {
-            "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
+            "id": "JE6!-1XvQEfD3cLpz7k1zAgY85k0PRJgkXdno7R2NXvKVhKsoSY8qpSb",
             "atype": "3"
           }
         ]
@@ -1723,40 +1723,40 @@ note that <code>mm</code> value of 3 is retained in this example, because the ma
   }
 }
 ```
-##### Example 6: On a CTV request, the publisher also provides the IFA and an alternative ID of an Apple device within that same household, based on authenticated logins across apps
+##### Example 6: On a CTV request, the publisher also provides the IFA of the TV and an alternative ID of an Apple device within that same household, based on authenticated logins across apps
 
 ```
 {
+  "device": {
+    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
+  },
   "user": {
     "eids": [
       {
-        "matcher": "app-pub.com",
         "inserter": "app-pub.com",
+        "matcher": "app-pub.com",
         "source": "apple.com",
-        "mm": "3",
+        "mm": 3,
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": "2"
+            "atype": 2
           }
         ]
       },
-      {
-        "matcher": "app-pub.com",
+      {       
         "inserter": "app-pub.com",
+        "matcher": "app-pub.com",
         "source": "alt-id.org",
-        "mm": "3",
+        "mm": 3,
         "uids": [
           {
             "id": "e7f8c5f2-6b4e-4565-8b0a-53d8b730143e",
-            "atype": "3"
+            "atype": 3
           }
         ]
       }
     ]
-  },
-  "device": {
-    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
   }
 }
 ```
@@ -1764,24 +1764,24 @@ note that <code>mm</code> value of 3 is retained in this example, because the ma
 ##### Example 7: On a CTV request, the publisher provides the IFA of the TV, but also adds the IFA of an Apple device within that same household to the extended IDs array, based on the household’s IP and a device graph
 ```
 {
+  "device": {
+    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
+  },
   "user": {
     "eids": [
       {
-        "matcher": "graphvendor.com",
         "inserter": "app-pub.com",
+        "matcher": "graphvendor.com",
         "source": "apple.com",
-        "mm": "5",
+        "mm": 5,
         "uids": [
           {
             "id": "fac13741-0648-436a-88cf-aceafdf45c9a",
-            "atype": "2"
+            "atype": 2
           }
         ]
       }
     ]
-  },
-  "device": {
-    "ifa": "df3a42f4-a388-43e9-a691-b0d308c963b4"
   }
 }
 ```
@@ -1797,7 +1797,7 @@ note that <code>mm</code> value of 3 is retained in this example, because the ma
         "mm": "4",
         "uids": [
           {
-            "id": "fac13741-0648-436a-88cf-aceafdf45c9a"
+            "id": "ca0b9ab6-322a-4928-a849-798df75d2042"
           }
         ]
       }
