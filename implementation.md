@@ -1555,10 +1555,10 @@ In the `Video` and `Audio` objects, sellers must only include one form of floor 
 
 Buyers bidding with a specific Deal ID should use the floor guidance provided in the corresponding `Deal` object. If there is no floor guidance in the `Deal` object or the buyer is bidding on an Open Market impression opportunity, the buyer should use the floor guidance provided in the corresponding `Video` or `Audio` object to inform their bids. Finally, if no floors are provided in the `Video` or `Audio` objects or the buyer is bidding on a Native or Banner impression opportunity, the buyer should use the floor guidance provided in the `Imp` object.
 
-##  - ID Match Method Guidance <a name="idmm"></a>
+## 7.12 - ID Match Method Guidance <a name="idmm"></a>
 
 ### 7.12.1 - Best Practices for Disclosing ID Matches
-Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see [Appendix: Cookie Syncing](https://github.com/hillslatt/openrtb2.x/blob/main/2.6.md#appendix-c-cookie-based-id-syncing-)) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
+Unless prior arrangements have been made between the buyer and the seller directly, the value in the <code>user.buyeruid</code> field is expected to be derived from a real time cookie sync (see [Appendix: Cookie Syncing](https://github.com/openrtb2.x/blob/main/2.6.md#appendix-c-cookie-based-id-syncing-) and value in <code>device.ifa</code> field is expected to be derived from an advertising ID call to the Operating System. 
 
 For an Exchange to properly disclose that an ID substitution has occurred by a publisher, they must propagate the <code>mm</code> value, as sent by the publisher, on the Extended Identifier (eid) they send to the DSP, regardless of how the SSP determined the DSP’s ID.
 
@@ -1807,3 +1807,60 @@ note that <code>mm</code> value of 3 is retained in this example, because the ma
 }
 ```
 
+## 7.13 - Using genres and gtax attributes <a name="genre"></a>
+
+### 7.13.1 Summary
+Today, the genre of a CTV program is sent using the free text <code>genre</code> attribute in OpenRTB. Because it is free text, sellers often pass their own internal naming conventions or long comma separated arrays. This makes it difficult for buyers and DSPs to programmatically utilize genre information for targeting, reporting, and forecasting use cases. IAB Tech Lab's Content Taxonomy 3.1 was designed to help with this. However, because the full taxonomy is much larger and more complex than what is typically required for CTV content genre targeting, a sub-set of the full taxonomy called the [CTV Genre](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) list that we have created is intended to ease the use of the content taxonomy for CTV/OTT genres. The genres list is intended to be utilized by sellers to declare the type of CTV content and by contextually focused buyers to understand and target based on genre signals. 
+
+The new genre list is a subset of Content Taxonomy 3.1, to be used alongside the <code>genres</code> and <code>gtax</code> in [Object: Content](#objectcontent) . These new attributes are intended to streamline implementation of CTV genre targeting and avoid integration errors by declaring genres in a distinct attribute with a smaller designated section of the taxonomy. 
+
+For publishers and SSPs, this document provides guidance on how to send content genre signals to increase demand from contextual focused buyers. For DSPs and buyers, this document provides guidance on how to take action on content genre signals when declared by sellers in the bid stream. 
+
+See: [CTV Genre Mapping](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) to read the list of new CTV content genres. 
+
+### 7.13.2 Prerequisites
+
+Publishers and SSPs will need to be able to send and read the <code>genres</code> and <code>gtax</code> in [Object: Content](2.6.md#objectcontent). The receiving party, typically a DSP, must be able to read the [Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Content%20Taxonomies/Content%20Taxonomy%203.1.tsv), or the [designated CTV genre subset](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv), being sent in the bid request. Publishers or SSPs should ensure that enumeration sent in the <code>gtax</code> attribute in [Object: Content](2.6.md#objectcontent) is understood by the receiver of the request.
+
+The the <code>genres</code> and <code>gtax</code> attributes are focused on long-form content and are meant to describe only the genre of the content being described in the bid request. Publishers and SSPs should continue to send other category information about the site or app using the <code>cat</code> and <code>cattax</code> attributes in [Object: Site](2.6.md#objectsite) or [Object: App](2.6.md#objectapp). Using the <code>cat</code> and <code>cattax</code> attributes in [Object: Content](2.6.md#objectcontent) can provide information about the content itself that is not the genre.
+
+### 7.13.3 Guidance for Sell Side 
+#### Publishers 
+The <code>genres</code> attribute in [Object: Content](2.6.md#objectcontent) is intended to replace the existing <code>genre</code> field with an enumerated values contained within the Taxonomy that the <code>gtax</code> attribute is pointing to. Publishers will need to send the <code>genres</code> and <code>gtax</code> attributes dedicated to sending information about the genre of the program to their ad tech partners. The <code>genres</code> attribute should only be used to describe the genre of the holistic piece of content. The <code>cat</code> and <code>cattax</code> attributes can be used to describe finer details contained within parts of the content instead of trying to use those attributes to describe the genre. Publishers wishing to send additional freetext metadata about the content should use the <code>keywords</code> or <code>kwarray</code> attributes in [Object: Content](2.6.md#objectcontent). 
+
+The <code>gtax</code> attribute allows buyers and sellers to align on a taxonomy that both parties are able to read. The default value of the <code>gtax</code> attribute is the [IAB Tech Lab Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Content%20Taxonomies/Content%20Taxonomy%203.1.tsv). While the entirety of [Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Content%20Taxonomies/Content%20Taxonomy%203.1.tsv) may be used, it is expected that at least the [subset of rows focused on CTV genres](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) is understood.   
+
+Content owners using vendors to classify their content should use a 500+ designation in the <code>gtax</code> attribute to designate the vendor in question, in addition to ensuring the receiving party is able to read and understand those enumerations (see Prerequisites section for additional detail). Please make sure there is an enumeration from the vendor and that your DSP partner can read. To maximize DSP support, implementers are encouraged to use the [subset of rows focused on CTV genres](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv).
+
+As a best practice, publishers should pass a minimum viable number of genres that best describe the genre of the content, starting with the most apt enumeration as the first integer in the <code>genres</code> array.  
+
+Buyers typically action on allow and block lists of genres in order to achieve scale. Simply declaring the maximum number of genres does not imply additional demand. Instead, passing too many genres makes it difficult for buyers to effectively understand the type of content and make decisions around suitability. It also limits the user experience benefit we all obtain when advertisements fit well with the content of the video. 
+
+If using content genres for deal targeting, sellers should also be mindful that allowlist and blocklist targeting is the most common way to achieve scale compared to targeting a single genre. 
+
+Allowlist targeting can be used to target all genres of a similar content type that are suitable to package together. For example, an “entertainment” package may include a number of genres grouped together. On the other hand, block list targeting can be used to eliminate genres that are not suitable for the deal’s specific targeting. 
+
+#### SSPs
+SSPs will need to upgrade from the current content <code>genre</code> attribute and instead use <code>genres</code> and <code>gtax</code> as a passthrough to DSPs. 
+
+Implementers will need to, at a minimum, read the [subset of IDs from Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) enumerated in the Tech Lab Taxonomies GitHub repository. The <code>genres</code> attribute is not compatible with any other IAB Tech Lab Taxonomy. 
+
+In the event a vendor is used to classify the content, SSPs should be able to pass through the 500+ designation in the <code>gtax</code> attribute to designate the vendor in question. As a best practice, SSPs should ensure the DSP receiving the 500+ enumeration is able to read and understand the rows of the vendor taxonomy in use. To maximize DSP support, implementers are encouraged to use the [subset of IDs from Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) enumerated in the associated Taxonomy and Mapping GitHub repository.
+
+By utilizing these attributes to standardize and enumerate the genre of a program, SSPs will be able to build reporting and/or deal targeting off of the standardized genres list across CTV inventory partners. 
+
+### 7.13.4 Guidance for Buyers and DSPs
+The subset of genres is intended to be utilized by buyers for programmatic targeting, reporting, and other use cases as provided by DSPs.  
+
+Buyers and DSPs wanting to use IAB Tech Lab’s Content Taxonomy will need to be able to, at a minimum, read the [subset of IDs from Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) enumerated in the Tech Lab Taxonomies GitHub repository. In the event a vendor is used to classify the content, DSPs should ensure they’re able to understand the 500+ designation in the <code>gtax</code> attribute and read the associated rows enumerating the actual values of the taxonomy passed in the <code>genres</code> attribute.
+
+The <code>cat</code>, <code>cattax</code> and/or <code>keywords</code> attributes should be used to describe finer details contained within parts of the content instead of trying to use those attributes to describe the genre. It should be noted that content targeting is unrelated to audience targeting and other attributes in OpenRTB 2.x that have to do with content/category of the ad creative. 
+
+Generally, buy side targeting on genres is implemented as allow and block list targeting to achieve scale. For example, an “entertainment” campaign may include a number of genres grouped together. On the other hand, block list targeting can be used to eliminate genres that are not brand suitable or do not match well with the content of the creative.  
+
+### 7.13.5 General Guidance for Genre List
+Declare the genre that best fits the CTV/OTT content within the content.genres attribute. This attribute is an integer array and contains a list of accepted genres from within [Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Content%20Taxonomies/Content%20Taxonomy%203.1.tsv). 
+
+Declare the specific taxonomy version utilized within the new content.gtax attribute to allow SSPs and DSPs to understand and read the information passed within content.genres. 
+
+As a default, a [subset of rows from the Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) should be utilized as the taxonomy enumerated in the [IAB Tech Lab Taxonomy and Mapping](https://github.com/InteractiveAdvertisingBureau/Taxonomies/tree/develop) GitHub repository. If utilizing a vendor or custom taxonomy please work with your SSPs/DSPs to ensure that those taxonomies can be read before sending. 
