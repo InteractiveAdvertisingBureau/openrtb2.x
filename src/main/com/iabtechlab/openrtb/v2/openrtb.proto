@@ -137,9 +137,6 @@ message BidRequest {
   // in force for this request.
   optional Regs regs = 14;
 
-  // Extensions.
-  extensions 100 to 9999;
-
   // This object describes the nature and behavior of the entity that is the source of the bid
   // request upstream from the exchange. The primary purpose of this object is to define
   // post-auction or upstream decisioning when the exchange itself does not control the final
@@ -225,21 +222,12 @@ message BidRequest {
         // when constructing SupplyChain objects in bid requests sent to a downstream advertising
         // system.
         optional bool hp = 6;
-
-        // Extensions.
-        extensions 100 to 9999;
       }
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // This object represents both the links in the supply chain as well as an indicator whether or
     // not the supply chain is complete. Details via the SupplyChain object (section 3.2.25).
     optional SupplyChain schain = 4;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object describes an ad placement or impression being auctioned. A single bid request can
@@ -344,9 +332,6 @@ message BidRequest {
     // Details about ad slots being refreshed automatically. (Section 3.2.33)
     optional Refresh refresh = 22;
 
-    // Extensions.
-    extensions 100 to 9999;
-
     // This object is associated with an impression as an array of metrics. These metrics can offer
     // insight into the impression to assist with decisioning such as average recent viewability,
     // click-through rate, etc. Each metric is identified by its type, reports the value of the
@@ -366,9 +351,6 @@ message BidRequest {
       // recommended.
       // RECOMMENDED by the OpenRTB specification.
       optional string vendor = 3;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // This object represents the most general type of impression. Although the term "banner" may
@@ -447,9 +429,6 @@ message BidRequest {
       // Minimum height in device independent pixels (DIPS).
       optional int32 hmin = 14 [deprecated = true];
 
-      // Extensions.
-      extensions 100 to 9999;
-
       // This object represents an allowed size (i.e., height and width combination) or Flex Ad
       // parameters for a banner impression. These are typically used in an array where multiple
       // sizes are permitted. It is recommended that either the w/h pair or the wratio/hratio/wmin
@@ -470,9 +449,6 @@ message BidRequest {
         // The minimum width in device independent pixels (DIPS) at which the ad will be displayed
         // when the size is expressed as a ratio.
         optional int32 wmin = 5;
-
-        // Extensions.
-        extensions 100 to 9999;
       }
     }
 
@@ -655,9 +631,6 @@ message BidRequest {
       // Refer to enum com.iabtechlab.adcom.v1.Creative.AudioVideoType for generic values.
       optional int32 protocol = 5 [deprecated = true];
 
-      // Extensions.
-      extensions 100 to 9999;
-
       // Retired fields.
       reserved 22;
     }
@@ -781,9 +754,6 @@ message BidRequest {
       // An array of DurFloors objects (Section 3.2.35) indicating the floor prices for audio
       // creatives of various durations that the buyer may bid with.
       repeated DurFloors durfloors = 31;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // This object represents a native type impression. Native ad units are intended to blend
@@ -832,9 +802,6 @@ message BidRequest {
       // Blocked creative attributes.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for generic values.
       repeated int32 battr = 4 [packed = true];
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // A programmatic impression is often referred to as a ‘spot' in digital out-of-home and CTV,
@@ -856,9 +823,6 @@ message BidRequest {
       // The top level business domain name of the measurement vendor providing the quantity measurement.
       // REQUIRED by the OpenRTB specification if sourcetype is equal to 1.
       optional string vendor = 3;
-
-      // Placeholder for vendor specific extensions to this object.
-      extensions 100 to 9999;
     }
 
     message Refresh {
@@ -868,9 +832,6 @@ message BidRequest {
 
       // The number of times this ad slot had been refreshed since last page load.
       optional int32 count = 2;
-
-      // Placeholder for vendor specific extensions to this object.
-      extensions 100 to 9999;
 
       // Information on how often and what triggers an ad slot being refreshed.
       message RefSettings {
@@ -882,9 +843,6 @@ message BidRequest {
         // creative. If the field is absent, the exposure time is unknown. This field does not
         // account for viewability or external factors such as a user leaving a page.
         optional int32 minint = 2;
-
-        // Placeholder for vendor specific extensions to this object.
-        extensions 100 to 9999;
       }
     }
 
@@ -899,9 +857,6 @@ message BidRequest {
       // Array of Deal (Section 3.2.12) objects that convey the specific deals applicable to this
       // impression.
       repeated Deal deals = 2;
-
-      // Extensions.
-      extensions 100 to 9999;
 
       // This object constitutes a specific deal that was struck between a buyer and a seller. Its
       // presence with the Pmp collection indicates that this impression is available under the
@@ -945,9 +900,6 @@ message BidRequest {
         // Container for floor price by duration information, to be used if a given deal is eligible
         // for video or audio demand. An array of DurFloors objects (see Section 3.2.35).
         repeated DurFloors durfloors = 9;
-
-        // Extensions.
-        extensions 100 to 9999;
       }
     }
   }
@@ -1025,9 +977,6 @@ message BidRequest {
 
     // Retired fields.
     reserved 14;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object should be included if the ad supported content is a non-browser application
@@ -1103,9 +1052,6 @@ message BidRequest {
 
     // Retired fields.
     reserved 14;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object should be included if the ad supported content is a Digital Out-Of-Home screen. A
@@ -1140,9 +1086,6 @@ message BidRequest {
 
     // Details about the Content within the DOOH placement.
     optional Content content = 8;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object describes the entity who directly supplies inventory to and is paid by the
@@ -1166,9 +1109,6 @@ message BidRequest {
 
     // Highest level domain of the seller (e.g., "seller.com").
     optional string domain = 4;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object describes the content in which the impression will appear, which may be syndicated
@@ -1293,9 +1233,6 @@ message BidRequest {
     // Refer to enum com.iabtechlab.adcom.v1.ProductionQuality for generic values.
     optional int32 videoquality = 8 [deprecated = true];
 
-    // Extensions.
-    extensions 100 to 9999;
-
     // Retired fields.
     reserved 12, 26;
   }
@@ -1322,9 +1259,6 @@ message BidRequest {
 
     // Highest level domain of the content producer (e.g., "producer.com").
     optional string domain = 4;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object describes the network an ad will be displayed on. A Network is defined as the
@@ -1345,9 +1279,6 @@ message BidRequest {
     // recommended to include the top private domain (PSL+1) for DSP targeting normalization
     // purposes.
     optional string domain = 3;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object describes the channel an ad will be displayed on. A Channel is defined as the
@@ -1368,9 +1299,6 @@ message BidRequest {
     // WABC-TV). It is recommended to include the top private domain (PSL+1) for DSP targeting
     // normalization purposes.
     optional string domain = 3;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object provides information pertaining to the device through which the user is
@@ -1504,9 +1432,6 @@ message BidRequest {
 
     // Deprecated as of OpenRTB 2.6.
     optional string macmd5 = 22 [deprecated = true];
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object encapsulates various methods for specifying a geographic location. When subordinate
@@ -1566,9 +1491,6 @@ message BidRequest {
 
     // Local time as the number +/- of minutes from UTC.
     optional int32 utcoffset = 10;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // Structured user agent information, which can be used when a client supports User-Agent Client
@@ -1619,9 +1541,6 @@ message BidRequest {
     // The source of data used to create this object.
     // Refer to enum com.iabtechlab.adcom.v1.enums.UserAgentSource for generic values
     optional int32 source = 7 [default = 0];
-
-    // Placeholder for vendor specific extensions to this object
-    extensions 100 to 9999;
   }
 
   // Further identification based on User-Agent Client Hints, the BrandVersion object is used to
@@ -1635,9 +1554,6 @@ message BidRequest {
 
     // A sequence of version components, in descending hierarchical order (major, minor, micro, …)
     repeated string version = 2;
-
-    // Placeholder for vendor specific extensions to this object
-    extensions 100 to 9999;
   }
 
   // This object contains information known or derived about the human user of the device (i.e., the
@@ -1718,9 +1634,6 @@ message BidRequest {
       // UIDs object (Section 3.2.28)
       repeated UID uids = 2;
 
-      // Extensions.
-      extensions 100 to 9999;
-
       // This object contains a single user identifier provided as part of extended identifiers. The
       // exchange should ensure that business agreements allow for the sending of this data.
       message UID {
@@ -1732,18 +1645,12 @@ message BidRequest {
         // resolution.
         // Refer to enum com.iabtechlab.adcom.v1.enums.AgentType for generic values.
         optional int32 atype = 2;
-
-        // Extensions.
-        extensions 100 to 9999;
       }
     }
 
     // Details for support of a standard protocol for multiple third party identity providers
     // (Section 3.2.27).
     repeated EID eids = 11;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // The data and segment objects together allow additional data about the related object (e.g.,
@@ -1761,9 +1668,6 @@ message BidRequest {
     // Array of Segment (Section 3.2.22) objects that contain the actual data values.
     repeated Segment segment = 3;
 
-    // Extensions.
-    extensions 100 to 9999;
-
     // Segment objects are essentially key-value pairs that convey specific units of data. The
     // parent Data object is a collection of such values from a given data provider. The specific
     // segment names and value options must be published by the exchange a priori to its bidders.
@@ -1776,9 +1680,6 @@ message BidRequest {
 
       // String representation of the data segment value.
       optional string value = 3;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
   }
 
@@ -1807,9 +1708,6 @@ message BidRequest {
     // GPP Section 3 (Header) and 4 (Signal Integrity) do not need to be included. See the GPP
     // Section Information for more details.
     repeated int32 gpp_sid = 3 [packed = true];
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // This object allows sellers to specify price floors for video and audio creatives, whose price
@@ -1832,9 +1730,6 @@ message BidRequest {
     // range, expressed in CPM. For any creatives whose durations are outside of the defined
     // min/max, the 'bidfloor' at the 'Imp' level will serve as the default floor.
     optional double bidfloor = 3 [default = 0.0];
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 }
 
@@ -1870,9 +1765,6 @@ message BidResponse {
   // Refer to enum com.iabtechlab.openrtb.v3.NoBidReason for generic values.
   optional int32 nbr = 6;
 
-  // Extensions.
-  extensions 100 to 9999;
-
   // A bid response can contain multiple SeatBid objects, each on behalf of a different bidder seat
   // and each containing one or more individual bids. If multiple impressions are presented in the
   // request, the group attribute can be used to specify if a seat is willing to accept any
@@ -1888,9 +1780,6 @@ message BidResponse {
 
     // 0 = impressions can be won individually; 1 = impressions must be won or lost as a group.
     optional bool group = 3 [default = false];
-
-    // Extensions.
-    extensions 100 to 9999;
 
     // A SeatBid object contains one or more Bid objects, each of which relates to a specific
     // impression in the bid request via the impid attribute and constitutes an offer to buy that
@@ -2034,9 +1923,6 @@ message BidResponse {
       // audio ad pod (e.g. first position, last position, or any).
       // Refer to enum com.iabtechlab.adcom.v1.enums.SlotPositionInPod for generic values.
       optional int32 slotinpod = 28 [default = 0];
-
-      // Extensions.
-      extensions 100 to 9999;
     }
   }
 }
@@ -2105,9 +1991,6 @@ message NativeRequest {
   // RECOMMENDED and implemented in 1.2
   optional bool privacy = 14;
 
-  // Extensions.
-  extensions 100 to 9999;
-
   // The main container object for each asset requested or supported by Exchange on behalf of the
   // rendering client. Any object that is required is to be flagged as such. Only one of the
   // {title,img,video,data} objects should be present in each object. All others should be
@@ -2135,18 +2018,12 @@ message NativeRequest {
       Data data = 6;
     }
 
-    // Extensions.
-    extensions 100 to 9999;
-
     // The Title object is to be used for title element of the Native ad.
     message Title {
       // Maximum length of the text in the title element.
       // RECOMMENDED that the value be either of: 25, 90, 140.
       // REQUIRED by the OpenRTB Native specification.
       required int32 len = 1;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // The Image object to be used for all image elements of the Native ad such as Icons, Main
@@ -2181,9 +2058,6 @@ message NativeRequest {
       // supported types in the integration docs. See Wikipedia's MIME page for more information and
       // links to all IETF RFCs. If blank, assume all types are allowed.
       repeated string mimes = 6;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // The Data Object is to be used for all non-core elements of the native unit such as Ratings,
@@ -2199,9 +2073,6 @@ message NativeRequest {
       // Maximum length of the text in the element's response. Longer strings may be truncated and
       // ellipsized by Ad Exchange or the publisher during rendering.
       optional int32 len = 2;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
   }
 
@@ -2218,9 +2089,6 @@ message NativeRequest {
     // Refer to enum com.iabtechlab.adcom.v1.enums.EventTrackingMethod for generic values.
     // REQUIRED by the OpenRTB Native specification.
     repeated int32 methods = 2;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 }
 
@@ -2274,9 +2142,6 @@ message NativeResponse {
   // targeting activity.
   optional string privacy = 9;
 
-  // Extensions.
-  extensions 100 to 9999;
-
   // Used for "call to action" assets, or other links from the Native ad. This Object should be
   // associated to its peer object in the parent Asset Object or as the master link in the top level
   // NativeResponse object. When that peer object is activated (clicked) the action should take the
@@ -2292,9 +2157,6 @@ message NativeResponse {
     // Fallback URL for deeplink. To be used if the URL given in url is not
     // supported by the device.
     optional string fallback = 3;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 
   // Corresponds to the Asset Object in the request. The main container object for each asset
@@ -2331,9 +2193,6 @@ message NativeResponse {
     // response apply.
     optional Link link = 7;
 
-    // Extensions.
-    extensions 100 to 9999;
-
     // Corresponds to the Title Object in the request, with the value filled in. If using assetsurl
     // or dcourl response rather than embedded asset response, it is recommended that three title
     // objects be provided, the length of each is less than or equal to the three recommended
@@ -2346,9 +2205,6 @@ message NativeResponse {
       // The length of the title being provided.
       // REQUIRED if using assetsurl/dcourl representation.
       optional int32 len = 2;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // Corresponds to the Image Object in the request. The Image object to be used for all image
@@ -2374,9 +2230,6 @@ message NativeResponse {
       // RECOMMENDED in 1.0, 1.1, or in 1.2 for embedded asset responses.
       // REQUIRED in 1.2 for assetsurl or dcourl if multiple assets of the same type submitted.
       optional int32 h = 3;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // Corresponds to the Data Object in the request, with the value filled in. The Data Object is
@@ -2402,9 +2255,6 @@ message NativeResponse {
       // stars" or "$10" or "3.4 stars out of 5".
       // REQUIRED by the OpenRTB Native specification.
       required string value = 2;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
 
     // Corresponds to the Video Object in the request, yet containing a value of a conforming VAST
@@ -2413,9 +2263,6 @@ message NativeResponse {
       // VAST xml.
       // REQUIRED by the OpenRTB Native specification.
       required string vasttag = 1;
-
-      // Extensions.
-      extensions 100 to 9999;
     }
   }
 
@@ -2443,9 +2290,6 @@ message NativeResponse {
     // tracking, for example the account number of the DSP with a tracking company. I.e.,
     // {"accountnumber":"123"}.
     optional string customdata = 4;
-
-    // Extensions.
-    extensions 100 to 9999;
   }
 }
 
