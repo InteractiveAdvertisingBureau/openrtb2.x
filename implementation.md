@@ -1904,6 +1904,8 @@ Providers/sources of Extended Content IDs shall decide on a root domain which th
 While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly acceptable for those parties to treat them as opaque strings and not seek to use or understand them. At a minimum, SSPs should pass these fields through, and DSPs should allow them to be used, in partnership with contextual data vendors, to activate segments for targeting. However, Sellers should be sure to send only the Extended Content IDs from vendors that the receiver of the request can read, understand, and interpret. 
 
 ### 7.14.5 JSON Example
+
+#### Example 1 - Single Extended Content Identifier Vendor : 
 ```
 {
   "app": {
@@ -1929,4 +1931,36 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
   }
 }
 ...
+```
+#### Example 2 - Multiple Extended Content Identifier Vendors: 
+```
+{
+  "app": {
+    "content": {
+      "id": "video_123",
+      "data": [
+        {
+          "name": "vendorA.com",
+          "cids": [
+            "vendorA_c73g5jq96mwso4d8"
+          ],
+          "segment": [
+            {
+              "id": "context_5784065"
+            },
+            {
+              "id": "context_5711828"
+            }
+          ]
+        },
+        {
+          "name": "vendorB.com",
+          "cids": [
+            "MV020788170000"
+          ]
+        }
+      ]
+    }
+  }
+}
 ```
