@@ -1,4 +1,4 @@
-syntax = "proto2";
+edition = "2023";
 
 option java_outer_classname = "OpenRtb";
 package com.iabtechlab.openrtb.v2;
@@ -39,7 +39,7 @@ message BidRequest {
   // exchange's subsequent tracking of the responses. The exchange may use
   // different values for different recipients.
   // REQUIRED by the OpenRTB specification.
-  optional string id = 1;
+  string id = 1;
 
   // Array of Imp objects (Section 3.2.4) representing the impressions offered.
   // At least 1 Imp object is required.
@@ -62,26 +62,26 @@ message BidRequest {
 
   // Details via a Device object (Section 3.2.18) about the user's device to
   // which the impression will be delivered.
-  optional Device device = 5;
+  Device device = 5;
 
   // Details via a User object (Section 3.2.20) about the human user of the
   // device; the advertising audience.
-  optional User user = 6;
+  User user = 6;
 
   // Indicator of test mode in which auctions are not billable, where 0 = live
   // mode, 1 = test mode.
-  optional bool test = 15 [default = false];
+  bool test = 15 [default = false];
 
   // Auction type, where 1 = First Price, 2 = Second Price Plus.
   // Exchange-specific auction types can be defined using values 500 and
   // greater.
   // Refer to enum com.iabtechlab.openrtb.v3.AuctionType for values.
-  optional int32 at = 7 [default = 2];
+  int32 at = 7 [default = 2];
 
   // Maximum time in milliseconds the exchange allows for bids to be received
   // including Internet latency to avoid timeout. This value supersedes any a
   // priori guidance from the exchange.
-  optional int32 tmax = 8;
+  int32 tmax = 8;
 
   // Allowed list of buyer seats (e.g., advertisers, agencies) allowed to bid on
   // this impression. IDs of seats and knowledge of the buyer's customers to
@@ -102,7 +102,7 @@ message BidRequest {
   // page, all video spots such as pre/mid/post roll) to support road-blocking.
   // 0 = no or unknown, 1 = yes, the impressions offered represent all that are
   // available.
-  optional bool allimps = 10 [default = false];
+  bool allimps = 10 [default = false];
 
   // Array of allowed currencies for bids on this bid request using ISO-4217
   // alpha codes. Recommended only if the exchange accepts multiple currencies.
@@ -134,7 +134,7 @@ message BidRequest {
 
   // The taxonomy in use for bcat.
   // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-  optional int32 cattax = 21 [default = 1];
+  int32 cattax = 21 [default = 1];
 
   // Block list of advertisers by their domains (e.g., "ford.com").
   repeated string badv = 13;
@@ -148,11 +148,18 @@ message BidRequest {
 
   // A Source object (Section 3.2.2) that provides data about the inventory
   // source and which entity makes the final decision.
-  optional Source source = 19;
+  Source source = 19;
 
   // A Regs object (Section 3.2.16) that specifies any industry, legal, or
   // governmental regulations in force for this request.
-  optional Regs regs = 14;
+  Regs regs = 14;
+
+  // Placeholder for exchange-specific extensions to OpenRTB.
+  Ext ext = 99;
+
+  message Ext {
+    extensions 500 to 9999;
+  }
 
   // This object describes the nature and behavior of the entity that is the
   // source of the bid request upstream from the exchange. The primary purpose
@@ -165,17 +172,29 @@ message BidRequest {
     // Entity responsible for the final impression sale decision, where 0 =
     // exchange, 1 = upstream source.
     // RECOMMENDED by the OpenRTB specification.
-    optional bool fd = 1;
+    bool fd = 1;
 
     // Transaction ID that must be common across all participants in this bid
     // request (e.g., potentially multiple exchanges).
     // RECOMMENDED by the OpenRTB specification.
-    optional string tid = 2;
+    string tid = 2;
 
     // Payment ID chain string containing embedded syntax described in the TAG
     // Payment ID Protocol v1.0.
     // RECOMMENDED by the OpenRTB specification.
-    optional string pchain = 3;
+    string pchain = 3;
+
+    // This object represents both the links in the supply chain as well as an
+    // indicator whether or not the supply chain is complete. Details via the
+    // SupplyChain object (section 3.2.25).
+    SupplyChain schain = 4;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // This object is composed of a set of nodes where each node represents a
     // specific entity that participates in the transacting of inventory. The
@@ -187,7 +206,7 @@ message BidRequest {
       // Flag indicating whether the chain contains all nodes involved in the
       // transaction leading back to the owner of the site, app or other medium
       // of the inventory, where 0 = no, 1 = yes.
-      optional bool complete = 1;
+      bool complete = 1;
 
       // Array of SupplyChainNode objects in the order of the chain. In a
       // complete supply chain, the first node represents the initial
@@ -200,7 +219,14 @@ message BidRequest {
       // Version of the supply chain specification in use, in the format of
       // "major.minor". For example, for version 1.0 of the spec, use the string
       // "1.0".
-      optional string ver = 3;
+      string ver = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // This object is associated with a SupplyChain object as an array of
       // nodes. These nodes define the identity of an entity participating in
@@ -215,7 +241,7 @@ message BidRequest {
         // facilitate WHOIS and reverse IP lookups to establish clear ownership
         // of the delegate system. This should be the same value as used to
         // identify sellers in an ads.txt file if one exists.
-        optional string asi = 1;
+        string asi = 1;
 
         // The identifier associated with the seller or reseller account within
         // the advertising system. This must contain the same value used in
@@ -223,21 +249,21 @@ message BidRequest {
         // the SSP/exchange. Typically, in OpenRTB, this is publisher.id. For
         // OpenDirect it is typically the publisher's organization ID. Should be
         // limited to 64 characters in length.
-        optional string sid = 2;
+        string sid = 2;
 
         // The OpenRTB RequestId of the request as issued by this seller.
-        optional string rid = 3;
+        string rid = 3;
 
         // The name of the company (the legal entity) that is paid for inventory
         // transacted under the given seller_id. This value is optional and
         // should NOT be included if it exists in the advertising system's
         // sellers.json file.
-        optional string name = 4;
+        string name = 4;
 
         // The business domain name of the entity represented by this node. This
         // value is optional and should NOT be included if it exists in the
         // advertising system's sellers.json file.
-        optional string domain = 5;
+        string domain = 5;
 
         // Indicates whether this node will be involved in the flow of payment
         // for the inventory. When set to 1, the advertising system in the asi
@@ -250,14 +276,16 @@ message BidRequest {
         // should ensure that they support this field and propagate it onwards
         // when constructing SupplyChain objects in bid requests sent to a
         // downstream advertising system.
-        optional bool hp = 6;
+        bool hp = 6;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
       }
     }
-
-    // This object represents both the links in the supply chain as well as an
-    // indicator whether or not the supply chain is complete. Details via the
-    // SupplyChain object (section 3.2.25).
-    optional SupplyChain schain = 4;
   }
 
   // This object describes an ad placement or impression being auctioned. A
@@ -274,67 +302,67 @@ message BidRequest {
   message Imp {
     // A unique identifier for this impression within the context of the bid
     // request (typically, value starts with 1 and increments).
-    optional string id = 1;
+    string id = 1;
 
     // An array of Metric objects (Section 3.2.5).
     repeated Metric metric = 17;
 
     // A Banner object (Section 3.2.6); required if this impression is offered
     // as a banner ad opportunity.
-    optional Banner banner = 2;
+    Banner banner = 2;
 
     // A Video object (Section 3.2.7); required if this impression is offered as
     // a video ad opportunity.
-    optional Video video = 3;
+    Video video = 3;
 
     // An Audio object (Section 3.2.8); required if this impression is offered
     // as an audio ad opportunity.
-    optional Audio audio = 15;
+    Audio audio = 15;
 
     // A Native object (Section 3.2.9); required if this impression is offered
     // as a native ad opportunity.
-    optional Native native = 13;
+    Native native = 13;
 
     // A Pmp object (Section 3.2.11) containing any private marketplace deals in
     // effect for this impression.
-    optional Pmp pmp = 11;
+    Pmp pmp = 11;
 
     // Name of ad mediation partner, SDK technology, or player responsible for
     // rendering ad (typically video or mobile). Used by some ad servers to
     // customize ad code by partner. Recommended for video and/or apps.
-    optional string displaymanager = 4;
+    string displaymanager = 4;
 
     // Version of ad mediation partner, SDK technology, or player responsible
     // for rendering ad (typically video or mobile). Used by some ad servers to
     // customize ad code by partner. Recommended for video and/or apps.
-    optional string displaymanagerver = 5;
+    string displaymanagerver = 5;
 
     // 1 = the ad is interstitial or full screen, 0 = not interstitial.
-    optional bool instl = 6;
+    bool instl = 6;
 
     // Identifier for specific ad placement or ad tag that was used to initiate
     // the auction. This can be useful for debugging of any issues, or for
     // optimization by the buyer.
-    optional string tagid = 7;
+    string tagid = 7;
 
     // Minimum bid for this impression expressed in CPM.
-    optional double bidfloor = 8 [default = 0];
+    double bidfloor = 8 [default = 0];
 
     // Currency specified using ISO-4217 alpha codes. This may be different from
     // bid currency returned by bidder if this is allowed by the exchange. This
     // currency sets the default for all floors specified in the Imp object.
-    optional string bidfloorcur = 9 [default = "USD"];
+    string bidfloorcur = 9 [default = "USD"];
 
     // Indicates the type of browser opened upon clicking the creative in an
     // app, where 0 = embedded, 1 = native. Note that the Safari View Controller
     // in iOS 9.x devices is considered a native browser for purposes of this
     // attribute.
-    optional bool clickbrowser = 16;
+    bool clickbrowser = 16;
 
     // Flag to indicate if the impression requires secure HTTPS URL creative
     // assets and markup, where 0 = non-secure, 1 = secure. If omitted, the
     // secure state is unknown, but non-secure HTTP support can be assumed.
-    optional bool secure = 12;
+    bool secure = 12;
 
     // Array of exchange-specific names of supported iframe busters.
     repeated string iframebuster = 10;
@@ -344,31 +372,41 @@ message BidRequest {
     // additional news article for free, receive an extra life in a game, or get
     // a sponsored ad-free music session. The reward is typically distributed
     // after the video ad is completed.
-    optional bool rwdd = 18 [default = false];
+    bool rwdd = 18 [default = false];
 
     // Indicates if server-side ad insertion (e.g., stitching an ad into an
     // audio or video stream) is in use and the impact of this on asset and
     // tracker retrieval, where 0 = status unknown, 1 = all client-side (i.e.,
     // not server-side), 2 = assets stitched server-side but tracking pixels
     // fired client-side, 3 = all server-side.
-    optional int32 ssai = 19 [default = 0];
+    int32 ssai = 19 [default = 0];
 
     // Advisory as to the number of seconds that may elapse between the auction
     // and the actual impression.
-    optional int32 exp = 14;
+    int32 exp = 14;
 
     // A means of passing a multiplier in the bid request, representing the
     // total quantity of impressions for adverts that display to more than one
     // person.
-    optional Qty qty = 20;
+    Qty qty = 20;
 
     // Timestamp when the item is estimated to be fulfilled (e.g. when a DOOH
     // impression will be displayed) in Unix format (i.e., milliseconds since
     // the epoch).
-    optional double dt = 21;
+    double dt = 21;
 
     // Details about ad slots being refreshed automatically. (Section 3.2.33)
-    optional Refresh refresh = 22;
+    Refresh refresh = 22;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      // Distinct, persistent id for each ad unit on a page.
+      string gpid = 1;
+
+      extensions 500 to 9999;
+    }
 
     // This object is associated with an impression as an array of metrics.
     // These metrics can offer insight into the impression to assist with
@@ -379,18 +417,25 @@ message BidRequest {
       // Type of metric being presented using exchange curated string names
       // which should be published to bidders a priori.
       // REQUIRED by the OpenRTB specification.
-      optional string type = 1;
+      string type = 1;
 
       // Number representing the value of the metric. Probabilities must be in
       // the range 0.0 - 1.0.
       // REQUIRED by the OpenRTB specification.
-      optional double value = 2;
+      double value = 2;
 
       // Source of the value using exchange curated string names which should be
       // published to bidders a priori. If the exchange itself is the source
       // versus a third party, "EXCHANGE" is recommended.
       // RECOMMENDED by the OpenRTB specification.
-      optional string vendor = 3;
+      string vendor = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // This object represents the most general type of impression. Although the
@@ -415,24 +460,24 @@ message BidRequest {
 
       // Width in device independent pixels (DIPS); recommended if no Format
       // objects are specified.
-      optional int32 w = 1;
+      int32 w = 1;
 
       // Height in device independent pixels (DIPS); recommended if no Format
       // objects are specified.
-      optional int32 h = 2;
+      int32 h = 2;
 
       // Blocked banner ad types.
       // Refer to enum BannerAdType for values.
-      repeated int32 btype = 5 [packed = true];
+      repeated int32 btype = 5;
 
       // Blocked creative attributes.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for
       // values.
-      repeated int32 battr = 6 [packed = true];
+      repeated int32 battr = 6;
 
       // Ad position on screen.
       // Refer to enum com.iabtechlab.adcom.v1.PlacementPosition for values.
-      optional int32 pos = 4;
+      int32 pos = 4;
 
       // Content MIME types supported. Popular MIME types may include,
       // "image/jpeg" and "image/gif".
@@ -440,45 +485,52 @@ message BidRequest {
 
       // Indicates if the banner is in the top frame as opposed to an iframe,
       // where 0 = no, 1 = yes.
-      optional bool topframe = 8;
+      bool topframe = 8;
 
       // Directions in which the banner may expand.
       // Refer to enum com.iabtechlab.adcom.v1.enums.ExpandableDirection for
       // values.
-      repeated int32 expdir = 9 [packed = true];
+      repeated int32 expdir = 9;
 
       // List of supported API frameworks for this impression. If an API is not
       // explicitly listed, it is assumed not to be supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.APIFramework for values.
-      repeated int32 api = 10 [packed = true];
+      repeated int32 api = 10;
 
       // Unique identifier for this banner object. Recommended when Banner
       // objects are used with a Video object (Section 3.2.7) to represent an
       // array of companion ads. Values usually start at 1 and increase with
       // each object; should be unique within an impression.
-      optional string id = 3;
+      string id = 3;
 
       // Relevant only for Banner objects used with a Video object (Section
       // 3.2.7) in an array of companion ads. Indicates the companion banner
       // rendering mode relative to the associated video, where 0 = concurrent,
       // 1 = end-card.
-      optional bool vcm = 16;
+      bool vcm = 16;
 
       // NOTE: Deprecated in favor of the format array.
       // Maximum width in device independent pixels (DIPS).
-      optional int32 wmax = 11 [deprecated = true];
+      int32 wmax = 11 [deprecated = true];
 
       // NOTE: Deprecated in favor of the format array.
       // Maximum height in device independent pixels (DIPS).
-      optional int32 hmax = 12 [deprecated = true];
+      int32 hmax = 12 [deprecated = true];
 
       // NOTE: Deprecated in favor of the format array.
       // Minimum width in device independent pixels (DIPS).
-      optional int32 wmin = 13 [deprecated = true];
+      int32 wmin = 13 [deprecated = true];
 
       // NOTE: Deprecated in favor of the format array.
       // Minimum height in device independent pixels (DIPS).
-      optional int32 hmin = 14 [deprecated = true];
+      int32 hmin = 14 [deprecated = true];
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // This object represents an allowed size (i.e., height and width
       // combination) or Flex Ad parameters for a banner impression. These are
@@ -487,20 +539,27 @@ message BidRequest {
       // (i.e., for Flex Ads) be specified.
       message Format {
         // Width in device independent pixels (DIPS).
-        optional int32 w = 1;
+        int32 w = 1;
 
         // Height in device independent pixels (DIPS).
-        optional int32 h = 2;
+        int32 h = 2;
 
         // Relative width when expressing size as a ratio.
-        optional int32 wratio = 3;
+        int32 wratio = 3;
 
         // Relative height when expressing size as a ratio.
-        optional int32 hratio = 4;
+        int32 hratio = 4;
 
         // The minimum width in device independent pixels (DIPS) at which the ad
         // will be displayed when the size is expressed as a ratio.
-        optional int32 wmin = 5;
+        int32 wmin = 5;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
       }
     }
 
@@ -526,24 +585,24 @@ message BidRequest {
       // with rqddurs; only one of minduration and rqddurs may be in a bid
       // request.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 minduration = 3 [default = 0];
+      int32 minduration = 3 [default = 0];
 
       // Maximum video ad duration in seconds. This field is mutually exclusive
       // with rqddurs; only one of maxduration and rqddurs may be in a bid
       // request.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 maxduration = 4;
+      int32 maxduration = 4;
 
       // Indicates the start delay in seconds for pre-roll, mid-roll, or
       // post-roll ad placements.
       // Refer to enum com.iabtechlab.adcom.v1.StartDelayMode for values.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 startdelay = 8;
+      int32 startdelay = 8;
 
       // Indicates the maximum number of ads that may be served into a "dynamic"
       // video ad pod (where the precise number of ads is not predetermined by
       // the seller). See Section 7.6 for more details.
-      optional int32 maxseq = 28;
+      int32 maxseq = 28;
 
       // Indicates the total amount of time in seconds that advertisers may fill
       // for a "dynamic" video ad pod (See Section 7.6 for more details), or the
@@ -551,105 +610,105 @@ message BidRequest {
       // the dynamic portion(s) of video ad pods. This field refers to the
       // length of the entire ad break, whereas minduration/maxduration/rqddurs
       // are constraints relating to the slots that make up the pod.
-      optional int32 poddur = 29;
+      int32 poddur = 29;
 
       // Array of supported video bid response protocols.
       // Refer to enum com.iabtechlab.adcom.v1.Creative.AudioVideoType for
       // values.
-      repeated int32 protocols = 21 [packed = true];
+      repeated int32 protocols = 21;
 
       // Width of the video player in device independent pixels (DIPS).
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 w = 6;
+      int32 w = 6;
 
       // Height of the video player in device independent pixels (DIPS).
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 h = 7;
+      int32 h = 7;
 
       // Unique identifier indicating that an impression opportunity belongs to
       // a video ad pod. If multiple impression opportunities within a bid
       // request share the same podid, this indicates that those impression
       // opportunities belong to the same video ad pod.
-      optional string podid = 30;
+      string podid = 30;
 
       // The sequence (position) of the video ad pod within a content stream.
       // Refer to in AdCOM 1.0 for guidance on the use of this field.
-      optional int32 podseq = 31 [default = 0];
+      int32 podseq = 31 [default = 0];
 
       // Precise acceptable durations for video creatives in seconds. This field
       // specifically targets the Live TV use case where non-exact ad durations
       // would result in undesirable ‘dead air'. This field is mutually
       // exclusive with minduration and maxduration; if rqddurs is specified,
       // minduration and maxduration must not be specified and vice versa.
-      repeated int32 rqddurs = 32 [packed = true];
+      repeated int32 rqddurs = 32;
 
       // Deprecated as of OpenRTB 2.6-202303. Use plcmt instead.
       // Refer to enum com.iabtechlab.adcom.v1.VideoPlacementSubtype for values.
-      optional int32 placement = 26 [deprecated = true];
+      int32 placement = 26 [deprecated = true];
 
       // Video placement type for the impression.
       // Refer to enum com.iabtechlab.adcom.v1.VideoPlcmtSubtype for values.
-      optional int32 plcmt = 35;
+      int32 plcmt = 35;
 
       // Indicates if the impression must be linear, nonlinear, etc. If none
       // specified, assume all are allowed. Note that this field describes the
       // expected VAST response and not whether a placement is in-stream,
       // out-stream, etc. For that, see plcmt.
       // Refer to enum com.iabtechlab.adcom.v1.enums.LinearityMode for values.
-      optional int32 linearity = 2;
+      int32 linearity = 2;
 
       // Indicates if the player will allow the video to be skipped, where 0 =
       // no, 1 = yes. If a bidder sends markup/creative that is itself
       // skippable, the Bid object should include the attr array with an element
       // of 16 indicating skippable video. Refer to List: Creative Attributes in
       // AdCOM 1.0.
-      optional bool skip = 23;
+      bool skip = 23;
 
       // Videos of total duration greater than this number of seconds can be
       // skippable; only applicable if the ad is skippable.
-      optional int32 skipmin = 24;
+      int32 skipmin = 24;
 
       // Number of seconds a video must play before skipping is enabled; only
       // applicable if the ad is skippable.
-      optional int32 skipafter = 25;
+      int32 skipafter = 25;
 
       // Deprecated as of OpenRTB 2.6. Use slotinpod.
       // If multiple ad impressions are offered in the same bid request, the
       // sequence number will allow for the coordinated delivery of multiple
       // creatives.
-      optional int32 sequence = 9 [default = 0, deprecated = true];
+      int32 sequence = 9 [default = 0, deprecated = true];
 
       // For video ad pods, this value indicates that the seller can guarantee
       // delivery against the indicated slot position in the pod. Refer to List:
       // Slot Position in Pod in AdCOM 1.0 guidance on the use of this field.
-      optional int32 slotinpod = 33 [default = 0];
+      int32 slotinpod = 33 [default = 0];
 
       // Minimum CPM per second. This is a price floor for the "dynamic" portion
       // of a video ad pod, relative to the duration of bids an advertiser may
       // submit.
-      optional double mincpmpersec = 34;
+      double mincpmpersec = 34;
 
       // Blocked creative attributes.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for
       // values.
-      repeated int32 battr = 10 [packed = true];
+      repeated int32 battr = 10;
 
       // Maximum extended video ad duration, if extension is allowed. If blank
       // or 0, extension is not allowed. If -1, extension is allowed, and there
       // is no time limit imposed. If greater than 0, then the value represents
       // the number of seconds of extended play supported beyond the maxduration
       // value.
-      optional int32 maxextended = 11;
+      int32 maxextended = 11;
 
       // Minimum bit rate in Kbps (kilobits per second).
-      optional int32 minbitrate = 12;
+      int32 minbitrate = 12;
 
       // Maximum bit rate in Kbps (kilobits per second).
-      optional int32 maxbitrate = 13;
+      int32 maxbitrate = 13;
 
       // Indicates if letter-boxing of 4:3 content into a 16:9 window is
       // allowed, where 0 = no, 1 = yes.
-      optional bool boxingallowed = 14 [default = true];
+      bool boxingallowed = 14 [default = true];
 
       // Playback methods that may be in use. If none are specified, any method
       // may be used. Only one method is typically used in practice. As a
@@ -657,20 +716,20 @@ message BidRequest {
       // of the specification. It is strongly advised to use only the first
       // element of this array in preparation for this change.
       // Refer to enum com.iabtechlab.adcom.v1.PlaybackMethod for values.
-      repeated int32 playbackmethod = 15 [packed = true];
+      repeated int32 playbackmethod = 15;
 
       // The event that causes playback to end.
       // Refer to enum com.iabtechlab.adcom.v1.PlaybackCessationMode for values.
-      optional int32 playbackend = 27;
+      int32 playbackend = 27;
 
       // Supported delivery methods (e.g., streaming, progressive). If none
       // specified, assume all are supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.DeliveryMethod for values.
-      repeated int32 delivery = 16 [packed = true];
+      repeated int32 delivery = 16;
 
       // Ad position on screen.
       // Refer to enum com.iabtechlab.adcom.v1.PlacementPosition for values.
-      optional int32 pos = 17;
+      int32 pos = 17;
 
       // Array of Banner objects (Section 3.2.6) if companion ads are available.
       repeated Banner companionad = 18;
@@ -678,19 +737,19 @@ message BidRequest {
       // List of supported API frameworks for this impression. If an API is not
       // explicitly listed, it is assumed not to be supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.APIFramework for values.
-      repeated int32 api = 19 [packed = true];
+      repeated int32 api = 19;
 
       // Supported VAST companion ad types. Recommended if companion Banner
       // objects are included via the companionad array. If one of these banners
       // will be rendered as an end-card, this can be specified using the vcm
       // attribute with the particular banner (Section 3.2.6).
       // Refer to enum com.iabtechlab.adcom.v1.CompanionType for values.
-      repeated int32 companiontype = 20 [packed = true];
+      repeated int32 companiontype = 20;
 
       // Indicates pod deduplication settings that will be applied to bid
       // responses.
       // PROVISIONAL in the OpenRTB specification.
-      repeated int32 poddedupe = 37 [packed = true];
+      repeated int32 poddedupe = 37;
 
       // An array of DurFloors objects (Section 3.2.35) indicating the floor
       // prices for video creatives of various durations that the buyer may bid
@@ -700,7 +759,14 @@ message BidRequest {
       // Deprecated; use protocols.
       // Refer to enum com.iabtechlab.adcom.v1.Creative.AudioVideoType for
       // values.
-      optional int32 protocol = 5 [deprecated = true];
+      int32 protocol = 5 [deprecated = true];
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // Retired fields.
       reserved 22;
@@ -728,13 +794,13 @@ message BidRequest {
       // with rqddurs; only one of minduration and rqddurs may be in a bid
       // request.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 minduration = 2 [default = 0];
+      int32 minduration = 2 [default = 0];
 
       // Maximum audio ad duration in seconds. This field is mutually exclusive
       // with rqddurs; only one of maxduration and rqddurs may be in a bid
       // request.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 maxduration = 3;
+      int32 maxduration = 3;
 
       // Indicates the total amount of time that advertisers may fill for a
       // "dynamic" audio ad pod, or the dynamic portion of a "hybrid" ad pod.
@@ -742,19 +808,19 @@ message BidRequest {
       // pods. This field refers to the length of the entire ad break, wheras
       // minduration/maxduration/rqddurs are constraints relating to the slots
       // that make up the pod.
-      optional int32 poddur = 25;
+      int32 poddur = 25;
 
       // Array of supported audio protocols.
       // Refer to enum com.iabtechlab.adcom.v1.Creative.AudioVideoType for
       // values.
       // RECOMMENDED by the OpenRTB specification.
-      repeated int32 protocols = 4 [packed = true];
+      repeated int32 protocols = 4;
 
       // Indicates the start delay in seconds for pre-roll, mid-roll, or
       // post-roll ad placements.
       // Refer to enum com.iabtechlab.adcom.v1.StartDelayMode for values.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 startdelay = 5;
+      int32 startdelay = 5;
 
       // Precise acceptable durations for audio creatives in seconds. This field
       // specifically targets the live audio/radio use case where non-exact ad
@@ -762,51 +828,51 @@ message BidRequest {
       // mutually exclusive with minduraiton and maxduration; if rqddurs is
       // specified, minduration and maxduration must not be specified and vice
       // versa.
-      repeated int32 rqddurs = 26 [packed = true];
+      repeated int32 rqddurs = 26;
 
       // Unique identifier indicating that an impression opportunity belongs to
       // an audio ad pod. If multiple impression opportunities within a bid
       // request share the same podid, this indicates that those impression
       // opportunities belong to the same audio ad pod.
-      optional string podid = 27;
+      string podid = 27;
 
       // The sequence (position) of the audio ad pod within a content stream.
-      optional int32 podseq = 28 [default = 0];
+      int32 podseq = 28 [default = 0];
 
       // Deprecated as of OpenRTB 2.6. Use slotinpod.
-      optional int32 sequence = 6 [default = 0, deprecated = true];
+      int32 sequence = 6 [default = 0, deprecated = true];
 
       // For audio ad pods, this value indicates that the seller can guarantee
       // delivery against the indicated slot position in the pod.
-      optional int32 slotinpod = 29 [default = 0];
+      int32 slotinpod = 29 [default = 0];
 
       // Minimum CPM per second. This is a price floor for the "dynamic" portion
       // of an audio ad pod, relative to the duration of bids an advertiser may
       // submit.
-      optional double mincpmpersec = 30;
+      double mincpmpersec = 30;
 
       // Blocked creative attributes.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for
       // values.
-      repeated int32 battr = 7 [packed = true];
+      repeated int32 battr = 7;
 
       // Maximum extended video ad duration, if extension is allowed. If blank
       // or 0, extension is not allowed. If -1, extension is allowed, and there
       // is no time limit imposed. If greater than 0, then the value represents
       // the number of seconds of extended play supported beyond the maxduration
       // value.
-      optional int32 maxextended = 8;
+      int32 maxextended = 8;
 
       // Minimum bit rate in Kbps (kilobits per second).
-      optional int32 minbitrate = 9;
+      int32 minbitrate = 9;
 
       // Maximum bit rate in Kbps (kilobits per second).
-      optional int32 maxbitrate = 10;
+      int32 maxbitrate = 10;
 
       // Supported delivery methods (e.g., streaming, progressive). If none
       // specified, assume all are supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.DeliveryMethod for values.
-      repeated int32 delivery = 11 [packed = true];
+      repeated int32 delivery = 11;
 
       // Array of Banner objects (Section 3.2.6) if companion ads are available.
       repeated Banner companionad = 12;
@@ -814,33 +880,40 @@ message BidRequest {
       // List of supported API frameworks for this impression. If an API is not
       // explicitly listed, it is assumed not to be supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.APIFramework for values.
-      repeated int32 api = 13 [packed = true];
+      repeated int32 api = 13;
 
       // Supported companion ad types. Recommended if companion Banner objects
       // are included via the companionad array.
       // Refer to enum com.iabtechlab.adcom.v1.CompanionType for values.
-      repeated int32 companiontype = 20 [packed = true];
+      repeated int32 companiontype = 20;
 
       // The maximum number of ads that can be played in an ad pod.
-      optional int32 maxseq = 21;
+      int32 maxseq = 21;
 
       // Type of audio feed.
       // Refer to enum com.iabtechlab.adcom.v1.enums.FeedType for values.
-      optional int32 feed = 22;
+      int32 feed = 22;
 
       // Indicates if the ad is stitched with audio content or delivered
       // independently, where 0 = no, 1 = yes.
-      optional bool stitched = 23;
+      bool stitched = 23;
 
       // Volume normalization mode.
       // Refer to enum com.iabtechlab.adcom.v1.VolumeNormalizationMode for
       // values.
-      optional int32 nvol = 24;
+      int32 nvol = 24;
 
       // An array of DurFloors objects (Section 3.2.35) indicating the floor
       // prices for audio creatives of various durations that the buyer may bid
       // with.
       repeated DurFloors durfloors = 31;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // This object represents a native type impression. Native ad units are
@@ -884,17 +957,24 @@ message BidRequest {
       // Version of the Native Ad Specification to which request complies;
       // highly recommended for efficient parsing.
       // RECOMMENDED by the OpenRTB specification.
-      optional string ver = 2;
+      string ver = 2;
 
       // List of supported API frameworks for this impression. If an API is not
       // explicitly listed, it is assumed not to be supported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.APIFramework for values.
-      repeated int32 api = 3 [packed = true];
+      repeated int32 api = 3;
 
       // Blocked creative attributes.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for
       // values.
-      repeated int32 battr = 4 [packed = true];
+      repeated int32 battr = 4;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // A programmatic impression is often referred to as a ‘spot' in digital
@@ -908,18 +988,25 @@ message BidRequest {
       // if this item is purchased. For example, a DOOH opportunity may be
       // considered to be 14.2 impressions. Equivalent to qtyflt in OpenRTB
       // 3.0.
-      optional double multiplier = 1;
+      double multiplier = 1;
 
       // The source type of the quantity measurement, ie. publisher.
       // Refer to enum com.iabtechlab.adcom.v1.enums.DOOHMultiplierMeasurementSourceType
       // for values.
       // RECOMMENDED by the OpenRTB specification.
-      optional int32 sourcetype = 2;
+      int32 sourcetype = 2;
 
       // The top level business domain name of the measurement vendor providing
       // the quantity measurement.
       // REQUIRED by the OpenRTB specification if sourcetype is equal to 1.
-      optional string vendor = 3;
+      string vendor = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     message Refresh {
@@ -929,19 +1016,33 @@ message BidRequest {
 
       // The number of times this ad slot had been refreshed since last page
       // load.
-      optional int32 count = 2;
+      int32 count = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // Information on how often and what triggers an ad slot being refreshed.
       message RefSettings {
         // The type of the declared auto refresh.
-        optional int32 reftype = 1 [default = 0];
+        int32 reftype = 1 [default = 0];
 
         // The minimum refresh interval in seconds. This applies to all refresh
         // types. This is the (uninterrupted) time the ad creative will be
         // rendered before refreshing to the next creative. If the field is
         // absent, the exposure time is unknown. This field does not account for
         // viewability or external factors such as a user leaving a page.
-        optional int32 minint = 2;
+        int32 minint = 2;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
       }
     }
 
@@ -953,11 +1054,18 @@ message BidRequest {
       // Indicator of auction eligibility to seats named in the Direct Deals
       // object, where 0 = all bids are accepted, 1 = bids are restricted to the
       // deals specified and the terms thereof.
-      optional bool private_auction = 1 [default = false];
+      bool private_auction = 1 [default = false];
 
       // Array of Deal (Section 3.2.12) objects that convey the specific deals
       // applicable to this impression.
       repeated Deal deals = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // This object constitutes a specific deal that was struck between a buyer
       // and a seller. Its presence with the Pmp collection indicates that this
@@ -966,23 +1074,23 @@ message BidRequest {
       message Deal {
         // A unique identifier for the direct deal.
         // REQUIRED by the OpenRTB specification.
-        optional string id = 1;
+        string id = 1;
 
         // Minimum bid for this impression expressed in CPM.
-        optional double bidfloor = 2 [default = 0];
+        double bidfloor = 2 [default = 0];
 
         // Currency specified using ISO-4217 alpha codes. This may be different
         // from bid currency returned by bidder if this is allowed by the
         // exchange. This field does not inherit from Imp.bidfloorcur; it is
         // either explicitly specified or defaults to USD.
-        optional string bidfloorcur = 3 [default = "USD"];
+        string bidfloorcur = 3 [default = "USD"];
 
         // Optional override of the overall auction type of the bid request,
         // where 1 = First Price, 2 = Second Price Plus, 3 = the value passed in
         // bidfloor is the agreed upon deal price. Additional auction types can
         // be defined by the exchange.
         // Refer to enum com.iabtechlab.openrtb.v3.AuctionType for values.
-        optional int32 at = 6;
+        int32 at = 6;
 
         // Allowed list of buyer seats (e.g., advertisers, agencies) allowed to
         // bid on this deal. IDs of seats and the buyer's customers to which
@@ -997,17 +1105,24 @@ message BidRequest {
         // Indicates that the deal is of type "guaranteed" and the bidder must
         // bid on the deal, where 0 = not a guaranteed deal, 1 = guaranteed
         // deal.
-        optional int32 guar = 7 [default = 0];
+        int32 guar = 7 [default = 0];
 
         // Minimum CPM per second. This is a price floor for video or audio
         // impression opportunities, relative to the duration of bids an
         // advertiser may submit.
-        optional double mincpmpersec = 8;
+        double mincpmpersec = 8;
 
         // Container for floor price by duration information, to be used if a
         // given deal is eligible for video or audio demand. An array of
         // DurFloors objects (see Section 3.2.35).
         repeated DurFloors durfloors = 9;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
       }
     }
   }
@@ -1020,18 +1135,18 @@ message BidRequest {
   message Site {
     // Exchange-specific site ID.
     // RECOMMENDED by the OpenRTB specification.
-    optional string id = 1;
+    string id = 1;
 
     // Site name (may be aliased at the publisher's request).
-    optional string name = 2;
+    string name = 2;
 
     // Domain of the site (e.g., "mysite.foo.com").
-    optional string domain = 3;
+    string domain = 3;
 
     // The taxonomy in use. If no cattax field is supplied IAB Cotent Category
     // Taxonomy 1.0 is assumed.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 cattax = 16 [default = 1];
+    int32 cattax = 16 [default = 1];
 
     // Array of IAB Tech Lab content categories of the site. The taxonomy to be
     // used is defined by the cattax field.
@@ -1048,30 +1163,30 @@ message BidRequest {
     repeated string pagecat = 6;
 
     // URL of the page where the impression will be shown.
-    optional string page = 7;
+    string page = 7;
 
     // Referrer URL that caused navigation to the current page.
-    optional string ref = 9;
+    string ref = 9;
 
     // Search string that caused navigation to the current page.
-    optional string search = 10;
+    string search = 10;
 
     // Indicates if the site has been programmed to optimize layout when viewed
     // on mobile devices, where 0 = no, 1 = yes.
-    optional bool mobile = 15;
+    bool mobile = 15;
 
     // Indicates if the site has a privacy policy, where 0 = no, 1 = yes.
-    optional bool privacypolicy = 8;
+    bool privacypolicy = 8;
 
     // Details about the Publisher (Section 3.2.15) of the site.
-    optional Publisher publisher = 11;
+    Publisher publisher = 11;
 
     // Details about the Content (Section 3.2.16) within the site.
-    optional Content content = 12;
+    Content content = 12;
 
     // Comma separated list of keywords describing the site. Only one of
     // keywords or kwarray may be present.
-    optional string keywords = 13;
+    string keywords = 13;
 
     // Array of keywords about the site. Only one of keywords or kwarray may be
     // present.
@@ -1086,7 +1201,14 @@ message BidRequest {
     // for supply from the inventorypartnerdomain will be published in the
     // ads.txt file on the root of that domain. Refer to the ads.txt 1.1 spec
     // for more details.
-    optional string inventorypartnerdomain = 17;
+    string inventorypartnerdomain = 17;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // Retired fields.
     reserved 14;
@@ -1100,27 +1222,27 @@ message BidRequest {
   message App {
     // Exchange-specific app ID.
     // RECOMMENDED by the OpenRTB specification.
-    optional string id = 1;
+    string id = 1;
 
     // App name (may be aliased at the publisher's request).
-    optional string name = 2;
+    string name = 2;
 
     // The store ID of the app in an app store. See OTT/CTV Store Assigned App
     // Identification Guidelines for more details about expected strings for CTV
     // app stores. For mobile apps in Google Play Store, these should be bundle
     // or package names (e.g. com.foo.mygame). For apps in Apple App Store,
     // these should be a numeric ID.
-    optional string bundle = 8;
+    string bundle = 8;
 
     // Domain of the application. For example, "mygame.foo.com".
-    optional string domain = 3;
+    string domain = 3;
 
     // App store URL for an installed app; for QAG 1.5 compliance.
-    optional string storeurl = 16;
+    string storeurl = 16;
 
     // The taxonomy in use.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 cattax = 17 [default = 1];
+    int32 cattax = 17 [default = 1];
 
     // Array of IAB Tech Lab content categories of the app. The taxonomy to be
     // used is defined by the cattax field. If no cattax field is supplied
@@ -1138,23 +1260,23 @@ message BidRequest {
     repeated string pagecat = 6;
 
     // Application version.
-    optional string ver = 7;
+    string ver = 7;
 
     // Indicates if the app has a privacy policy, where 0 = no, 1 = yes.
-    optional bool privacypolicy = 9;
+    bool privacypolicy = 9;
 
     // 0 = app is free, 1 = the app is a paid version.
-    optional bool paid = 10;
+    bool paid = 10;
 
     // Details about the Publisher (Section 3.2.15) of the app.
-    optional Publisher publisher = 11;
+    Publisher publisher = 11;
 
     // Details about the Content (Section 3.2.16) within the app.
-    optional Content content = 12;
+    Content content = 12;
 
     // Comma separated list of keywords describing the app. Only one of keywords
     // or kwarray may be present.
-    optional string keywords = 13;
+    string keywords = 13;
 
     // Array of keywords about the app. Only one of keywords or kwarray may be
     // present.
@@ -1169,7 +1291,14 @@ message BidRequest {
     // Authorization for supply from the inventorypartnerdomain will be
     // published in the ads.txt file on the root of that domain. Refer to the
     // ads.txt 1.1 spec for more details.
-    optional string inventorypartnerdomain = 18;
+    string inventorypartnerdomain = 18;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // Retired fields.
     reserved 14;
@@ -1181,10 +1310,10 @@ message BidRequest {
   // venuetypeid, but this is not strictly required.
   message Dooh {
     // Exchange provided id for a placement or logical grouping of placements.
-    optional string id = 1;
+    string id = 1;
 
     // Name of the DOOH placement.
-    optional string name = 2;
+    string name = 2;
 
     // The type of out-of-home venue. The taxonomy to be used is defined by the
     // venuetax field. If no venuetax field is supplied, The OpenOOH Venue
@@ -1195,19 +1324,26 @@ message BidRequest {
 
     // The venue taxonomy in use.
     // Refer to enum com.iabtechlab.adcom.v1.enums.DOOHVenueTaxonomy for values.
-    optional int32 venuetypetax = 4 [default = 1];
+    int32 venuetypetax = 4 [default = 1];
 
     // Details about the publisher of the placement.
-    optional Publisher publisher = 5;
+    Publisher publisher = 5;
 
     // Domain of the inventory owner (e.g., "mysite.foo.com").
-    optional string domain = 6;
+    string domain = 6;
 
     // Comma separated list of keywords describing the DOOH placement.
-    optional string keywords = 7;
+    string keywords = 7;
 
     // Details about the Content within the DOOH placement.
-    optional Content content = 8;
+    Content content = 8;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object describes the entity who directly supplies inventory to and is
@@ -1217,14 +1353,14 @@ message BidRequest {
     // Exchange-specific seller ID. Every ID must map to only a single entity
     // that is paid for inventory transacted via that ID. Corresponds to a
     // seller_id of a seller in the exchange's sellers.json file.
-    optional string id = 1;
+    string id = 1;
 
     // Seller name (may be aliased at the seller's request).
-    optional string name = 2;
+    string name = 2;
 
     // The taxonomy in use.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 cattax = 5 [default = 1];
+    int32 cattax = 5 [default = 1];
 
     // Array of IAB Tech Lab content categories of the publisher. The taxonomy
     // to be used is defined by the cattax field. If no cattax field is supplied
@@ -1232,7 +1368,14 @@ message BidRequest {
     repeated string cat = 3;
 
     // Highest level domain of the seller (e.g., "seller.com").
-    optional string domain = 4;
+    string domain = 4;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object describes the content in which the impression will appear,
@@ -1244,57 +1387,57 @@ message BidRequest {
   // embedded in an iframe on an unknown web property or device.
   message Content {
     // ID uniquely identifying the content.
-    optional string id = 1;
+    string id = 1;
 
     // Episode number.
-    optional int32 episode = 2;
+    int32 episode = 2;
 
     // Content title. Video Examples: "Search Committee" (television), "A New
     // Hope" (movie), or "Endgame" (made for web). Non-Video Example: "Why an
     // Antarctic Glacier Is Melting So Quickly" (Time magazine article).
-    optional string title = 3;
+    string title = 3;
 
     // Content series. Video Examples: "The Office" (television), "Star Wars"
     // (movie), or "Arby 'N' The Chief" (made for web). Non-Video Example:
     // "Ecocentric" (Time Magazine blog).
-    optional string series = 4;
+    string series = 4;
 
     // Content season (e.g., "Season 3").
-    optional string season = 5;
+    string season = 5;
 
     // Artist credited with the content.
-    optional string artist = 21;
+    string artist = 21;
 
     // Genre that best describes the content (e.g., rock, pop, etc).
-    optional string genre = 22;
+    string genre = 22;
 
     // The taxonomy in use. If no gtax field is supplied rows listed, Content
     // Category Taxonomy 3.1 is assumed.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 gtax = 33 [default = 9];
+    int32 gtax = 33 [default = 9];
 
     // Array of categories that describe the genre of the content. The taxonomy
     // to be used is defined by the gtax field. If no gtax field is supplied,
     // subset of rows listed in CTV Genre Mapping of Content Category Taxonomy
     // 3.1 are assumed. See Section 7.13 in Implementation Guidance for
     // additional detail.
-    repeated int32 genres = 34 [packed = true];
+    repeated int32 genres = 34;
 
     // Album to which the content belongs; typically for audio.
-    optional string album = 23;
+    string album = 23;
 
     // International Standard Recording Code conforming to ISO-3901.
-    optional string isrc = 24;
+    string isrc = 24;
 
     // Details about the content Producer (Section 3.2.17).
-    optional Producer producer = 15;
+    Producer producer = 15;
 
     // URL of the content, for buy-side contextualization or review.
-    optional string url = 6;
+    string url = 6;
 
     // The taxonomy in use.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 cattax = 27 [default = 1];
+    int32 cattax = 27 [default = 1];
 
     // Array of IAB Tech Lab content categories that describe the content. The
     // taxonomy to be used is defined by the cattax field. If no cattax field is
@@ -1303,65 +1446,81 @@ message BidRequest {
 
     // Production quality.
     // Refer to enum com.iabtechlab.adcom.v1.ProductionQuality for values.
-    optional int32 prodq = 25;
+    int32 prodq = 25;
 
     // Type of content (game, video, text, etc.).
     // Refer to enum com.iabtechlab.adcom.v1.ContentContext for values.
-    optional int32 context = 20;
+    int32 context = 20;
 
     // Content rating (e.g., MPAA).
-    optional string contentrating = 10;
+    string contentrating = 10;
 
     // User rating of the content (e.g., number of stars, likes, etc.).
-    optional string userrating = 11;
+    string userrating = 11;
 
     // Media rating per IQG guidelines.
     // Refer to enum com.iabtechlab.adcom.v1.MediaRating for values.
-    optional int32 qagmediarating = 17;
+    int32 qagmediarating = 17;
 
     // Comma separated list of keywords describing the content. Only one of
     // keywords or kwarray may be present.
-    optional string keywords = 9;
+    string keywords = 9;
 
     // Array of keywords about the content. Only one of keywords or kwarray may
     // be present.
     repeated string kwarray = 32;
 
     // 0 = not live, 1 = content is live (e.g., stream, live blog).
-    optional bool livestream = 13;
+    bool livestream = 13;
 
     // 0 = indirect, 1 = direct.
-    optional bool sourcerelationship = 14;
+    bool sourcerelationship = 14;
 
     // Length of content in seconds; appropriate for video or audio.
-    optional int32 len = 16;
+    int32 len = 16;
 
     // Content language using ISO-639-1-alpha-2. Only one of language or langb
     // should be present.
-    optional string language = 19;
+    string language = 19;
 
     // Content language using IETF BCP 47. Only one of language or langb should
     // be present.
-    optional string langb = 29;
+    string langb = 29;
 
     // Indicator of whether or not the content is embeddable (e.g., an
     // embeddable video player), where 0 = no, 1 = yes.
-    optional bool embeddable = 18;
+    bool embeddable = 18;
 
     // Additional content data. Each Data object (Section 3.2.21) represents a
     // different data source.
     repeated Data data = 28;
 
     // Details about the network (Section 3.2.23) the content is on.
-    optional Network network = 30;
+    Network network = 30;
 
     // Details about the channel (Section 3.2.24) the content is on.
-    optional Channel channel = 31;
+    Channel channel = 31;
 
     // NOTE: Deprecated in favor of prodq.
     // Video quality per IAB's classification.
     // Refer to enum com.iabtechlab.adcom.v1.ProductionQuality for values.
-    optional int32 videoquality = 8 [deprecated = true];
+    int32 videoquality = 8 [deprecated = true];
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      // An array of URLs of content that are _directly_ adjacent to the ad
+      // placement, for buy-side contextualization or review. For example, in a
+      // typical vertical feed, there would be 2 URLs provided as adjacent to
+      // the ad (above & below). In a 9-tile example, there would be 8 URLs
+      // provided. Note : the URL to the main page (in which the feed and the
+      // ad appear) in the case of web content should be provided in the
+      // content.url field.
+      repeated string feedurls = 1;
+
+      extensions 500 to 9999;
+    }
 
     // Retired fields.
     reserved 12, 26;
@@ -1374,14 +1533,14 @@ message BidRequest {
   message Producer {
     // Content producer or originator ID. Useful if content is syndicated, and
     // may be posted on a site using embed tags.
-    optional string id = 1;
+    string id = 1;
 
     // Content producer or originator name (e.g., "Warner Bros").
-    optional string name = 2;
+    string name = 2;
 
     // The taxonomy in use.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
-    optional int32 cattax = 5 [default = 1];
+    int32 cattax = 5 [default = 1];
 
     // Array of IAB Tech Lab content categories that describe the content
     // producer. The taxonomy to be used is defined by the cattax field. If no
@@ -1389,7 +1548,14 @@ message BidRequest {
     repeated string cat = 3;
 
     // Highest level domain of the content producer (e.g., "producer.com").
-    optional string domain = 4;
+    string domain = 4;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object describes the network an ad will be displayed on. A Network is
@@ -1403,15 +1569,22 @@ message BidRequest {
   message Network {
     // A unique identifier assigned by the publisher. This may not be a unique
     // identifier across all supply sources.
-    optional string id = 1;
+    string id = 1;
 
     // Network the content is on (e.g., a TV network like "ABC").
-    optional string name = 2;
+    string name = 2;
 
     // The primary domain of the network (e.g. "abc.com" in the case of the
     // network ABC). It is recommended to include the top private domain (PSL+1)
     // for DSP targeting normalization purposes.
-    optional string domain = 3;
+    string domain = 3;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object describes the channel an ad will be displayed on. A Channel is
@@ -1424,40 +1597,47 @@ message BidRequest {
   message Channel {
     // A unique identifier assigned by the publisher. This may not be a unique
     // identifier across all supply sources.
-    optional string id = 1;
+    string id = 1;
 
     // Channel the content is on (e.g., a TV channel like "WABC-TV").
-    optional string name = 2;
+    string name = 2;
 
     // The primary domain of the channel (e.g. "abc7ny.com" in the case of the
     // local channel WABC-TV). It is recommended to include the top private
     // domain (PSL+1) for DSP targeting normalization purposes.
-    optional string domain = 3;
+    string domain = 3;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object provides information pertaining to the device through which the
   // user is interacting. Device information includes its hardware, platform,
-  // location, and carrier data.  The device can refer to a mobile handset, a
+  // location, and carrier data. The device can refer to a mobile handset, a
   // desktop computer, set top box, or other digital device.
   message Device {
     // Location of the device assumed to be the user's current location defined
     // by a Geo object (Section 3.2.19).
     // RECOMMENDED by the OpenRTB specification.
-    optional Geo geo = 4;
+    Geo geo = 4;
 
     // Standard "Do Not Track" flag as set in the header by the browser, where 0
     // = tracking is unrestricted, 1 = do not track.
     // RECOMMENDED by the OpenRTB specification.
-    optional bool dnt = 1;
+    bool dnt = 1;
 
     // "Limit Ad Tracking" signal commercially endorsed (e.g., iOS, Android),
     // where 0 = tracking is unrestricted, 1 = tracking must be limited per
     // commercial guidelines.
     // RECOMMENDED by the OpenRTB specification.
-    optional bool lmt = 23;
+    bool lmt = 23;
 
     // Browser user agent string. This field represents a raw user agent string
-    // from the browser.  For backwards compatibility, exchanges are recommended
+    // from the browser. For backwards compatibility, exchanges are recommended
     // to always populate ua with the User-Agent string, when available from the
     // end user's device, even if an alternative representation, such as the
     // User-Agent Client-Hints, is available and is used to populate sua. No
@@ -1468,73 +1648,73 @@ message BidRequest {
     // information, and ignore ua field. This is because the ua may contain a
     // frozen or reduced user agent string.
     // RECOMMENDED by the OpenRTB specification.
-    optional string ua = 2;
+    string ua = 2;
 
     // Structured user agent information defined by a UserAgent object (Section
     // 3.2.29). If both ua and sua are present in the bid request, sua should be
     // considered the more accurate representation of the device attributes.
     // This is because the ua may contain a frozen or reduced user agent string.
-    optional UserAgent sua = 31;
+    UserAgent sua = 31;
 
     // IPv4 address closest to device.
     // RECOMMENDED by the OpenRTB specification.
-    optional string ip = 3;
+    string ip = 3;
 
     // IP address closest to device as IPv6.
-    optional string ipv6 = 9;
+    string ipv6 = 9;
 
     // The general type of device.
     // Refer to enum com.iabtechlab.adcom.v1.enums.DeviceType for values.
-    optional int32 devicetype = 18;
+    int32 devicetype = 18;
 
     // Device make (e.g., "Apple").
-    optional string make = 12;
+    string make = 12;
 
     // Device model (e.g., "iPhone").
-    optional string model = 13;
+    string model = 13;
 
     // Device operating system (e.g., "iOS").
-    optional string os = 14;
+    string os = 14;
 
     // Device operating system version (e.g., "3.1.2").
-    optional string osv = 15;
+    string osv = 15;
 
     // Hardware version of the device (e.g., "5S" for iPhone 5S).
-    optional string hwv = 24;
+    string hwv = 24;
 
     // Physical width of the screen in pixels.
-    optional int32 w = 25;
+    int32 w = 25;
 
     // Physical height of the screen in pixels.
-    optional int32 h = 26;
+    int32 h = 26;
 
     // Screen size as pixels per linear inch.
-    optional int32 ppi = 27;
+    int32 ppi = 27;
 
     // The ratio of physical pixels to device independent pixels.
-    optional double pxratio = 28;
+    double pxratio = 28;
 
     // Support for JavaScript, where 0 = no, 1 = yes.
-    optional bool js = 16;
+    bool js = 16;
 
     // Indicates if the geolocation API will be available to JavaScript code
     // running in the banner, where 0 = no, 1 = yes.
-    optional bool geofetch = 29;
+    bool geofetch = 29;
 
     // Version of Flash supported by the browser.
-    optional string flashver = 19;
+    string flashver = 19;
 
     // Browser language using ISO-639-1-alpha-2. Only one of language or langb
     // should be present.
-    optional string language = 11;
+    string language = 11;
 
     // Browser language using IETF BCP 47. Only one of language or langb should
     // be present.
-    optional string langb = 32;
+    string langb = 32;
 
     // Carrier or ISP (e.g., "VERIZON") using exchange curated string names
     // which should be published to bidders a priori.
-    optional string carrier = 10;
+    string carrier = 10;
 
     // Mobile carrier as the concatenated MCC-MNC code (e.g., "310-005"
     // identifies Verizon Wireless CDMA in the USA). Refer to
@@ -1543,35 +1723,42 @@ message BidRequest {
     // parsing ambiguity. The MCC-MNC values represent the SIM installed on the
     // device and do not change when a device is roaming. Roaming may be
     // inferred by a combination of the MCC-MNC, geo, IP and other data signals.
-    optional string mccmnc = 30;
+    string mccmnc = 30;
 
     // Network connection type.
     // Refer to enum com.iabtechlab.adcom.v1.enums.ConnectionType for values.
-    optional int32 connectiontype = 17;
+    int32 connectiontype = 17;
 
     // ID sanctioned for advertiser use in the clear (i.e., not hashed). Unless
     // prior arrangements have been made between the buyer and the seller
     // directly, the value in this field is expected to be an ID derived from a
     // call to an advertising API provided by the device's Operating System.
-    optional string ifa = 20;
+    string ifa = 20;
 
     // Deprecated as of OpenRTB 2.6.
-    optional string didsha1 = 5 [deprecated = true];
+    string didsha1 = 5 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string didmd5 = 6 [deprecated = true];
+    string didmd5 = 6 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string dpidsha1 = 7 [deprecated = true];
+    string dpidsha1 = 7 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string dpidmd5 = 8 [deprecated = true];
+    string dpidmd5 = 8 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string macsha1 = 21 [deprecated = true];
+    string macsha1 = 21 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string macmd5 = 22 [deprecated = true];
+    string macmd5 = 22 [deprecated = true];
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object encapsulates various methods for specifying a geographic
@@ -1585,56 +1772,63 @@ message BidRequest {
   // geographic region such as postal code should not be passed.
   message Geo {
     // Latitude from -90.0 to +90.0, where negative is south.
-    optional double lat = 1;
+    double lat = 1;
 
     // Longitude from -180.0 to +180.0, where negative is west.
-    optional double lon = 2;
+    double lon = 2;
 
     // Source of location data; recommended when passing lat/lon.
     // Refer to enum com.iabtechlab.adcom.v1.enums.LocationType for values.
-    optional int32 type = 9;
+    int32 type = 9;
 
     // Estimated location accuracy in meters; recommended when lat/lon are
     // specified and derived from a device's location services (i.e., type = 1).
     // Note that this is the accuracy as reported from the device. Consult OS
     // specific documentation (e.g., Android, iOS) for exact interpretation.
-    optional int32 accuracy = 11;
+    int32 accuracy = 11;
 
     // Number of seconds since this geolocation fix was established. Note that
     // devices may cache location data across multiple fetches. Ideally, this
     // value should be from the time the actual fix was taken.
-    optional int32 lastfix = 12;
+    int32 lastfix = 12;
 
     // Service or provider used to determine geolocation from IP address if
     // applicable (i.e., type = 2).
     // Refer to enum com.iabtechlab.adcom.v1.enums.LocationService for values.
-    optional int32 ipservice = 13;
+    int32 ipservice = 13;
 
     // Country using ISO-3166-1 Alpha-3.
-    optional string country = 3;
+    string country = 3;
 
     // Region code using ISO-3166-2; 2-letter state code if USA.
-    optional string region = 4;
+    string region = 4;
 
     // Region of a country using FIPS 10-4 notation. While OpenRTB supports this
     // attribute, it has been withdrawn by NIST in 2008.
-    optional string regionfips104 = 5;
+    string regionfips104 = 5;
 
     // Google metro code; similar to but not exactly Nielsen DMAs. See Appendix
     // A for a link to the codes.
     // (http://code.google.com/apis/adwords/docs/appendix/metrocodes.html).
-    optional string metro = 6;
+    string metro = 6;
 
     // City using United Nations Code for Trade & Transport Locations. See
     // Appendix A for a link to the codes.
     // (http://www.unece.org/cefact/locode/service/location.htm).
-    optional string city = 7;
+    string city = 7;
 
     // Zip or postal code.
-    optional string zip = 8;
+    string zip = 8;
 
     // Local time as the number +/- of minutes from UTC.
-    optional int32 utcoffset = 10;
+    int32 utcoffset = 10;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // Structured user agent information, which can be used when a client supports
@@ -1659,39 +1853,46 @@ message BidRequest {
     // from NavigatorUAData interface. This header or accessor are only
     // available for browsers that support User-Agent Client Hints.
     // RECOMMENDED by the OpenRTB specification.
-    optional BrandVersion platform = 2;
+    BrandVersion platform = 2;
 
     // 1 if the agent prefers a "mobile" version of the content, if available,
     // i.e. optimized for small screens or touch input. 0 if the agent prefers
-    // the "desktop" or "full" content.  Implementers should derive this value
+    // the "desktop" or "full" content. Implementers should derive this value
     // from the Sec-CH-UA-Mobile header or an equivalent JavaScript accessor
     // from NavigatorUAData interface. This header or accessor are only
     // available for browsers that support User-Agent Client Hints.
-    optional bool mobile = 3;
+    bool mobile = 3;
 
     // Device's major binary architecture, e.g. "x86" or "arm". Implementers
     // should retrieve this value from the Sec-CH-UA-Arch header or an
     // equivalent JavaScript accessor from NavigatorUAData interface. This
     // header or accessor are only available for browsers that support
     // User-Agent Client Hints.
-    optional string architecture = 4;
+    string architecture = 4;
 
     // Device's bitness, e.g. "64" for 64-bit architecture. Implementers should
     // retrieve this value from the Sec-CH-UA-Bitness header or an equivalent
     // JavaScript accessor from NavigatorUAData interface. This header or
     // accessor are only available for browsers that support User-Agent Client
     // Hints.
-    optional string bitness = 5;
+    string bitness = 5;
 
     // Device model. Implementers should retrieve this value from the
     // Sec-CH-UA-Model header or an equivalent JavaScript accessor from
     // NavigatorUAData interface. This header or accessor are only available for
     // browsers that support User-Agent Client Hints.
-    optional string model = 6;
+    string model = 6;
 
     // The source of data used to create this object.
     // Refer to enum com.iabtechlab.adcom.v1.enums.UserAgentSource for values.
-    optional int32 source = 7 [default = 0];
+    int32 source = 7 [default = 0];
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // Further identification based on User-Agent Client Hints, the BrandVersion
@@ -1702,11 +1903,18 @@ message BidRequest {
     // sourced from the User-Agent Client Hints headers, representing either the
     // user agent brand (from the Sec-CH-UA-Full-Version header) or the platform
     // brand (from the Sec-CH-UA-Platform header).
-    optional string brand = 1;
+    string brand = 1;
 
     // A sequence of version components, in descending hierarchical order
     // (major, minor, micro, …)
     repeated string version = 2;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // This object contains information known or derived about the human user of
@@ -1717,26 +1925,26 @@ message BidRequest {
   message User {
     // Exchange-specific ID for the user. Unless prior arrangements have been
     // made between the buyer and the seller directly, the value in this field
-    // is expected to be derived from an ID sync.  (see Appendix: Cookie Based
+    // is expected to be derived from an ID sync. (see Appendix: Cookie Based
     // ID Syncing)
-    optional string id = 1;
+    string id = 1;
 
     // Buyer-specific ID for the user as mapped by the exchange for the buyer.
     // Unless prior arrangements have been made between the buyer and the seller
     // directly, the value in this field is expected to be derived from an ID
     // sync. (see Appendix: Cookie Based ID Syncing) At least one of buyeruid or
     // id is recommended.
-    optional string buyeruid = 2;
+    string buyeruid = 2;
 
     // Deprecated as of OpenRTB 2.6.
-    optional int32 yob = 3 [deprecated = true];
+    int32 yob = 3 [deprecated = true];
 
     // Deprecated as of OpenRTB 2.6.
-    optional string gender = 4 [deprecated = true];
+    string gender = 4 [deprecated = true];
 
     // Comma separated list of keywords, interests, or intent. Only one of
     // keywords or kwarray may be present.
-    optional string keywords = 5;
+    string keywords = 5;
 
     // Array of keywords about the content. Only one of keywords or kwarray may
     // be present.
@@ -1746,11 +1954,11 @@ message BidRequest {
     // cookie. The string must be in base85 cookie safe characters and be in any
     // format. Proper JSON encoding must be used to include "escaped" quotation
     // marks.
-    optional string customdata = 6;
+    string customdata = 6;
 
     // Location of the user's home base defined by a Geo object (Section
     // 3.2.19). This is not necessarily their current location.
-    optional Geo geo = 7;
+    Geo geo = 7;
 
     // Additional user data. Each Data object (Section 3.2.21) represents a
     // different data source.
@@ -1758,7 +1966,18 @@ message BidRequest {
 
     // When GDPR regulations are in effect this attribute contains the
     // Transparency and Consent Framework's Consent String data structure.
-    optional string consent = 10;
+    string consent = 10;
+
+    // Details for support of a standard protocol for multiple third party
+    // identity providers (Section 3.2.27).
+    repeated EID eids = 11;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // Extended identifiers support in the OpenRTB specification allows buyers
     // to use audience data in real-time bidding. This object can contain one or
@@ -1779,42 +1998,52 @@ message BidRequest {
       // For ad tech intermediaries, this would be the domain as used in
       // ads.txt. For publishers, this would match the domain in the site or app
       // object.
-      optional string inserter = 3;
+      string inserter = 3;
 
       // Canonical domain of the ID.
-      optional string source = 1;
+      string source = 1;
 
       // Technology providing the match method as defined in mm. In some cases,
       // this may be the same value as inserter. When blank, it is assumed that
       // the matcher is equal to the source. May be omitted when mm=0, 1, or 2.
-      optional string matcher = 4;
+      string matcher = 4;
 
       // Match method used by the matcher.
       // Refer to enum com.iabtechlab.adcom.v1.enums.MatchMethod for values.
-      optional int32 mm = 5;
+      int32 mm = 5;
 
       // Array of extended ID UID objects from the given source. Refer to the
       // Extended Identifier UIDs object (Section 3.2.28)
       repeated UID uids = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
 
       // This object contains a single user identifier provided as part of
       // extended identifiers. The exchange should ensure that business
       // agreements allow for the sending of this data.
       message UID {
         // The identifier for the user.
-        optional string id = 1;
+        string id = 1;
 
         // Type of user agent the match is from. It is highly recommended to set
         // this, as many DSPs separate app-native IDs from browser-based IDs and
         // require a type value for ID resolution.
         // Refer to enum com.iabtechlab.adcom.v1.enums.AgentType for values.
-        optional int32 atype = 2;
+        int32 atype = 2;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
       }
     }
-
-    // Details for support of a standard protocol for multiple third party
-    // identity providers (Section 3.2.27).
-    repeated EID eids = 11;
   }
 
   // The data and segment objects together allow additional data about the
@@ -1825,14 +2054,21 @@ message BidRequest {
   // exchange a priori to its bidders.
   message Data {
     // Exchange-specific ID for the data provider.
-    optional string id = 1;
+    string id = 1;
 
     // Exchange-specific name for the data provider.
-    optional string name = 2;
+    string name = 2;
 
     // Array of Segment (Section 3.2.22) objects that contain the actual data
     // values.
     repeated Segment segment = 3;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // Segment objects are essentially key-value pairs that convey specific
     // units of data. The parent Data object is a collection of such values from
@@ -1840,13 +2076,20 @@ message BidRequest {
     // be published by the exchange a priori to its bidders.
     message Segment {
       // ID of the data segment specific to the data provider.
-      optional string id = 1;
+      string id = 1;
 
       // Name of the data segment specific to the data provider.
-      optional string name = 2;
+      string name = 2;
 
       // String representation of the data segment value.
-      optional string value = 3;
+      string value = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
   }
 
@@ -1857,28 +2100,47 @@ message BidRequest {
     // Flag indicating if this request is subject to the COPPA regulations
     // established by the USA FTC, where 0 = no, 1 = yes. Refer to Section 7.5
     // for more information.
-    optional bool coppa = 1;
+    bool coppa = 1;
 
     // Flag that indicates whether or not the request is subject to GDPR
     // regulations, 0 = no, 1 = yes, omission indicates unknown. Refer to
     // Section 7.5 for more information.
-    optional bool gdpr = 4;
+    bool gdpr = 4;
 
     // Communicates signals regarding consumer privacy under US privacy
     // regulation. See US Privacy String specifications. Refer to Section 7.5
     // for more information.
-    optional string us_privacy = 5;
+    string us_privacy = 5;
 
     // Contains the Global Privacy Platform's consent string. See the Global
     // Privacy Platform specification for more details.
-    optional string gpp = 2;
+    string gpp = 2;
 
     // Array of the section(s) of the string which should be applied for this
     // transaction. Generally will contain one and only one value, but there are
-    // edge cases where more than one may apply.  GPP Section 3 (Header) and 4
+    // edge cases where more than one may apply. GPP Section 3 (Header) and 4
     // (Signal Integrity) do not need to be included. See the GPP Section
     // Information for more details.
-    repeated int32 gpp_sid = 3 [packed = true];
+    repeated int32 gpp_sid = 3;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      // A value of 1 indicates that the content is directed at minors and that
+      // specific types of products should not be advertised.
+      bool s22580 = 1;
+
+      // This is to be populated the value of the Sec-GPC HTTP header from
+      // the user agent where the ad will be shown. Vendors with access to that
+      // header must populate this field with that value. Vendors receiving an
+      // OpenRTB request must populate this with the value of the same field
+      // from the request. No other usage of this field is valid. E.g., vendors
+      // are not to copy the GPC signal from the GPP string to this field.
+      string gpc = 2;
+
+      extensions 500 to 9999;
+    }
   }
 
   // This object allows sellers to specify price floors for video and audio
@@ -1905,7 +2167,14 @@ message BidRequest {
     // creative in this duration range, expressed in CPM. For any creatives
     // whose durations are outside of the defined min/max, the 'bidfloor' at the
     // 'Imp' level will serve as the default floor.
-    optional double bidfloor = 3 [default = 0.0];
+    double bidfloor = 3 [default = 0.0];
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 }
 
@@ -1923,25 +2192,32 @@ message BidRequest {
 message BidResponse {
   // ID of the bid request to which this is a response.
   // REQUIRED by the OpenRTB specification.
-  optional string id = 1;
+  string id = 1;
 
   // Array of seatbid objects; 1+ required if a bid is to be made.
   repeated SeatBid seatbid = 2;
 
   // Bidder generated response ID to assist with logging/tracking.
-  optional string bidid = 3;
+  string bidid = 3;
 
   // Bid currency using ISO-4217 alpha codes.
-  optional string cur = 4;
+  string cur = 4;
 
   // Optional feature to allow a bidder to set data in the exchange's cookie.
   // The string must be in base85 cookie safe characters and be in any format.
   // Proper JSON encoding must be used to include "escaped" quotation marks.
-  optional string customdata = 5;
+  string customdata = 5;
 
   // Reason for not bidding.
   // Refer to enum com.iabtechlab.openrtb.v3.NoBidReason for values.
-  optional int32 nbr = 6;
+  int32 nbr = 6;
+
+  // Placeholder for exchange-specific extensions to OpenRTB.
+  Ext ext = 99;
+
+  message Ext {
+    extensions 500 to 9999;
+  }
 
   // A bid response can contain multiple SeatBid objects, each on behalf of a
   // different bidder seat and each containing one or more individual bids. If
@@ -1956,11 +2232,18 @@ message BidResponse {
 
     // ID of the buyer seat (e.g., advertiser, agency) on whose behalf this bid
     // is made.
-    optional string seat = 2;
+    string seat = 2;
 
     // 0 = impressions can be won individually; 1 = impressions must be won or
     // lost as a group.
-    optional bool group = 3 [default = false];
+    bool group = 3 [default = false];
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // A SeatBid object contains one or more Bid objects, each of which relates
     // to a specific impression in the bid request via the impid attribute and
@@ -1968,37 +2251,37 @@ message BidResponse {
     message Bid {
       // Bidder generated bid ID to assist with logging/tracking.
       // REQUIRED by the OpenRTB specification.
-      optional string id = 1;
+      string id = 1;
 
       // ID of the Imp object in the related bid request.
       // REQUIRED by the OpenRTB specification.
-      optional string impid = 2;
+      string impid = 2;
 
       // Bid price expressed as CPM although the actual transaction is for a
-      // unit impression only.  Note that while the type indicates float,
+      // unit impression only. Note that while the type indicates float,
       // integer math is highly recommended when handling currencies (e.g.,
       // BigDecimal in Java).
       // REQUIRED by the OpenRTB specification.
-      optional double price = 3;
+      double price = 3;
 
       // Win notice URL called by the exchange if the bid wins (not necessarily
       // indicative of a delivered, viewed, or billable ad); optional means of
       // serving ad markup. Substitution macros (Section 4.4) may be included in
       // both the URL and optionally returned markup.
-      optional string nurl = 5;
+      string nurl = 5;
 
       // Billing notice URL called by the exchange when a winning bid becomes
       // billable based on exchange-specific business policy (e.g., typically
       // delivered, viewed, etc.). Substitution macros (Section 4.4) may be
       // included.
-      optional string burl = 22;
+      string burl = 22;
 
       // Loss notice URL called by the exchange when a bid is known to have been
       // lost. Substitution macros (Section 4.4) may be included.
       // Exchange-specific policy may preclude support for loss notices or the
       // disclosure of winning clearing prices resulting in ${AUCTION_PRICE}
       // macros being removed (i.e., replaced with a zero-length string).
-      optional string lurl = 23;
+      string lurl = 23;
 
       // Optional means of conveying ad markup in case the bid wins; supersedes
       // the win notice if markup is included in both. Substitution macros
@@ -2013,7 +2296,7 @@ message BidResponse {
       }
 
       // ID of a preloaded ad to be served if the bid wins.
-      optional string adid = 4;
+      string adid = 4;
 
       // Advertiser domain for block list checking (e.g., "ford.com"). This can
       // be an array of for the case of rotating creatives. Exchanges can
@@ -2026,29 +2309,29 @@ message BidResponse {
       // in Google Play Store, these should be bundle or package names (e.g.
       // com.foo.mygame). For apps in Apple App Store, these should be a numeric
       // ID.
-      optional string bundle = 14;
+      string bundle = 14;
 
       // URL without cache-busting to an image that is representative of the
       // content of the campaign for ad quality/safety checking.
-      optional string iurl = 8;
+      string iurl = 8;
 
       // Campaign ID to assist with ad quality checking; the collection of
       // creatives for which iurl should be representative.
-      optional string cid = 9;
+      string cid = 9;
 
       // Creative ID to assist with ad quality checking.
-      optional string crid = 10;
+      string crid = 10;
 
       // Tactic ID to enable buyers to label bids for reporting to the exchange
       // the tactic through which their bid was submitted. The specific usage
       // and meaning of the tactic ID should be communicated between buyer and
       // exchanges a priori.
-      optional string tactic = 24;
+      string tactic = 24;
 
       // The taxonomy in use.
       // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for
       // values.
-      optional int32 cattax = 30 [default = 1];
+      int32 cattax = 30 [default = 1];
 
       // IAB Tech Lab content categories of the creative. The taxonomy to be
       // used is defined by the cattax field. If no cattax field is supplied
@@ -2058,70 +2341,83 @@ message BidResponse {
       // Set of attributes describing the creative.
       // Refer to enum com.iabtechlab.adcom.v1.enums.Creative.Attribute for
       // values.
-      repeated int32 attr = 11 [packed = true];
+      repeated int32 attr = 11;
 
       // List of supported APIs for the markup. If an API is not explicitly
       // listed, it is assumed to be unsupported.
       // Refer to enum com.iabtechlab.adcom.v1.enums.APIFramework for values.
-      repeated int32 apis = 31 [packed = true];
+      repeated int32 apis = 31;
 
       // NOTE: Deprecated in favor of apis.
-      optional int32 api = 18 [deprecated = true];
+      int32 api = 18 [deprecated = true];
 
       // Video response protocol of the markup if applicable.
       // Refer to enum com.iabtechlab.adcom.v1.Creative.AudioVideoType for
       // values.
-      optional int32 protocol = 19;
+      int32 protocol = 19;
 
       // Creative media rating per IQG guidelines.
       // Refer to enum com.iabtechlab.adcom.v1.MediaRating for values.
-      optional int32 qagmediarating = 20;
+      int32 qagmediarating = 20;
 
       // Language of the creative using ISO-639-1-alpha-2. The nonstandard code
       // "xx" may also be used if the creative has no linguistic content (e.g.,
-      // a banner with just a company logo).  Only one of language or langb
+      // a banner with just a company logo). Only one of language or langb
       // should be present.
-      optional string language = 25;
+      string language = 25;
 
       // Language of the creative using IETF BCP 47. Only one of language or
       // langb should be present.
-      optional string langb = 29;
+      string langb = 29;
 
       // Reference to the deal.id from the bid request if this bid pertains to a
       // private marketplace direct deal.
-      optional string dealid = 13;
+      string dealid = 13;
 
       // Width of the creative in device independent pixels (DIPS).
-      optional int32 w = 16;
+      int32 w = 16;
 
       // Height of the creative in device independent pixels (DIPS).
-      optional int32 h = 17;
+      int32 h = 17;
 
       // Relative width of the creative when expressing size as a ratio.
       // Required for Flex Ads.
-      optional int32 wratio = 26;
+      int32 wratio = 26;
 
       // Relative height of the creative when expressing size as a ratio.
       // Required for Flex Ads.
-      optional int32 hratio = 27;
+      int32 hratio = 27;
 
       // Advisory as to the number of seconds the bidder is willing to wait
       // between the auction and the actual impression.
-      optional int32 exp = 21;
+      int32 exp = 21;
 
       // Duration of the video or audio creative in seconds.
-      optional int32 dur = 32;
+      int32 dur = 32;
 
       // Type of the creative markup so that it can properly be associated with
       // the right sub-object of the BidRequest.Imp.
-      optional int32 mtype = 33;
+      int32 mtype = 33;
 
       // Indicates that the bid response is only eligible for a specific
       // position within a video or audio ad pod (e.g. first position, last
       // position, or any).
       // Refer to enum com.iabtechlab.adcom.v1.enums.SlotPositionInPod for
       // values.
-      optional int32 slotinpod = 28 [default = 0];
+      int32 slotinpod = 28 [default = 0];
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+	// Unique key enabling to identify and track a campaign during its
+	// lifecycle regardless of the SSP and DSP used. Note : scid contains
+	// the AdvertiserID (Global location number) + Advertiser brand +
+	// Advertiser product code + Customer Product Estimate + Ext (optional)
+        string scid = 1;
+
+	extensions 500 to 9999;
+      }
     }
   }
 }
@@ -2136,43 +2432,43 @@ message BidResponse {
 // Object specified here is now the root object.
 message NativeRequest {
   // Version of the Native Markup version in use.
-  optional string ver = 1;
+  string ver = 1;
 
   // The Layout ID of the native ad unit.
   // Refer to enum LayoutId for values.
   // RECOMMENDED by OpenRTB Native 1.0; optional in 1.1, DEPRECATED in 1.2.
-  optional int32 layout = 2;
+  int32 layout = 2;
 
   // The Ad unit ID of the native ad unit. This corresponds to one of IAB Core-6
   // native ad units.
   // Refer to enum AdUnitId for values.
   // RECOMMENDED by OpenRTB Native 1.0; optional in 1.1, DEPRECATED in 1.2.
-  optional int32 adunit = 3;
+  int32 adunit = 3;
 
   // The context in which the ad appears.
   // Refer to enum ContextType for values.
   // RECOMMENDED in 1.2.
-  optional int32 context = 7;
+  int32 context = 7;
 
   // A more detailed context in which the ad appears.
   // Refer to enum com.iabtechlab.adcom.v1.enums.DisplayContextType for values.
-  optional int32 contextsubtype = 8;
+  int32 contextsubtype = 8;
 
   // The design/format/layout of the ad unit being offered.
   // Refer to enum com.iabtechlab.adcom.v1.enums.DisplayPlacementType for
   // values.
   // RECOMMENDED by the OpenRTB Native specification.
-  optional int32 plcmttype = 9;
+  int32 plcmttype = 9;
 
   // The number of identical placements in this Layout.
-  optional int32 plcmtcnt = 4 [default = 1];
+  int32 plcmtcnt = 4 [default = 1];
 
   // 0 for the first ad, 1 for the second ad, and so on. Note this would
   // generally NOT be used in combination with plcmtcnt - either you are
   // auctioning multiple identical placements (in which case plcmtcnt>1, seq=0)
   // or you are holding separate auctions for distinct items in the feed (in
   // which case plcmtcnt=1, seq>=1).
-  optional int32 seq = 5 [default = 0];
+  int32 seq = 5 [default = 0];
 
   // Any bid must comply with the array of elements expressed by the Exchange.
   // REQUIRED by the OpenRTB Native specification: at least 1 element.
@@ -2181,12 +2477,12 @@ message NativeRequest {
   // Whether the supply source / impression supports returning an assetsurl
   // instead of an asset object. 0 or the absence of the field indicates no such
   // support.
-  optional bool aurlsupport = 11;
+  bool aurlsupport = 11;
 
   // Whether the supply source / impression supports returning a DCO URL instead
-  // of an asset object.  0 or the absence of the field indicates no such
+  // of an asset object. 0 or the absence of the field indicates no such
   // support. Beta feature.
-  optional bool durlsupport = 12;
+  bool durlsupport = 12;
 
   // Specifies what type of event tracking is supported.
   repeated EventTrackers eventtrackers = 13;
@@ -2195,7 +2491,14 @@ message NativeRequest {
   // 0 (or field absent) when the native ad doesn't support custom privacy links
   // or if support is unknown.
   // RECOMMENDED and implemented in 1.2
-  optional bool privacy = 14;
+  bool privacy = 14;
+
+  // Placeholder for exchange-specific extensions to OpenRTB.
+  Ext ext = 99;
+
+  message Ext {
+    extensions 500 to 9999;
+  }
 
   // The main container object for each asset requested or supported by Exchange
   // on behalf of the rendering client. Any object that is required is to be
@@ -2205,11 +2508,11 @@ message NativeRequest {
   message Asset {
     // Unique asset ID, assigned by exchange. Typically a counter for the array.
     // REQUIRED by the OpenRTB Native specification.
-    optional int32 id = 1;
+    int32 id = 1;
 
     // Set to true if asset is required (exchange will not accept a bid without
     // it).
-    optional bool required = 2 [default = false];
+    bool required = 2 [default = false];
 
     oneof asset_oneof {
       // Title object for title assets.
@@ -2221,7 +2524,7 @@ message NativeRequest {
       Image img = 4;
 
       // Video object for video assets. Note that in-stream video ads are not
-      // part of Native.  Native ads may contain a video as the ad creative
+      // part of Native. Native ads may contain a video as the ad creative
       // itself.
       BidRequest.Imp.Video video = 5;
 
@@ -2230,42 +2533,56 @@ message NativeRequest {
       Data data = 6;
     }
 
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
+
     // The Title object is to be used for title element of the Native ad.
     message Title {
       // Maximum length of the text in the title element.
       // RECOMMENDED that the value be either of: 25, 90, 140.
       // REQUIRED by the OpenRTB Native specification.
-      optional int32 len = 1;
+      int32 len = 1;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // The Image object to be used for all image elements of the Native ad such
     // as Icons, Main Image, etc. Recommended sizes and aspect ratios are
     // included in com.iabtechlab.adcom.v1.NativeImageAssetType.
     message Image {
-      // Type ID of the image element supported by the publisher.  The publisher
+      // Type ID of the image element supported by the publisher. The publisher
       // can display this information in an appropriate format.
       // Refer to enum com.iabtechlab.adcom.v1.NativeImageAssetType for values.
-      optional int32 type = 1;
+      int32 type = 1;
 
       // Width of the image in pixels.
-      optional int32 w = 2;
+      int32 w = 2;
 
       // Height of the image in pixels.
-      optional int32 h = 3;
+      int32 h = 3;
 
       // The minimum requested width of the image in pixels. This option should
       // be used for any rescaling of images by the client. Either w or wmin
       // should be transmitted. If only w is included, it should be considered
       // an exact requirement.
       // RECOMMENDED by the OpenRTB Native specification.
-      optional int32 wmin = 4;
+      int32 wmin = 4;
 
       // The minimum requested height of the image in pixels. This option should
       // be used for any rescaling of images by the client. Either h or hmin
       // should be transmitted. If only h is included, it should be considered
       // an exact requirement.
       // RECOMMENDED by the OpenRTB Native specification.
-      optional int32 hmin = 5;
+      int32 hmin = 5;
 
       // Allowlist of content MIME types supported. Popular MIME types include,
       // but are not limited to "image/jpg" and "image/gif". Each implementing
@@ -2273,6 +2590,13 @@ message NativeRequest {
       // integration docs. See Wikipedia's MIME page for more information and
       // links to all IETF RFCs. If blank, assume all types are allowed.
       repeated string mimes = 6;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // The Data Object is to be used for all non-core elements of the native
@@ -2284,12 +2608,19 @@ message NativeRequest {
       // display this information in an appropriate format.
       // Refer to enum com.iabtechlab.adcom.v1.NativeDataAssetType for values.
       // REQUIRED by the OpenRTB Native specification.
-      optional int32 type = 1;
+      int32 type = 1;
 
       // Maximum length of the text in the element's response. Longer strings
       // may be truncated and ellipsized by Ad Exchange or the publisher during
       // rendering.
-      optional int32 len = 2;
+      int32 len = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
   }
 
@@ -2300,25 +2631,32 @@ message NativeRequest {
     // Type of event available for tracking.
     // Refer to enum com.iabtechlab.adcom.v1.EventType for values.
     // REQUIRED by the OpenRTB Native specification.
-    optional int32 event = 1;
+    int32 event = 1;
 
     // Array of types of tracking available for the given event.
     // Refer to enum com.iabtechlab.adcom.v1.enums.EventTrackingMethod for
     // values.
     // REQUIRED by the OpenRTB Native specification.
     repeated int32 methods = 2;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 }
 
 // The native response object is the top level JSON object which identifies an
-// native response.  Note: Prior to VERSION 1.1, the native response's root node
+// native response. Note: Prior to VERSION 1.1, the native response's root node
 // was an object with a single field "native" that would contain the object
 // above as its value. In 1.2 the NativeResponse Object specified here is now
 // the root object.
 message NativeResponse {
   // Version of the Native Markup version in use.
   // RECOMMENDED in 1.2
-  optional string ver = 1;
+  string ver = 1;
 
   // List of native ad's assets.
   // RECOMMENDED in 1.0, 1.1, or in 1.2 as a fallback if assetsurl is provided.
@@ -2329,7 +2667,7 @@ message NativeResponse {
   // JSON object mirroring the asset object in the bid response, subject to
   // certain requirements as specified in the individual objects. Where present,
   // overrides the assets object in the response.
-  optional string assetsurl = 6;
+  string assetsurl = 6;
 
   // URL where a dynamic creative specification may be found for populating this
   // ad, per the Dynamic Content Ads Specification. Note this is a beta option
@@ -2338,14 +2676,14 @@ message NativeResponse {
   // and must be agreed offline between parties or as may be specified in a
   // future revision of the Dynamic Content Ads spec. Where present, overrides
   // the assets object in the response.
-  optional string dcourl = 7;
+  string dcourl = 7;
 
   // Destination Link. This is default link object for the ad. Individual assets
   // can also have a link object which applies if the asset is activated
   // (clicked). If the asset doesn't have a link object, the parent link object
   // applies. See ResponseLink definition.
   // REQUIRED by the OpenRTB Native specification.
-  optional Link link = 3;
+  Link link = 3;
 
   // Array of impression tracking URLs, expected to return a 1x1 image or 204
   // response - typically only passed when using 3rd party trackers. To be
@@ -2355,7 +2693,7 @@ message NativeResponse {
   // Optional javascript impression tracker. Contains <script> tags to be
   // executed at impression time where it can be supported. To be deprecated in
   // 1.2 - Replaced with EventTracker.
-  optional string jstracker = 5;
+  string jstracker = 5;
 
   // Array of response event trackers to run with the ad, in response to the
   // declared supported methods in the NativeRequest. Replaces imptrackers and
@@ -2364,7 +2702,14 @@ message NativeResponse {
 
   // If support was indicated in the request, URL of a page informing the user
   // about the buyer's targeting activity.
-  optional string privacy = 9;
+  string privacy = 9;
+
+  // Placeholder for exchange-specific extensions to OpenRTB.
+  Ext ext = 99;
+
+  message Ext {
+    extensions 500 to 9999;
+  }
 
   // Used for "call to action" assets, or other links from the Native ad. This
   // Object should be associated to its peer object in the parent Asset Object
@@ -2374,14 +2719,21 @@ message NativeResponse {
   message Link {
     // Landing URL of the clickable link.
     // REQUIRED by the OpenRTB Native specification.
-    optional string url = 1;
+    string url = 1;
 
     // List of third-party tracker URLs to be fired on click of the URL.
     repeated string clicktrackers = 2;
 
     // Fallback URL for deeplink. To be used if the URL given in url is not
     // supported by the device.
-    optional string fallback = 3;
+    string fallback = 3;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 
   // Corresponds to the Asset Object in the request. The main container object
@@ -2394,10 +2746,10 @@ message NativeResponse {
     // Unique asset ID, assigned by exchange, must match one of the asset IDs in
     // request.
     // REQUIRED in 1.0, or in 1.2 if embedded asset is being used.
-    optional int32 id = 1;
+    int32 id = 1;
 
     // Set to 1 if asset is required. (bidder requires it to be displayed).
-    optional bool required = 2 [default = false];
+    bool required = 2 [default = false];
 
     oneof asset_oneof {
       // Title object for title assets.
@@ -2407,7 +2759,7 @@ message NativeResponse {
       Image img = 4;
 
       // Video object for video assets. Note that in-stream video ads are not
-      // part of Native.  Native ads may contain a video as the ad creative
+      // part of Native. Native ads may contain a video as the ad creative
       // itself.
       Video video = 5;
 
@@ -2418,7 +2770,14 @@ message NativeResponse {
     // Link object for call to actions. This link object applies if the asset
     // item is activated (clicked). If there is no link object on the asset, the
     // parent link object on the bid response apply.
-    optional Link link = 7;
+    Link link = 7;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
 
     // Corresponds to the Title Object in the request, with the value filled in.
     // If using assetsurl or dcourl response rather than embedded asset
@@ -2428,11 +2787,18 @@ message NativeResponse {
     message Title {
       // The text associated with the text element.
       // REQUIRED by the OpenRTB Native specification.
-      optional string text = 1;
+      string text = 1;
 
       // The length of the title being provided.
       // REQUIRED if using assetsurl/dcourl representation.
-      optional int32 len = 2;
+      int32 len = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // Corresponds to the Image Object in the request. The Image object to be
@@ -2445,23 +2811,30 @@ message NativeResponse {
       // Refer to enum com.iabtechlab.adcom.v1.NativeImageAssetType for values.
       // REQUIRED for assetsurl or dcourl responses, not required to embedded
       // asset responses.
-      optional int32 type = 4;
+      int32 type = 4;
 
       // URL of the image asset.
       // REQUIRED by the OpenRTB Native specification.
-      optional string url = 1;
+      string url = 1;
 
       // Width of the image in pixels.
       // RECOMMENDED in 1.0, 1.1, or in 1.2 for embedded asset responses.
       // REQUIRED in 1.2 for assetsurl or dcourl if multiple assets of the same
       // type submitted.
-      optional int32 w = 2;
+      int32 w = 2;
 
       // Height of the image in pixels.
       // RECOMMENDED in 1.0, 1.1, or in 1.2 for embedded asset responses.
       // REQUIRED in 1.2 for assetsurl or dcourl if multiple assets of the same
       // type submitted.
-      optional int32 h = 3;
+      int32 h = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // Corresponds to the Data Object in the request, with the value filled in.
@@ -2473,22 +2846,29 @@ message NativeResponse {
       // The type of data element being submitted.
       // Refer to enum com.iabtechlab.adcom.v1.NativeDataAssetType for values.
       // REQUIRED in 1.2 for assetsurl or dcourl responses.
-      optional int32 type = 3;
+      int32 type = 3;
 
       // The length of the data element being submitted. Where applicable, must
       // comply with the recommended maximum lengths in the
       // com.iabtechlab.adcom.v1.NativeDataAssetType enum.
       // REQUIRED in 1.2 for assetsurl or dcourl responses.
-      optional int32 len = 4;
+      int32 len = 4;
 
       // The optional formatted string name of the data type to be displayed.
       // DEPRECATED in 1.2.
-      optional string label = 1;
+      string label = 1;
 
       // The formatted string of data to be displayed. Can contain a formatted
       // value such as "5 stars" or "$10" or "3.4 stars out of 5".
       // REQUIRED by the OpenRTB Native specification.
-      optional string value = 2;
+      string value = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
 
     // Corresponds to the Video Object in the request, yet containing a value of
@@ -2496,7 +2876,14 @@ message NativeResponse {
     message Video {
       // VAST xml.
       // REQUIRED by the OpenRTB Native specification.
-      optional string vasttag = 1;
+      string vasttag = 1;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
     }
   }
 
@@ -2511,22 +2898,29 @@ message NativeResponse {
     // Type of event to track.
     // Refer to enum com.iabtechlab.adcom.v1.EventType for values.
     // REQUIRED if embedded asset is being used.
-    optional int32 event = 1;
+    int32 event = 1;
 
     // Type of tracking requested.
     // Refer to enum com.iabtechlab.adcom.v1.enums.EventTrackingMethod for
     // values.
     // REQUIRED if embedded asset is being used.
-    optional int32 method = 2;
+    int32 method = 2;
 
     // The URL of the image or js.
     // REQUIRED for image or js, optional for custom.
-    optional string url = 3;
+    string url = 3;
 
     // To be agreed individually with the exchange, an array of key:value
     // objects for custom tracking, for example the account number of the DSP
     // with a tracking company. I.e., {"accountnumber":"123"}.
-    optional string customdata = 4;
+    string customdata = 4;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
   }
 }
 
@@ -2535,6 +2929,8 @@ message NativeResponse {
 // OpenRTB 2.0: types of ads that can be accepted by the exchange unless
 // restricted by publisher site settings.
 enum BannerAdType {
+  // Equivalent to an unset value.
+  BannerAdType_UNKNOWN = 0;
   // "Usually mobile".
   XHTML_TEXT_AD = 1;
   // "Usually mobile".
@@ -2548,9 +2944,10 @@ enum BannerAdType {
 // ***** OpenRTB Native enums **************************************************
 
 // OpenRTB Native 1.0: Core layouts. An implementing exchange may not support
-// all asset variants or introduce new ones unique to that system.  To be
+// all asset variants or introduce new ones unique to that system. To be
 // deprecated.
 enum LayoutId {
+  LayoutId_UNKNOWN = 0;
   CONTENT_WALL = 1;
   APP_WALL = 2;
   NEWS_FEED = 3;
@@ -2566,8 +2963,9 @@ enum LayoutId {
 // unit is essentially a layout, it has been removed from the list. In feed
 // units can be identified via the layout parameter on the request. An
 // implementing exchange may not support all asset variants or introduce new
-// ones unique to that system.  To be deprecated.
+// ones unique to that system. To be deprecated.
 enum AdUnitId {
+  AdUnitId_UNKNOWN = 0;
   PAID_SEARCH_UNIT = 1;
   RECOMMENDATION_WIDGET = 2;
   PROMOTED_LISTING = 3;
@@ -2578,10 +2976,12 @@ enum AdUnitId {
 
 // OpenRTB Native 1.1: The context in which the ad appears - what type of
 // content is surrounding the ad on the page at a high level. This maps directly
-// to the new Deep Dive on In-Feed Ad Units.  This denotes the primary context,
+// to the new Deep Dive on In-Feed Ad Units. This denotes the primary context,
 // but does not imply other content may not exist on the page - for example it's
 // expected that most content platforms have some social components, etc.
 enum ContextType {
+  // Equivalent to an unset value.
+  ContextType_UNKNOWN = 0;
   // Content-centric context such as newsfeed, article, image gallery, video
   // gallery, or similar.
   CONTENT = 1;
