@@ -1864,3 +1864,103 @@ Declare the genre that best fits the CTV/OTT content within the content.genres a
 Declare the specific taxonomy version utilized within the new content.gtax attribute to allow SSPs and DSPs to understand and read the information passed within content.genres. 
 
 As a default, a [subset of rows from the Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) should be utilized as the taxonomy enumerated in the [IAB Tech Lab Taxonomy and Mapping](https://github.com/InteractiveAdvertisingBureau/Taxonomies/tree/develop) GitHub repository. If utilizing a vendor or custom taxonomy please work with your SSPs/DSPs to ensure that those taxonomies can be read before sending. 
+
+
+## 7.14 - Using cids <a name="cids"></a>
+
+### 7.14.1 How Extended Content Identifiers are Used
+There is a market desire to target by video/audio content metadata or contextual classifications thereof. This requires some sort of scheme for identifying individual pieces of content, transmitting that in a bid request, and enabling lookup or classification of that piece of content's metadata.
+
+There are several companies/services which act as a clearinghouse or aggregator of metadata from publishers ("Content Data Platform"). These services ingest video content metadata from publishers and assign an ID (here called an “Extended Content Identifier” or “Extended Content ID”) for each piece of content that is unique within that content data platform. There are contextual data vendors who have access to this aggregated metadata and, if provided an Extended Content ID, can return classifications of the content based on what is available in that metadata.
+
+The following diagram illustrates how this works. The numbers indicate the essential flow/sequence from the perspective of the DSP. Data flow between publishers and the content data platform is out of band from the RTB process.
+
+![](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/assets/ECID.jpg)
+
+In the RTB process, the sequence is as follows:
+
+1. The publisher includes an Extended Content ID (and the source of that ID) in its request to the exchange for ad fill. This will be a content ID previously assigned by the content data platform.
+2. The exchange includes this in the bid request to the DSP.
+3. The DSP queries its contextual vendor with this.
+4. The contextual vendor requests the metadata from the content data platform.
+5. The content data platform returns it.
+6. The contextual vendor returns classifications to the DSP. These classifications are as agreed upon between the contextual vendor and DSP, and are based on transforming or classifying information from the metadata in some way. For example, the vendor could perform topic classification on a synopsis, or perform video/audio recognition on a content URL.
+
+In practice, one or more layers of caching may be involved in steps 3-6 due to the real-time constraint of RTB.
+
+### 7.14.2 Creating Extended Content Identifiers
+The <code>cids</code> attribute is a string array to support alphanumeric identifiers. However, the <code>cids</code> attribute should only ever be used to pass a content ID. Passing anything other than the external system’s Content ID is strongly discouraged. 
+
+### 7.14.3 Distinguishing Extended Content IDs from Genres, Categories, and Seller-Defined Context
+Note that Extended Content IDs are used to express a unique ID for a single piece of video/audio content. They are not to be used for expressing categorizations of the content (“Comedy”, “Personal Finance”, etc.) according to some taxonomy. For that purpose, use <code>genres</code> and/or <code>cat</code> attributes in [Object: Content](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#3216---object-content-). See [7.13 - Using Genres and gtax Attributes](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/implementation.md#713---using-genres-and-gtax-attributes-) for additional information on categorizing content.
+
+Extended Content IDs are not to be used for expressing seller-defined context. For that purpose, see the [Segment Taxonomies community extension](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/main/extensions/community_extensions/segtax.md) and the IAB Tech Lab [Seller-defined Audience and Context Signalling standard](https://iabtechlab.com/wp-content/uploads/2021/03/IABTechLab_Taxonomy_and_Data_Transparency_Standards_to_Support_Seller-defined_Audience_and_Context_Signaling_2021-03.pdf).
+
+### 7.14.4 Additional Notes on Content IDs
+The <code>content.id</code> attribute should only be used to express the ID of the content in the Seller’s system. IDs from external content classification services should be enumerated and namespaced in the <code>content.data.cids</code> array.  
+
+Providers/sources of Extended Content IDs shall decide on a root domain which they own and will consistently use to identify themselves. Typically, this should be the business or operational domain of the provider. If a publisher is passing its own Extended Content IDs which do not come from some metadata aggregator, it should likewise choose and consistently use a root domain that it owns as the way it identifies itself.
+
+While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly acceptable for those parties to treat them as opaque strings and not seek to use or understand them. At a minimum, SSPs should pass these fields through, and DSPs should allow them to be used, in partnership with contextual data vendors, to activate segments for targeting. However, Sellers should be sure to send only the Extended Content IDs from vendors that the receiver of the request can read, understand, and interpret. 
+
+### 7.14.5 JSON Example
+
+#### Example 1 - Single Extended Content Identifier Vendor : 
+```
+{
+  "app": {
+    "content": {
+      "id": "video_123",
+      "data": [
+        {
+          "name": "vendorA.com",
+          "cids": [
+            "vendorA_c73g5jq96mwso4d8"
+          ],
+          "segment": [
+            {
+              "id": "context_5784065"
+            },
+            {
+              "id": "context_5711828"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+...
+```
+#### Example 2 - Multiple Extended Content Identifier Vendors: 
+```
+{
+  "app": {
+    "content": {
+      "id": "video_123",
+      "data": [
+        {
+          "name": "vendorA.com",
+          "cids": [
+            "vendorA_c73g5jq96mwso4d8"
+          ],
+          "segment": [
+            {
+              "id": "context_5784065"
+            },
+            {
+              "id": "context_5711828"
+            }
+          ]
+        },
+        {
+          "name": "vendorB.com",
+          "cids": [
+            "MV020788170000"
+          ]
+        }
+      ]
+    }
+  }
+}
+```
