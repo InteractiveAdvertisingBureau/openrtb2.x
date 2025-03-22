@@ -193,6 +193,18 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
+      // The SupplyChain object enables buyers to see all parties who are
+      // selling or reselling a given bid request.
+      SupplyChain schain = 1 [deprecated = true];
+
+      // Identifier of the OM SDK integration. This is the same as the "name"
+      // parameter of the OMID Partner object.
+      string omidpn = 2;
+
+      // Version of the OM SDK integration. This is the same as the
+      // "versionString" parameter of the OMID Partner object.
+      string omidpv = 3;
+
       extensions 500 to 9999;
     }
 
@@ -404,6 +416,32 @@ message BidRequest {
     message Ext {
       // Distinct, persistent id for each ad unit on a page.
       string gpid = 1;
+
+      // Publisher's SKAdNetwork information.
+      SKAdNetworkRequest skadn = 2;
+
+      // To differentiate between impression opportunities that support
+      // Protected Audience API on-device auction from those that only support
+      // traditional server-side exchange auction
+      enum AuctionEnvironment {
+        // Traditional server-side auctions
+        SERVER_SIDE_AUCTION = 0;
+
+        // Requests with Protected Audience API support, in which a contextual
+        // auction runs on the exchange's servers and the interest group bidding
+        // and the final auction runs in the browser
+        ON_DEVICE_INTEREST_GROUP_AUCTION = 1;
+      }
+      int32 ae = 3 [default = 0];
+
+      // Indicates whether the inventory is intrinsic in-game, modifying the
+      // environment of the game, for instance through a billboard or skin.
+      bool intrinsic = 4;
+
+      // A string representing a transaction ID, which is expected to be common
+      // across all participants in this bid request (e.g., potentially multiple
+      // exchanges).
+      string tid = 5;
 
       extensions 500 to 9999;
     }
@@ -1125,6 +1163,74 @@ message BidRequest {
         }
       }
     }
+
+    // SKAdNetwork object list attributes.
+    message SKAdNetworkList {
+      // Implies a list of SKAdNetwork IDs up to and including this value.
+      int32 max = 1;
+
+      // List of registration IDs to be excluded from the IABTL shared list.
+      repeated int32 excl = 2;
+
+      // List of string SKAdNetwork IDs not included in the IABTL shared list.
+      // The intention of addl is to be the permanent home for raw SKAdNetwork
+      // IDs, migrating away from BidRequest.imp.ext.skadn.skadnetids.
+      // Recommended that this list not exceed 10.
+      repeated string addl = 3;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
+    }
+
+    // Publisher's SKAdNetwork information to support app installation
+    // attribution for iOS 14 and later. Apple's SKAdNetwork API helps
+    // advertisers measure ad-driven app installation by sending a postback to
+    // the ad network after a successful install. Publishers will need to
+    // configure supported ad networks in their app's property list (Info.plist)
+    // to allow an install to be attributed to the ad impression.  For more info
+    // visit: https://developer.apple.com/documentation/storekit/skadnetwork
+    message SKAdNetworkRequest {
+      // Array of strings containing the supported SKAdNetwork versions. Always
+      // "2.0" or higher. Dependent on both the OS version and the SDK version.
+      repeated string versions = 5;
+
+      // Version of SKAdNetwork supported. Dependent on both the OS version and
+      // the SDK version.
+      // Note: With the release of SKAdNetwork 2.1, this field is deprecated in
+      // favor of the BidRequest.imp.ext.skadn.versions to support an array of
+      // version numbers.
+      string version = 1 [deprecated = true];
+
+      // ID of publisher app in Apple's App Store. Should match app.bundle in
+      // OpenRTB 2.x and app.storeid in AdCOM 1.x.
+      string sourceapp = 2;
+
+      // A subset of SKAdNetworkItem entries in the publisher app's Info.plist
+      // that are relevant to the DSP. Recommended that this list not exceed 10.
+      // Note: BidRequest.imp.ext.skadn.skadnetlist.addl is the preferred method
+      // to express raw SKAdNetwork IDs.
+      repeated string skadnetids = 3;
+
+      // Object containing the IABTL list definition.
+      SKAdNetworkList skadnetlist = 4;
+
+      // Custom Product Page support.
+      bool productpage = 6;
+
+      // SKOverlay support. If set, SKOverlay is supported.
+      bool skoverlay = 7;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
+    }
   }
 
   // This object should be included if the ad supported content is a website as
@@ -1757,6 +1863,27 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
+      // (iOS Only) An integer passed to represent the app's app tracking
+      // authorization status.
+      enum Atts {
+        NOT_DETERMINED = 0;
+        RESTRICTED = 1;
+        DENIED = 2;
+        AUTHORIZED = 3;
+      }
+      int32 atts = 1;
+
+      // IDFV of the device in that publisher. Listed as ifv to match ifa field
+      // format.
+      string ifv = 2;
+
+      // Chrome-facilitated cookie deprecation testing label as received from Chrome.
+      // https://developer.chrome.com/en/docs/privacy-sandbox/chrome-testing/
+      string cdep = 3;
+
+      // Declared source of the device.ifa provided in the bid request.
+      string ifa_type = 4;
+
       extensions 500 to 9999;
     }
   }
@@ -1976,6 +2103,14 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
+      // Consent string as specified in the IAB Transparency and Consent
+      // Framework v2.
+      // Deprecated, recommended to use user.consent instead.
+      string consent = 1 [deprecated = true];
+
+      // Extended (third-party) identifiers for this user.
+      repeated EID eids = 2 [deprecated = true];
+
       extensions 500 to 9999;
     }
 
@@ -2067,6 +2202,12 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
+      // In the "ext" object of the "data" object array of the "content" object
+      // of OpenRTB 2.x bid requests: An array of content IDs, representing one
+      // or more identifiers for the video or audio content from the ID source
+      // specified in the "name" field of the "data" object.
+      repeated string cids = 1;
+
       extensions 500 to 9999;
     }
 
@@ -2127,19 +2268,60 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      // A value of 1 indicates that the content is directed at minors and that
-      // specific types of products should not be advertised.
-      bool s22580 = 1;
+      // Callers should fill this field solely based on whether the impression
+      // will serve to an EEA user, based on information available to them. It
+      // does not constitute legal guidance on GDPR.
+      // Deprecated, recommended to use regs.gdpr instead.
+      bool gdpr = 1 [deprecated = true];
 
-      // This is to be populated the value of the Sec-GPC HTTP header from
-      // the user agent where the ad will be shown. Vendors with access to that
+      // OpenRTB Extension for US Privacy (CCPA)
+      // Deprecated, recommended to use regs.us_privacy instead.
+      string us_privacy = 2 [deprecated = true];
+
+      // This is to be populated the value of the 'Sec-GPC' HTTP header from the
+      // user agent where the ad will be shown. Vendors with access to that
       // header must populate this field with that value. Vendors receiving an
       // OpenRTB request must populate this with the value of the same field
       // from the request. No other usage of this field is valid. E.g., vendors
       // are not to copy the GPC signal from the GPP string to this field.
-      string gpc = 2;
+      string gpc = 3;
+
+      // Extension for DSA transparency information.
+      DsaRequest dsa = 4;
+
+      // A value of 1 indicates that the content is directed at minors and that
+      // specific types of products should not be advertised.
+      bool s22580 = 5;
 
       extensions 500 to 9999;
+    }
+
+    message DsaRequest {
+      // Flag to indicate if DSA information should be made available. This will
+      // signal if the bid request belongs to an Online Platform/VLOP, such that
+      // a buyer should respond with DSA Transparency information based on the
+      // pubrender value. 0 = Not required, 1 = Supported, bid responses with or
+      // without DSA object will be accepted, 2 = Required, bid responses
+      // without DSA object will not be accepted, 3 = Required, bid responses
+      // without DSA object will not be accepted, Publisher is an Online
+      // Platform.
+      int32 dsarequired = 1;
+
+      // Flag to indicate if the publisher will render the DSA Transparency
+      // info.  This will signal if the publisher is able to and intends to
+      // render the icon and display the DSA transparency info to the end user.
+      // 0 = Publisher can't render, 1 = Publisher could render depending on
+      // adrender, 2 = Publisher will render.
+      int32 pubrender = 2;
+
+      // Independent of pubrender, the publisher may need the transparency data for
+      // audit purposes. 0 = do not send transparency data, 1 = optional to send
+      // transparency data, 2 = send transparency data.
+      int32 datatopub = 3;
+
+      // Array of objects of the entities that applied user parameters and the
+      // parameters they applied.
+      repeated Transparency transparency = 4;
     }
   }
 
@@ -2151,17 +2333,15 @@ message BidRequest {
   // apply, it is up to the buyer and seller to coordinate on which floor is
   // applicable.
   message DurFloors {
-    oneof dur_oneof {
-      // An integer indicating the low end of a duration range. If this value is
-      // missing, the low end is unbounded. Either mindur or maxdur is required,
-      // but not both.
-      int32 mindur = 1;
+    // An integer indicating the low end of a duration range. If this value is
+    // missing, the low end is unbounded. Either mindur or maxdur is required,
+    // but not both.
+    int32 mindur = 1;
 
-      // An integer indicating the high end of a duration range. If this value
-      // is missing, the high end is unbounded. Either mindur or maxdur is
-      // required, but not both.
-      int32 maxdur = 2;
-    }
+    // An integer indicating the high end of a duration range. If this value is
+    // missing, the high end is unbounded. Either mindur or maxdur is required,
+    // but not both.
+    int32 maxdur = 2;
 
     // Minimum bid for a given impression opportunity, if bidding with a
     // creative in this duration range, expressed in CPM. For any creatives
@@ -2216,6 +2396,9 @@ message BidResponse {
   Ext ext = 99;
 
   message Ext {
+    // Optional array of SeatNonBid objects.
+    repeated SeatNonBid seatnonbid = 1;
+
     extensions 500 to 9999;
   }
 
@@ -2410,16 +2593,229 @@ message BidResponse {
       Ext ext = 99;
 
       message Ext {
-	// Unique key enabling to identify and track a campaign during its
-	// lifecycle regardless of the SSP and DSP used. Note : scid contains
-	// the AdvertiserID (Global location number) + Advertiser brand +
-	// Advertiser product code + Customer Product Estimate + Ext (optional)
-        string scid = 1;
+        // Advertiser's SKAdNetwork information.
+        SKAdNetworkResponse skadn = 1;
 
-	extensions 500 to 9999;
+        // Extension for DSA transparency information.
+        DsaResponse dsa = 2;
+
+        // Unique key enabling to identify and track a campaign during its
+        // lifecycle regardless of the SSP and DSP used. Note : scid contains
+        // the AdvertiserID (Global location number) + Advertiser brand +
+        // Advertiser product code + Customer Product Estimate + Ext (optional)
+        string scid = 3;
+
+        extensions 500 to 9999;
+      }
+
+      message DsaResponse {
+        // Advertiser Transparency: Free UNICODE text string with a name of
+        // whose behalf the ad is displayed. Maximum 100 characters.
+        string behalf = 1;
+
+        // Advertiser Transparency: Free UNICODE text string of who paid for the
+        // ad.  Must always be included even if it's the same as what is listed
+        // in the behalf attribute. Maximum 100 characters.
+        string paid = 2;
+
+        // Array of objects of the entities that applied user parameters and the
+        // parameters they applied.
+        repeated Transparency transparency = 3;
+
+        // Flag to indicate that buyer/advertiser will render their own DSA
+        // transparency information inside the creative. 0 = buyer/advertiser
+        // will not render, 1 = buyer/advertiser will render.
+        bool adrender = 4;
+      }
+
+      // SKAdNetwork fidelity attributes.
+      message SKAdNetworkFidelity {
+        // The fidelity-type of the attribution to track.
+        enum Fidelity {
+          VIEW_THROUGH = 0;
+          STOREKIT_RENDERED = 1;
+        }
+        int32 fidelity = 1;
+
+        // An id unique to each ad response. Refer to Apple's documentation for the
+        // proper UUID format requirements:
+        // https://developer.apple.com/documentation/storekit/skstoreproductparameteradnetworknonce
+        string nonce = 2;
+
+        // Unix time in millis string used at the time of signature.
+        string timestamp = 3;
+
+        // SKAdNetwork signature as specified by Apple.
+        string signature = 4;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
+      }
+
+      // Advertiser's SKAdNetwork information to support app installation
+      // attribution for iOS 14 and later.  Apple's SKAdNetwork API helps
+      // advertisers measure ad-driven app installation by sending a postback to
+      // the ad network after a successful install. Ad networks will need to
+      // send their network ID and signed advertiser information to allow an
+      // install to be attributed to the ad impression.  For more info visit:
+      // https://developer.apple.com/documentation/storekit/skadnetwork
+      message SKAdNetworkResponse {
+        // Version of SKAdNetwork desired. Must be 2.0 or above.
+        string version = 1;
+
+	// Ad network identifier used in signature. Should match one of the
+	// items in the skadnetids array in the request.
+	string network = 2;
+
+	// A four-digit integer that ad networks define to represent the ad
+	// campaign.  Used in SKAdNetwork 4.0+, replaces Campaign ID 'campaign'.
+	// DSPs must generate signatures in 4.0+ using the Source Identifier.
+	string sourceidentifier = 10;
+
+	// Campaign ID compatible with Apple's spec. As of 2.0, should be an
+	// integer between 1 and 100, expressed as a string.
+	string campaign = 3;
+
+        // ID of advertiser's app in Apple's app store. Should match
+        // BidResponse.seatbid.bid.bundle.
+        string itunesitem = 4;
+
+        // Custom Product Page ID (UUID).
+        string productpageid = 11;
+
+        // Supports multiple fidelity types introduced in SKAdNetwork v2.2.
+        repeated SKAdNetworkFidelity fidelities = 9;
+
+	// An id unique to each ad response. Refer to Apple's documentation for
+	// the proper UUID format requirements.
+	// Note: With the release of SKAdNetwork v2.2, this field is deprecated
+	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.nonce to
+	// support multiple fidelity-types.
+        string nonce = 5;
+
+        // ID of publisher's app in Apple's app store. Should match
+        // BidRequest.imp.ext.skad.sourceapp.
+        string sourceapp = 6;
+
+        // Unix time in millis used at the time of signature generation.
+	// Note: With the release of SKAdNetwork 2.2, this field is deprecated
+	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.timestamp
+        // to support multiple fidelity-types.
+        string timestamp = 7;
+
+        // SKAdNetwork signature as specified by Apple.
+	// Note: With the release of SKAdNetwork 2.2, this field is deprecated
+	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.signature
+        // to support multiple fidelity-types.
+        string signature = 8;
+
+        // SKOverlay support.
+        SKOverlay skoverlay = 12;
+
+        // Placeholder for exchange-specific extensions to OpenRTB.
+        Ext ext = 99;
+
+        message Ext {
+          extensions 500 to 9999;
+        }
+
+        message SKOverlay {
+	  // Delay before presenting the SKOverlay in seconds.  If set to 0, the
+	  // overlay will be shown immediately.  If this field is not set, the
+	  // overlay will not be shown.
+	  int32 delay = 1;
+
+	  // Delay before presenting the SKOverlay on an endcard in seconds.  If
+	  // set to 0, the overlay will be shown immediately.  If this field is
+	  // not set, the overlay will not be shown.
+	  int32 endcarddelay = 2;
+
+	  // Whether the overlay can be dismissed by the user, where 0 = no, 1 =
+	  // yes
+	  bool dismissible = 3;
+
+          // Position of the Overlay. 0 = bottom, 1 = bottomRaised.
+          int32 pos = 4;
+
+	  // Placeholder for exchange-specific extensions to OpenRTB.
+	  Ext ext = 99;
+
+          message Ext {
+            extensions 500 to 9999;
+          }
+        }
       }
     }
   }
+
+  message SeatNonBid {
+    // Array of 1+ NonBid objects each related to an impression. Multiple non
+    // bids may relate to the same impression.
+    repeated NonBid nonbid = 1;
+
+    // ID of the buyer seat (e.g., advertiser, agency) on whose behalf this bid
+    // is made.
+    string seat = 2;
+
+    // Placeholder for exchange-specific extensions to OpenRTB.
+    Ext ext = 99;
+
+    message Ext {
+      extensions 500 to 9999;
+    }
+
+    message NonBid {
+      // ID of the Imp object in the related bid request.
+      string impid = 1;
+
+      // Reason for non bid. Refer to the Non Bid Status Codes list in
+      // https://github.com/InteractiveAdvertisingBureau/openrtb/blob/main/extensions/community_extensions/seat-non-bid.md.
+      int32 statuscode = 2;
+
+      // Placeholder for exchange-specific extensions to OpenRTB.
+      Ext ext = 99;
+
+      message Ext {
+        extensions 500 to 9999;
+      }
+    }
+  }
+}
+
+message Transparency {
+  // Domain of the entity that applied user parameters.
+  string domain = 1;
+
+  // Array for platform or sell-side use of any user parameters (using the list
+  // provided by DSA Transparency Taskforce). Note; See definition and list of
+  // possible user parameters as listed here, applied consistently in both bid
+  // request and/or bid response.
+  enum DsaParams {
+    DsaParams_UNKNOWN = 0;
+
+    // Information about the user, collected and used across contexts, that is
+    // about the user's activity, interests, demographic information, or other
+    // characteristics.
+    PROFILING = 1;
+
+    // Use of real-time information about the context in which the ad will be
+    // shown, to show the ad, including information about the content and the
+    // device, such as: device type and capabilities, user agent, URL, IP
+    // address, non-precise geolocation data. Additionally, use of basic
+    // cross-context information not based on user behavior or user
+    // characteristics, for uses such as frequency capping, sequencing, brand
+    // safety, anti-fraud.
+    BASIC_ADVERTISING = 2;
+
+    // The precise real-time geolocation of the user, i.e. GPS coordinates
+    // within 500 meter radius precision.
+    PRECISE_GEOLOCATION = 3;
+  }
+  repeated int32 dsaparams = 2;
 }
 
 // The Native Object defines the native advertising opportunity available for
@@ -2619,6 +3015,11 @@ message NativeRequest {
       Ext ext = 99;
 
       message Ext {
+        // The ID for a taxonomy that is registered centrally, at
+        // https://github.com/InteractiveAdvertisingBureau/openrtb/blob/main/extensions/community_extensions/segtax.md.
+        // Refer to enum com.iabtechlab.adcom.v1.CategoryTaxonomy for values.
+        int32 segtax = 1;
+
         extensions 500 to 9999;
       }
     }
