@@ -1,5 +1,6 @@
 edition = "2023";
 
+import "google/protobuf/any.proto";
 option java_outer_classname = "OpenRtb";
 package com.iabtechlab.openrtb.v2;
 
@@ -158,7 +159,7 @@ message BidRequest {
   Ext ext = 99;
 
   message Ext {
-    extensions 500 to 9999;
+    extensions 500 to max;
   }
 
   // This object describes the nature and behavior of the entity that is the
@@ -205,7 +206,7 @@ message BidRequest {
       // "versionString" parameter of the OMID Partner object.
       string omidpv = 3;
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // This object is composed of a set of nodes where each node represents a
@@ -237,7 +238,7 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // This object is associated with a SupplyChain object as an array of
@@ -294,11 +295,11 @@ message BidRequest {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
-    }
-  }
+      } // SupplyChainNode
+    } // SupplyChain
+  } // Source
 
   // This object describes an ad placement or impression being auctioned. A
   // single bid request can include multiple Imp objects, a use case for which
@@ -420,30 +421,20 @@ message BidRequest {
       // Publisher's SKAdNetwork information.
       SKAdNetworkRequest skadn = 2;
 
-      // To differentiate between impression opportunities that support
-      // Protected Audience API on-device auction from those that only support
-      // traditional server-side exchange auction
-      enum AuctionEnvironment {
-        // Traditional server-side auctions
-        SERVER_SIDE_AUCTION = 0;
-
-        // Requests with Protected Audience API support, in which a contextual
-        // auction runs on the exchange's servers and the interest group bidding
-        // and the final auction runs in the browser
-        ON_DEVICE_INTEREST_GROUP_AUCTION = 1;
-      }
-      int32 ae = 3 [default = 0];
-
       // Indicates whether the inventory is intrinsic in-game, modifying the
       // environment of the game, for instance through a billboard or skin.
-      bool intrinsic = 4;
+      bool intrinsic = 3;
 
       // A string representing a transaction ID, which is expected to be common
       // across all participants in this bid request (e.g., potentially multiple
       // exchanges).
-      string tid = 5;
+      string tid = 4;
 
-      extensions 500 to 9999;
+      // This extension to "Object: Imp" allows sellers to signal Interest Group
+      // auction support for an Impression to buyers.
+      InterestGroupAuctionSupport igs = 5;
+
+      extensions 500 to max;
     }
 
     // This object is associated with an impression as an array of metrics.
@@ -472,9 +463,9 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Metric
 
     // This object represents the most general type of impression. Although the
     // term "banner" may have very specific meaning in other contexts, here it
@@ -567,7 +558,7 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // This object represents an allowed size (i.e., height and width
@@ -596,10 +587,10 @@ message BidRequest {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
-    }
+      } // Format
+    } // Banner
 
     // This object represents a video impression. Many of the fields are
     // non-essential for minimally viable transactions, but are included to
@@ -803,12 +794,12 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // Retired fields.
       reserved 22;
-    }
+    } // Video
 
     // This object represents an audio type impression. Many of the fields are
     // non-essential for minimally viable transactions, but are included to
@@ -950,9 +941,9 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Audio
 
     // This object represents a native type impression. Native ad units are
     // intended to blend seamlessly into the surrounding content (e.g., a
@@ -1011,9 +1002,9 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Native
 
     // A programmatic impression is often referred to as a ‘spot' in digital
     // out-of-home and CTV, with an impression being a unique member of the
@@ -1043,9 +1034,9 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Qty
 
     message Refresh {
       // A RefSettings object (see Section 3.2.34) describing the mechanics of
@@ -1060,7 +1051,7 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // Information on how often and what triggers an ad slot being refreshed.
@@ -1079,10 +1070,10 @@ message BidRequest {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
-    }
+      } // RefSettings
+    } // Refresh
 
     // This object is the private marketplace container for direct deals between
     // buyers and sellers that may pertain to this impression. The actual deals
@@ -1102,7 +1093,7 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // This object constitutes a specific deal that was struck between a buyer
@@ -1159,10 +1150,10 @@ message BidRequest {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
-    }
+      } // Deal
+    } // Pmp
 
     // SKAdNetwork object list attributes.
     message SKAdNetworkList {
@@ -1182,9 +1173,9 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // SKAdNetworkList
 
     // Publisher's SKAdNetwork information to support app installation
     // attribution for iOS 14 and later. Apple's SKAdNetwork API helps
@@ -1228,10 +1219,36 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
-  }
+    } // SKAdNetworkRequest
+
+    message InterestGroupAuctionSupport {
+      // Interest Group auction environment support for this impression. Note
+      // that this only indicates that the Interest Group auction is supported,
+      // not that it is guaranteed to execute. If no buyer chooses to
+      // participate in the Interest Group auction, then the Interest Group
+      // auction will be skipped and the winner of the OpenRTB (aka contextual)
+      // auction, if any, will serve instead.
+      enum AuctionEnvironment {
+        IG_AUCTION_NOT_SUPPORTED = 0;
+        ON_DEVICE_ORCHESTRATED_IG_AUCTION = 1;
+        SERVER_ORCHESTRATED_IG_AUCTION = 3;
+      }
+      int32 ae = 1 [default = 1];
+
+      // Indicates whether the buyer is allowed to participate in the Interest
+      // Group auction. Depending on account settings and other factors, a
+      // bidder might be disallowed from participating in an auction or
+      // submitting Interest Group bids, even though an Interest Group auction
+      // may ultimately decide the winning ad. The seller sets this. Example:
+      // the publisher intends to enable Interest Group, but the seller has not
+      // onboarded this buyer for Interest Group auctions. Buyers should only
+      // expect sellers to honor corresponding Interest Group Intent signals
+      // when this field is 1.
+      bool biddable = 2 [default = false];
+    } // InterestGroupAuctionSupport
+  } // Imp
 
   // This object should be included if the ad supported content is a website as
   // opposed to a non-browser application or Digital Out of Home (DOOH)
@@ -1313,12 +1330,12 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Retired fields.
     reserved 14;
-  }
+  } // Site
 
   // This object should be included if the ad supported content is a non-browser
   // application (typically in mobile) as opposed to a website. A bid request
@@ -1403,12 +1420,12 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Retired fields.
     reserved 14;
-  }
+  } // App
 
   // This object should be included if the ad supported content is a Digital
   // Out-Of-Home screen. A bid request with a DOOH object must not contain a
@@ -1448,9 +1465,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Dooh
 
   // This object describes the entity who directly supplies inventory to and is
   // paid by the exchange. This may be a publisher, intermediary exchange, ad
@@ -1480,9 +1497,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Publisher
 
   // This object describes the content in which the impression will appear,
   // which may be syndicated or non-syndicated content. This object may be
@@ -1625,12 +1642,12 @@ message BidRequest {
       // content.url field.
       repeated string feedurls = 1;
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Retired fields.
     reserved 12, 26;
-  }
+  } // Content
 
   // This object defines the producer of the content in which the ad will be
   // shown. This is particularly useful when the content is syndicated and may
@@ -1660,9 +1677,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Producer
 
   // This object describes the network an ad will be displayed on. A Network is
   // defined as the parent entity of the Channel object's entity for the
@@ -1689,9 +1706,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Network
 
   // This object describes the channel an ad will be displayed on. A Channel is
   // defined as the entity that curates a content library, or stream within a
@@ -1717,9 +1734,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Channel
 
   // This object provides information pertaining to the device through which the
   // user is interacting. Device information includes its hardware, platform,
@@ -1884,9 +1901,9 @@ message BidRequest {
       // Declared source of the device.ifa provided in the bid request.
       string ifa_type = 4;
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Device
 
   // This object encapsulates various methods for specifying a geographic
   // location. When subordinate to a Device object, it indicates the location of
@@ -1954,9 +1971,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Geo
 
   // Structured user agent information, which can be used when a client supports
   // User-Agent Client Hints. If both device.ua and device.sua are present in
@@ -2018,9 +2035,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // UserAgent
 
   // Further identification based on User-Agent Client Hints, the BrandVersion
   // object is used to identify a device's browser or similar software
@@ -2040,9 +2057,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // BrandVersion
 
   // This object contains information known or derived about the human user of
   // the device (i.e., the audience for advertising). The user id is an exchange
@@ -2111,7 +2128,7 @@ message BidRequest {
       // Extended (third-party) identifiers for this user.
       repeated EID eids = 2 [deprecated = true];
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Extended identifiers support in the OpenRTB specification allows buyers
@@ -2155,7 +2172,7 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       // This object contains a single user identifier provided as part of
@@ -2175,11 +2192,11 @@ message BidRequest {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
-    }
-  }
+      } // UID
+    } // EID
+  } // User
 
   // The data and segment objects together allow additional data about the
   // related object (e.g., user, content) to be specified. This data may be from
@@ -2208,7 +2225,7 @@ message BidRequest {
       // specified in the "name" field of the "data" object.
       repeated string cids = 1;
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Segment objects are essentially key-value pairs that convey specific
@@ -2229,10 +2246,10 @@ message BidRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
-  }
+    } // Segment
+  } // Data
 
   // This object contains any legal, governmental, or industry regulations that
   // the sender deems applicable to the request. See Section 7.5 for more
@@ -2293,7 +2310,7 @@ message BidRequest {
       // specific types of products should not be advertised.
       bool s22580 = 5;
 
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     message DsaRequest {
@@ -2322,8 +2339,8 @@ message BidRequest {
       // Array of objects of the entities that applied user parameters and the
       // parameters they applied.
       repeated Transparency transparency = 4;
-    }
-  }
+    } // DsaRequest
+  } // Regs
 
   // This object allows sellers to specify price floors for video and audio
   // creatives, whose price varies based on time. For example: 1-15 seconds at a
@@ -2353,9 +2370,9 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // DurFloors
 }
 
 // This object is the top-level bid response object (i.e., the unnamed outer
@@ -2399,7 +2416,14 @@ message BidResponse {
     // Optional array of SeatNonBid objects.
     repeated SeatNonBid seatnonbid = 1;
 
-    extensions 500 to 9999;
+    // This extension to "Object: BidResponse" allows buyers and sellers to
+    // provide necessary signals in order to operate an Interest Group auction
+    // for a given ad slot. Must include at least a buyer object (igb, in the
+    // bid response from the buyer to the seller) or seller object (igs, from
+    // the seller to the publisher), but not both.
+    InterestGroupAuctionIntent igi = 2;
+
+    extensions 500 to max;
   }
 
   // A bid response can contain multiple SeatBid objects, each on behalf of a
@@ -2425,7 +2449,7 @@ message BidResponse {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // A SeatBid object contains one or more Bid objects, each of which relates
@@ -2605,7 +2629,7 @@ message BidResponse {
         // Advertiser product code + Customer Product Estimate + Ext (optional)
         string scid = 3;
 
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
 
       message DsaResponse {
@@ -2626,7 +2650,7 @@ message BidResponse {
         // transparency information inside the creative. 0 = buyer/advertiser
         // will not render, 1 = buyer/advertiser will render.
         bool adrender = 4;
-      }
+      } // DsaResponse
 
       // SKAdNetwork fidelity attributes.
       message SKAdNetworkFidelity {
@@ -2652,9 +2676,9 @@ message BidResponse {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
-      }
+      } // SKAdNetworkFidelity
 
       // Advertiser's SKAdNetwork information to support app installation
       // attribution for iOS 14 and later.  Apple's SKAdNetwork API helps
@@ -2720,7 +2744,7 @@ message BidResponse {
         Ext ext = 99;
 
         message Ext {
-          extensions 500 to 9999;
+          extensions 500 to max;
         }
 
         message SKOverlay {
@@ -2745,12 +2769,12 @@ message BidResponse {
 	  Ext ext = 99;
 
           message Ext {
-            extensions 500 to 9999;
+            extensions 500 to max;
           }
-        }
-      }
-    }
-  }
+        } // SKOverlay
+      } // SKAdNetworkResponse
+    } // Bid
+  } // SeatBid
 
   message SeatNonBid {
     // Array of 1+ NonBid objects each related to an impression. Multiple non
@@ -2765,7 +2789,7 @@ message BidResponse {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     message NonBid {
@@ -2780,11 +2804,91 @@ message BidResponse {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
+    } // NonBid
+  } // SeatNonBid
+
+  message InterestGroupAuctionIntent {
+    // ID of the Imp object in the related bid request. Used to link Interest
+    // Group buyer information to the specific ad slot. Only required in the bid
+    // response from the buyer to the seller.
+    string impid = 1;
+
+    oneof interestgroupauction_oneof {
+      // One or more InterestGroupAuctionBuyer objects. Required and mutually
+      // exclusive with igs.
+      InterestGroupAuctionBuyer igb = 2;
+
+      // One or more InterestGroupAuctionSeller objects. Required and mutually
+      // exclusive with igb.
+      InterestGroupAuctionSeller igs = 3;
     }
-  }
-}
+  } // InterestGroupAuctionIntent
+
+  // Information provided by the buyer and necessary for the seller to build the
+  // associated config.
+  message InterestGroupAuctionBuyer {
+    // Origin of the Interest Group buyer to participate in the IG auction. See
+    // https://developer.mozilla.org/en-US/docs/Glossary/Origin.
+    string origin = 1;
+
+    // Maximum Interest Group bid price expressed in CPM currency that a bidder
+    // agrees to pay if they win an in-browser Interest Group auction expressed
+    // expressed in the currency denoted by the cur attribute. Actual winning
+    // bid in the in-browser auction that determines the amount a bidder pays
+    // for the impression may be lower than this amount. This constraint reduces
+    // the risks from in-browser auction bids submitted in error or reported due
+    // to fraud and abuse.
+    double maxbid = 2;
+
+    // The buyer's currency signals, an object mapping string keys to Javascript
+    // numbers. If specified, the seller will add to its auction config
+    // perBuyerCurrencies attribute map, keyed by the Interest Group buyer
+    // origin. Indicates the currency in which Interest Group bids will be
+    // placed. The maxbid should always match the cur value. Value must be a
+    // three digit ISO 4217 alpha currency code (e.g. "USD").
+    string cur = 3 [default = "USD"];
+
+    // Buyer-specific signals ultimately provided to this buyer's generateBid()
+    // function as the perBuyerSignals argument. If specified, the seller will
+    // add to its auction config perBuyerSignals attribute map, keyed by the
+    // Interest Group buyer Origin. Per PA API spec, the value may be any valid
+    // JSON serializable value.
+    string pbs = 4;
+
+    // The buyer’s priority signals, an object mapping string keys to Javascript
+    // numbers. If specified, the seller will add to its auction config
+    // perBuyerPrioritySignals attribute map, keyed by the Interest Group buyer
+    // origin. See
+    // https://github.com/WICG/turtledove/blob/main/FLEDGE.md#35-filtering-and-prioritizing-interest-groups.
+    map<string, double> ps = 5;
+
+    // The buyer’s experiment group ID, an integer between zero and 65535 (16
+    // bits). If specified, the seller will add to its auction config
+    // perBuyerExperimentGroupIds attribute map, keyed by the Interest Group
+    // buyer origin. See
+    // https://github.com/WICG/turtledove/blob/main/FLEDGE.md#21-initiating-an-on-device-auction
+    // NOTE: Assuming the auction is not run in parallel, the seller will
+    // provide the value via the perBuyerExperimentGroupIds auction
+    // configuration, provided the seller does not start the auction in parallel
+    // with OpenRTB requests.
+    int32 begid = 6;
+  } // InterestGroupAuctionBuyer
+
+  // Information provided by the seller and necessary to initiate an Interest
+  // Group component auction. Component seller auction configuration should be
+  // submitted to the top-level seller's on-page library for inclusion in the
+  // Interest Group auction.
+  message InterestGroupAuctionSeller {
+    // ID of the Imp object in the related bid request. Used to link Interest
+    // Group seller information to the specific ad slot.
+    string impid = 1;
+
+    // Auction config for a component seller.
+    google.protobuf.Any config = 2;
+  } // InterestGroupAuctionSeller
+} // BidResponse
 
 message Transparency {
   // Domain of the entity that applied user parameters.
@@ -2816,7 +2920,7 @@ message Transparency {
     PRECISE_GEOLOCATION = 3;
   }
   repeated int32 dsaparams = 2;
-}
+} // Transparency
 
 // The Native Object defines the native advertising opportunity available for
 // bid via this bid request. It must be included directly in the impression
@@ -2893,7 +2997,7 @@ message NativeRequest {
   Ext ext = 99;
 
   message Ext {
-    extensions 500 to 9999;
+    extensions 500 to max;
   }
 
   // The main container object for each asset requested or supported by Exchange
@@ -2933,7 +3037,7 @@ message NativeRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // The Title object is to be used for title element of the Native ad.
@@ -2947,9 +3051,9 @@ message NativeRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Title
 
     // The Image object to be used for all image elements of the Native ad such
     // as Icons, Main Image, etc. Recommended sizes and aspect ratios are
@@ -2991,9 +3095,9 @@ message NativeRequest {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Image
 
     // The Data Object is to be used for all non-core elements of the native
     // unit such as Ratings, Review Count, Stars, Download count, descriptions
@@ -3020,10 +3124,10 @@ message NativeRequest {
         // Refer to enum com.iabtechlab.adcom.v1.CategoryTaxonomy for values.
         int32 segtax = 1;
 
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
-  }
+    } // Data
+  } // Asset
 
   // The EventTrackers object specifies the type of events the bidder can
   // request to be tracked in the bid response, and which types of tracking are
@@ -3044,10 +3148,10 @@ message NativeRequest {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
-}
+  } // EventTrackers
+} // NativeRequest
 
 // The native response object is the top level JSON object which identifies an
 // native response. Note: Prior to VERSION 1.1, the native response's root node
@@ -3109,7 +3213,7 @@ message NativeResponse {
   Ext ext = 99;
 
   message Ext {
-    extensions 500 to 9999;
+    extensions 500 to max;
   }
 
   // Used for "call to action" assets, or other links from the Native ad. This
@@ -3133,9 +3237,9 @@ message NativeResponse {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
+  } // Link
 
   // Corresponds to the Asset Object in the request. The main container object
   // for each asset requested or supported by Exchange on behalf of the
@@ -3177,7 +3281,7 @@ message NativeResponse {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
 
     // Corresponds to the Title Object in the request, with the value filled in.
@@ -3198,9 +3302,9 @@ message NativeResponse {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Title
 
     // Corresponds to the Image Object in the request. The Image object to be
     // used for all image elements of the Native ad such as Icons, Main Image,
@@ -3234,9 +3338,9 @@ message NativeResponse {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Image
 
     // Corresponds to the Data Object in the request, with the value filled in.
     // The Data Object is to be used for all miscellaneous elements of the
@@ -3268,9 +3372,9 @@ message NativeResponse {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
+    } // Data
 
     // Corresponds to the Video Object in the request, yet containing a value of
     // a conforming VAST tag as a value.
@@ -3283,10 +3387,10 @@ message NativeResponse {
       Ext ext = 99;
 
       message Ext {
-        extensions 500 to 9999;
+        extensions 500 to max;
       }
-    }
-  }
+    } // Video
+  } // Asset
 
   // The event trackers response is an array of objects and specifies the types
   // of events the bidder wishes to track and the URLs/information to track
@@ -3320,10 +3424,10 @@ message NativeResponse {
     Ext ext = 99;
 
     message Ext {
-      extensions 500 to 9999;
+      extensions 500 to max;
     }
-  }
-}
+  } // EventTracker
+} // NativeResponse
 
 // ***** OpenRTB Core enums ****************************************************
 
