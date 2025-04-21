@@ -2421,7 +2421,7 @@ message BidResponse {
     // for a given ad slot. Must include at least a buyer object (igb, in the
     // bid response from the buyer to the seller) or seller object (igs, from
     // the seller to the publisher), but not both.
-    InterestGroupAuctionIntent igi = 2;
+    repeated InterestGroupAuctionIntent igi = 2;
 
     extensions 500 to max;
   }
