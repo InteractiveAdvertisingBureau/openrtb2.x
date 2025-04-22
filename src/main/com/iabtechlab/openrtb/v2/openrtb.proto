@@ -2815,15 +2815,13 @@ message BidResponse {
     // response from the buyer to the seller.
     string impid = 1;
 
-    oneof interestgroupauction_oneof {
-      // One or more InterestGroupAuctionBuyer objects. Required and mutually
-      // exclusive with igs.
-      InterestGroupAuctionBuyer igb = 2;
+    // One or more InterestGroupAuctionBuyer objects. Required and mutually
+    // exclusive with igs.
+    repeated InterestGroupAuctionBuyer igb = 2;
 
-      // One or more InterestGroupAuctionSeller objects. Required and mutually
-      // exclusive with igb.
-      InterestGroupAuctionSeller igs = 3;
-    }
+    // One or more InterestGroupAuctionSeller objects. Required and mutually
+    // exclusive with igb.
+    repeated InterestGroupAuctionSeller igs = 3;
   } // InterestGroupAuctionIntent
 
   // Information provided by the buyer and necessary for the seller to build the
