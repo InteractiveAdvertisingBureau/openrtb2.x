@@ -1,6 +1,8 @@
 edition = "2023";
 
 import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+
 option java_outer_classname = "OpenRtb";
 package com.iabtechlab.openrtb.v2;
 
@@ -2853,7 +2855,7 @@ message BidResponse {
     // add to its auction config perBuyerSignals attribute map, keyed by the
     // Interest Group buyer Origin. Per PA API spec, the value may be any valid
     // JSON serializable value.
-    string pbs = 4;
+    .google.protobuf.Value pbs = 4;
 
     // The buyer’s priority signals, an object mapping string keys to Javascript
     // numbers. If specified, the seller will add to its auction config
