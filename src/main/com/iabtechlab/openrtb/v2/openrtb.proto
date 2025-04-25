@@ -952,7 +952,7 @@ message BidRequest {
     // sponsored Twitter or Facebook post). As such, the response must be
     // well-structured to afford the publisher fine-grained control over
     // rendering.
-    // 
+    //
     // The Native Subcommittee has developed a companion specification to
     // OpenRTB called the Dynamic Native Ads API. It defines the request
     // parameters and response markup structure of native ad units. This object
@@ -960,7 +960,7 @@ message BidRequest {
     // so that the specific parameters can evolve separately under the auspices
     // of the Dynamic Native Ads API. Similarly, the ad markup served will be
     // structured according to that specification.
-    // 
+    //
     // The presence of a Native as a subordinate of the Imp object indicates
     // that this impression is offered as a native type impression. At the
     // publisher's discretion, that same impression may also be offered as
@@ -1022,8 +1022,9 @@ message BidRequest {
       double multiplier = 1;
 
       // The source type of the quantity measurement, ie. publisher.
-      // Refer to enum com.iabtechlab.adcom.v1.enums.DOOHMultiplierMeasurementSourceType
-      // for values.
+      // Refer to enum
+      // com.iabtechlab.adcom.v1.enums.DOOHMultiplierMeasurementSourceType for
+      // values.
       // RECOMMENDED by the OpenRTB specification.
       int32 sourcetype = 2;
 
@@ -1896,7 +1897,8 @@ message BidRequest {
       // format.
       string ifv = 2;
 
-      // Chrome-facilitated cookie deprecation testing label as received from Chrome.
+      // Chrome-facilitated cookie deprecation testing label as received from
+      // Chrome.
       // https://developer.chrome.com/en/docs/privacy-sandbox/chrome-testing/
       string cdep = 3;
 
@@ -1912,7 +1914,7 @@ message BidRequest {
   // the device which can also be interpreted as the user's current location.
   // When subordinate to a User object, it indicates the location of the user's
   // home base (i.e., not necessarily their current location).
-  // 
+  //
   // The lat/lon attributes should only be passed if they conform to the
   // accuracy depicted in the type attribute. For example, the centroid of a
   // geographic region such as postal code should not be passed.
@@ -2333,9 +2335,9 @@ message BidRequest {
       // adrender, 2 = Publisher will render.
       int32 pubrender = 2;
 
-      // Independent of pubrender, the publisher may need the transparency data for
-      // audit purposes. 0 = do not send transparency data, 1 = optional to send
-      // transparency data, 2 = send transparency data.
+      // Independent of pubrender, the publisher may need the transparency data
+      // for audit purposes. 0 = do not send transparency data, 1 = optional to
+      // send transparency data, 2 = send transparency data.
       int32 datatopub = 3;
 
       // Array of objects of the entities that applied user parameters and the
@@ -2663,8 +2665,8 @@ message BidResponse {
         }
         int32 fidelity = 1;
 
-        // An id unique to each ad response. Refer to Apple's documentation for the
-        // proper UUID format requirements:
+        // An id unique to each ad response. Refer to Apple's documentation for
+        // the proper UUID format requirements:
         // https://developer.apple.com/documentation/storekit/skstoreproductparameteradnetworknonce
         string nonce = 2;
 
@@ -2693,18 +2695,18 @@ message BidResponse {
         // Version of SKAdNetwork desired. Must be 2.0 or above.
         string version = 1;
 
-	// Ad network identifier used in signature. Should match one of the
-	// items in the skadnetids array in the request.
-	string network = 2;
+        // Ad network identifier used in signature. Should match one of the
+        // items in the skadnetids array in the request.
+        string network = 2;
 
-	// A four-digit integer that ad networks define to represent the ad
-	// campaign.  Used in SKAdNetwork 4.0+, replaces Campaign ID 'campaign'.
-	// DSPs must generate signatures in 4.0+ using the Source Identifier.
-	string sourceidentifier = 10;
+        // A four-digit integer that ad networks define to represent the ad
+        // campaign.  Used in SKAdNetwork 4.0+, replaces Campaign ID 'campaign'.
+        // DSPs must generate signatures in 4.0+ using the Source Identifier.
+        string sourceidentifier = 10;
 
-	// Campaign ID compatible with Apple's spec. As of 2.0, should be an
-	// integer between 1 and 100, expressed as a string.
-	string campaign = 3;
+        // Campaign ID compatible with Apple's spec. As of 2.0, should be an
+        // integer between 1 and 100, expressed as a string.
+        string campaign = 3;
 
         // ID of advertiser's app in Apple's app store. Should match
         // BidResponse.seatbid.bid.bundle.
@@ -2716,11 +2718,11 @@ message BidResponse {
         // Supports multiple fidelity types introduced in SKAdNetwork v2.2.
         repeated SKAdNetworkFidelity fidelities = 9;
 
-	// An id unique to each ad response. Refer to Apple's documentation for
-	// the proper UUID format requirements.
-	// Note: With the release of SKAdNetwork v2.2, this field is deprecated
-	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.nonce to
-	// support multiple fidelity-types.
+        // An id unique to each ad response. Refer to Apple's documentation for
+        // the proper UUID format requirements.
+        // Note: With the release of SKAdNetwork v2.2, this field is deprecated
+        // in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.nonce to
+        // support multiple fidelity-types.
         string nonce = 5;
 
         // ID of publisher's app in Apple's app store. Should match
@@ -2728,15 +2730,17 @@ message BidResponse {
         string sourceapp = 6;
 
         // Unix time in millis used at the time of signature generation.
-	// Note: With the release of SKAdNetwork 2.2, this field is deprecated
-	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.timestamp
-        // to support multiple fidelity-types.
+        // Note: With the release of SKAdNetwork 2.2, this field is deprecated
+        // in favor of the
+        // BidResponse.seatbid.bid.ext.skadn.fidelities.timestamp to support
+        // multiple fidelity-types.
         string timestamp = 7;
 
         // SKAdNetwork signature as specified by Apple.
-	// Note: With the release of SKAdNetwork 2.2, this field is deprecated
-	// in favor of the BidResponse.seatbid.bid.ext.skadn.fidelities.signature
-        // to support multiple fidelity-types.
+        // Note: With the release of SKAdNetwork 2.2, this field is deprecated
+        // in favor of the
+        // BidResponse.seatbid.bid.ext.skadn.fidelities.signature to support
+        // multiple fidelity-types.
         string signature = 8;
 
         // SKOverlay support.
@@ -2750,25 +2754,25 @@ message BidResponse {
         }
 
         message SKOverlay {
-	  // Delay before presenting the SKOverlay in seconds.  If set to 0, the
-	  // overlay will be shown immediately.  If this field is not set, the
-	  // overlay will not be shown.
-	  int32 delay = 1;
+          // Delay before presenting the SKOverlay in seconds.  If set to 0, the
+          // overlay will be shown immediately.  If this field is not set, the
+          // overlay will not be shown.
+          int32 delay = 1;
 
-	  // Delay before presenting the SKOverlay on an endcard in seconds.  If
-	  // set to 0, the overlay will be shown immediately.  If this field is
-	  // not set, the overlay will not be shown.
-	  int32 endcarddelay = 2;
+          // Delay before presenting the SKOverlay on an endcard in seconds.  If
+          // set to 0, the overlay will be shown immediately.  If this field is
+          // not set, the overlay will not be shown.
+          int32 endcarddelay = 2;
 
-	  // Whether the overlay can be dismissed by the user, where 0 = no, 1 =
-	  // yes
-	  bool dismissible = 3;
+          // Whether the overlay can be dismissed by the user, where 0 = no, 1 =
+          // yes
+          bool dismissible = 3;
 
           // Position of the Overlay. 0 = bottom, 1 = bottomRaised.
           int32 pos = 4;
 
-	  // Placeholder for exchange-specific extensions to OpenRTB.
-	  Ext ext = 99;
+          // Placeholder for exchange-specific extensions to OpenRTB.
+          Ext ext = 99;
 
           message Ext {
             extensions 500 to max;
