@@ -3431,6 +3431,23 @@ message NativeResponse {
 
 // ***** OpenRTB Core enums ****************************************************
 
+// OpenRTB 2.0: types of ads that can be accepted by the exchange unless
+// restricted by publisher site settings.
+enum BannerAdType {
+  // Equivalent to an unset value.
+  BANNER_AD_TYPE_UNKNOWN = 0;
+  // "Usually mobile".
+  XHTML_TEXT_AD = 1;
+  // "Usually mobile".
+  XHTML_BANNER_AD = 2;
+  // Javascript must be valid XHTML (ie, script tags included).
+  JAVASCRIPT_AD = 3;
+  // Iframe.
+  IFRAME = 4;
+}
+
+// ***** OpenRTB Native enums **************************************************
+
 // OpenRTB Native 1.0: Core layouts. An implementing exchange may not support
 // all asset variants or introduce new ones unique to that system. To be
 // deprecated.
