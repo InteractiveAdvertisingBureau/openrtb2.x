@@ -2899,7 +2899,7 @@ message Transparency {
   // possible user parameters as listed here, applied consistently in both bid
   // request and/or bid response.
   enum DsaParams {
-    DsaParams_UNKNOWN = 0;
+    DSA_PARAMS_UNKNOWN = 0;
 
     // Information about the user, collected and used across contexts, that is
     // about the user's activity, interests, demographic information, or other
@@ -3431,28 +3431,11 @@ message NativeResponse {
 
 // ***** OpenRTB Core enums ****************************************************
 
-// OpenRTB 2.0: types of ads that can be accepted by the exchange unless
-// restricted by publisher site settings.
-enum BannerAdType {
-  // Equivalent to an unset value.
-  BannerAdType_UNKNOWN = 0;
-  // "Usually mobile".
-  XHTML_TEXT_AD = 1;
-  // "Usually mobile".
-  XHTML_BANNER_AD = 2;
-  // Javascript must be valid XHTML (ie, script tags included).
-  JAVASCRIPT_AD = 3;
-  // Iframe.
-  IFRAME = 4;
-}
-
-// ***** OpenRTB Native enums **************************************************
-
 // OpenRTB Native 1.0: Core layouts. An implementing exchange may not support
 // all asset variants or introduce new ones unique to that system. To be
 // deprecated.
 enum LayoutId {
-  LayoutId_UNKNOWN = 0;
+  LAYOUT_ID_UNKNOWN = 0;
   CONTENT_WALL = 1;
   APP_WALL = 2;
   NEWS_FEED = 3;
@@ -3470,7 +3453,7 @@ enum LayoutId {
 // implementing exchange may not support all asset variants or introduce new
 // ones unique to that system. To be deprecated.
 enum AdUnitId {
-  AdUnitId_UNKNOWN = 0;
+  AD_UNIT_ID_UNKNOWN = 0;
   PAID_SEARCH_UNIT = 1;
   RECOMMENDATION_WIDGET = 2;
   PROMOTED_LISTING = 3;
@@ -3486,7 +3469,7 @@ enum AdUnitId {
 // expected that most content platforms have some social components, etc.
 enum ContextType {
   // Equivalent to an unset value.
-  ContextType_UNKNOWN = 0;
+  CONTEXT_TYPE_UNKNOWN = 0;
   // Content-centric context such as newsfeed, article, image gallery, video
   // gallery, or similar.
   CONTENT = 1;
