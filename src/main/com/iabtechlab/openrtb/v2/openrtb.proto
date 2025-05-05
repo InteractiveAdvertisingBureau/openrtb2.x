@@ -22,9 +22,21 @@ package com.iabtechlab.openrtb.v2;
 
 // OpenRTB extensions ("ext" fields in the spec & JSON representation) are
 // represented here by Protocol Buffer extensions. This proto only reserves the
-// range of IDs 100-9999 at every extensible object. Beware that upstream
+// range of IDs 500-max at every extensible object. Beware that upstream
 // authors of a message may reserve extension IDs for their own use, so an
 // author is not free to propagate a message adding their own extensions.
+
+// Extension ranges are bucketed into blocks of 1000, an orginization can
+// claim a block for their own use to prevent conflicts.
+//
+// Range 500-999 is intentionally unclaimed. It is highly recommended to not use
+// this range for any purpose other than during-development use.
+//
+// Extension ranges are defined as follows:
+// 1-499: IAB defined extensions
+// 500-999: Prototype space (intentionally unclaimed)
+// 1000-1999: Google
+// 2000-2999: Amazon
 
 // OpenRTB 2.0: The top-level bid request object contains a globally unique bid
 // request or auction ID. This id attribute is required as is at least one
