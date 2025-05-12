@@ -1,6 +1,5 @@
 edition = "2023";
 
-import "google/protobuf/any.proto";
 import "google/protobuf/struct.proto";
 
 option java_outer_classname = "OpenRtb";
@@ -2901,7 +2900,7 @@ message BidResponse {
     string impid = 1;
 
     // Auction config for a component seller.
-    google.protobuf.Any config = 2;
+    google.protobuf.Value config = 2;
   }  // InterestGroupAuctionSeller
 }  // BidResponse
 
@@ -3377,7 +3376,7 @@ message NativeResponse {
 
     // The optional formatted string name of the data type to be displayed.
     // DEPRECATED in 1.2.
-    string label = 1;
+    string label = 1 [deprecated = true];
 
     // The formatted string of data to be displayed. Can contain a formatted
     // value such as "5 stars" or "$10" or "3.4 stars out of 5".
