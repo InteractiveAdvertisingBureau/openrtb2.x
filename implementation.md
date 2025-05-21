@@ -1,4 +1,16 @@
-	
+# TABLE OF CONTENTS
+ [7. Implementation Notes](#7-implementation-notes)
+  - [7.1 - Non-Human Traffic (NHT)](#71---non-human-traffic-nht)
+  - [7.2 - Impression Expiration](#72---impression-expiration)
+  - [7.3 - Bid Response Construction](#73---bid-response-construction)
+  - [7.4 - No-Bid Responses](#74---no-bid-responses)
+  - [7.5 - Ad Markup Delivery](#75---ad-markup-delivery)
+  - [7.6 - Creative Attributes](#76---creative-attributes)
+  - [7.7 - Ad Categories](#77---ad-categories)
+  - [7.8 - Deal ID Usage](#78---deal-id-usage)
+  - [7.9 - Supply Chain Object](#79---supply-chain-object)
+  - [7.10 - Updated Video Signals](#710---updated-video-signals)
+
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
