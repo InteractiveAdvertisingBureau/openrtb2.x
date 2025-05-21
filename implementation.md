@@ -1964,3 +1964,35 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
   }
 }
 ```
+
+## 7.15 - Additional Telemetry for Live Events <a name="lea"></a>
+
+Additional telemetry can be provided by including `recording` and `airdate` attributes. There are some detailed examples below.
+
+- The first airing of a program or event that has played previously on a different channel should use the date the program originally ran (e.g. a show new to channel B should include the original airdate as it ran on channel A).  
+- Where the original airdate is very far in the past (e.g. a classic movie streaming live), the value in the `airdate` attribute should be left blank.
+
+---
+
+## Example Scenarios
+
+| Scenario | `recording` | `airdate` |
+|----------|-------------|-----------|
+| Live (current) basketball game streaming live | 1 | [0] |
+| Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | [UNIX TIMESTAMP] |
+| Basketball game streaming on-demand (not live) | 0 | [UNIX TIMESTAMP] |
+| International sports coverage (e.g. Olympics, Tour de France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally. <br><br>Event recorded abroad that premiered hours later in North America. | 1 | [UNIX TIMESTAMP] |
+| New episodic content, premiere, with live tune-in | 1 | [0] |
+| New episodic content, premiere, on demand viewing | 0 | [UNIX TIMESTAMP] |
+| Episodic content, not a premiere, with live tune-in | 1 | [UNIX TIMESTAMP] |
+| Episodic content, not a premiere, on demand viewing | 0 | [UNIX TIMESTAMP] |
+| Live award show streaming live | 1 | [0] |
+| Replay of award show, programmed streaming on an ad-supported channel | 1 | [UNIX TIMESTAMP] |
+| Award show streaming on-demand (not live) | 0 | [UNIX TIMESTAMP] |
+| Live (current episode) talk show streaming live | 1 | [0] |
+| Rerun of episode of talk show, programmed streaming on an ad-supported channel | 1 | [UNIX TIMESTAMP] |
+| Talk show streaming on-demand (not live) | 0 | [UNIX TIMESTAMP] |
+| Real-time news streaming live | 1 | [0] |
+| News streaming on-demand (not live) | 0 | [UNIX TIMESTAMP] |
+| Sitcom rerun, programmed streaming on an ad-supported channel | 1 | [UNIX TIMESTAMP] |
+| Sitcom rerun streaming on-demand (not live) | 0 | [UNIX TIMESTAMP] |
