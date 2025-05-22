@@ -14,7 +14,7 @@
   - [7.11 - Guidance on the Use of Floors](#floors)
   - [7.12 - ID Match Method Guidance](#idmm)
   - [7.13 - Using genres and gtax attributes](#genre)
-  - [7.14 - Using cids](#cids)
+  - [7.14 - Using Extended Content Identifiers](#cids)
   - [7.15 - Additional Telemetry for Live Events](#lea)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
