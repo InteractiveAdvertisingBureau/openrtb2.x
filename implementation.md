@@ -1,4 +1,22 @@
-	
+## Table of Contents
+
+- [7. Implementation Notes](#implementationnotes)
+  - [7.1 - No-Bid Signaling](#nobidsignaling)
+  - [7.2 - Impression Expiration](#impressionexpiration)
+  - [7.3 - PMP & Direct Deals](#pmpanddirectdeals)
+  - [7.4 - Skippability](#skippability)
+  - [7.5 - Regs Resources](#regsresources)
+  - [7.6 - Pod Bidding for Video and Audio](#podbidding)
+  - [7.7 - Network vs Channel Example Cases](#networkandchannel)
+  - [7.8 - Counting Billable Events and Tracked Ads](#counting)
+  - [7.9 - Digital Out-Of-Home](#dooh)
+  - [7.10 - Updated Video Signals](#videosignals)
+  - [7.11 - Guidance on the Use of Floors](#floors)
+  - [7.12 - ID Match Method Guidance](#idmm)
+  - [7.13 - Using genres and gtax attributes](#genre)
+  - [7.14 - Using cids](#cids)
+  - [7.15 - Additional Telemetry for Live Events](#lea)
+
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
 The following section will provide brief notes on how certain objects and fields are to be interpreted and implemented.
