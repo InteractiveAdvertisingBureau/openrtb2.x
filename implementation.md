@@ -15,6 +15,7 @@
   - [7.12 - ID Match Method Guidance](#idmm)
   - [7.13 - Using genres and gtax attributes](#genre)
   - [7.14 - Using Extended Content Identifiers](#cids)
+  - [7.15 - Live Event Signaling](#livestream)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -1883,7 +1884,7 @@ Declare the specific taxonomy version utilized within the new content.gtax attri
 As a default, a [subset of rows from the Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) should be utilized as the taxonomy enumerated in the [IAB Tech Lab Taxonomy and Mapping](https://github.com/InteractiveAdvertisingBureau/Taxonomies/tree/develop) GitHub repository. If utilizing a vendor or custom taxonomy please work with your SSPs/DSPs to ensure that those taxonomies can be read before sending. 
 
 
-## 7.14 - Using cids <a name="cids"></a>
+## 7.14 - Using Extended Content Identifiers <a name="cids"></a>
 
 ### 7.14.1 How Extended Content Identifiers are Used
 There is a market desire to target by video/audio content metadata or contextual classifications thereof. This requires some sort of scheme for identifying individual pieces of content, transmitting that in a bid request, and enabling lookup or classification of that piece of content's metadata.
@@ -1981,3 +1982,39 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
   }
 }
 ```
+
+
+## 7.15 - Live Event Signaling <a name="livestream"></a>
+
+Publishers may provide metadata regarding the "liveness" of a video stream using the `livestream`, `recording` and `airdate` attributes. For example, a popular episodic season premiere released on video on demand (VOD) might be functionally very similar to a premiere on live broadcast TV in terms of user behavior and concurrency.
+
+There are some detailed examples of various scenarios and the corresponding use of these fields, below.
+
+Notes:
+- The first airing of a program or event that has played previously on a different channel should use the date the program originally ran (e.g. a show new to channel B should include the original airdate as it ran on channel A).  
+- Where the original airdate is very far in the past (e.g. a classic movie streaming live), the value in the `airdate` attribute should be -2 to denote the program originally aired prior to the start of the UNIX epoch (Jan 1, 1970). 
+
+---
+
+## Example Scenarios
+
+| Scenario | livestream | recording | airdate |
+|---|---|---|---|
+| Live (current) basketball game streaming live | 1 |1 | -1 |
+| Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
+| Basketball game streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
+| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 0 | [UNIX timestamp] |
+| New episodic content, premiere, with live tune-in | 1 | 0 | -1    |
+| New episodic content, premiere, on demand viewing | 0 | 0 | [UNIX timestamp] |
+| Episodic content, not a premiere, with live tune-in | 1 | 0 | [UNIX timestamp] |
+| Episodic content, not a premiere, on demand viewing | 0 | 0 | [UNIX timestamp] |
+| Live award show streaming live | 1 | 1 | -1 |
+| Replay of award show, programmed streaming on an ad-supported  channel | 1 | 0 | [UNIX timestamp] |
+| Award show streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
+| Live (current episode) talk show streaming live | 1 | 1 | -1    |
+| Rerun of episode of talk show, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
+| Talk show streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
+| Real-time news streaming live | 1 | 1 | -1    |
+| News streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
+| Sitcom rerun, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
+| Sitcom rerun streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
