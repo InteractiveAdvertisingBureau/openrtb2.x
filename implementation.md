@@ -1986,9 +1986,7 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 
 ## 7.15 - Live Event Signaling <a name="livestream"></a>
 
-Publishers may include additional metadata regarding the "liveness" of a video stream using the `recording` and `airdate` attributes.
-
-The purpose of these fields is to provide the buyer with information that may influence ad decisioning or valuation of the supply. For example, a popular episodic season premiere released on video on demand (VOD) might be functionally very similar to a premiere on live broadcast TV, both in terms of user behavior and concurrency, as well as in how the buyer values those two events.
+Publishers may provide metadata regarding the "liveness" of a video stream using the `livestream`, `recording` and `airdate` attributes. For example, a popular episodic season premiere released on video on demand (VOD) might be functionally very similar to a premiere on live broadcast TV in terms of user behavior and concurrency.
 
 There are some detailed examples of various scenarios and the corresponding use of these fields, below.
 
