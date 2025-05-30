@@ -2003,7 +2003,7 @@ Notes:
 | Live (current) basketball game streaming live | 1 |1 | -1 |
 | Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
 | Basketball game streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
-| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 0 | [UNIX timestamp] |
+| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 0 | -1 |
 | New episodic content, premiere, with live tune-in | 1 | 0 | -1    |
 | New episodic content, premiere, on demand viewing | 0 | 0 | [UNIX timestamp] |
 | Episodic content, not a premiere, with live tune-in | 1 | 0 | [UNIX timestamp] |
