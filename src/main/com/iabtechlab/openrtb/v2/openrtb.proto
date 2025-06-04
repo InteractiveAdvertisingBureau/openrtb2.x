@@ -1279,7 +1279,7 @@ message BidRequest {
     // Domain of the site (e.g., "mysite.foo.com").
     string domain = 3;
 
-    // The taxonomy in use. If no cattax field is supplied IAB Cotent Category
+    // The taxonomy in use. If no cattax field is supplied IAB Content Category
     // Taxonomy 1.0 is assumed.
     // Refer to enum com.iabtechlab.adcom.v1.enums.CategoryTaxonomy for values.
     int32 cattax = 16 [default = 1];
