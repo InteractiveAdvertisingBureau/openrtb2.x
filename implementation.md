@@ -2009,21 +2009,21 @@ Notes regarding relationships between, and expectations for, these fields:
 
 | Scenario | livestream | recording | airdate |
 |---|---|---|---|
-| Live (current) basketball game streaming live | 1 | 0 | -1 |
+| Live (current) basketball game streaming live | 1 | 0 | [ISO 8601 timestamp] |
 | Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
 | Basketball game streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
-| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 1 | -1 |
-| New episodic content, premiere, with live tune-in | 1 | 1 | -1 |
+| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 1 | [ISO 8601 timestamp] |
+| New episodic content, premiere, with live tune-in | 1 | 1 | [ISO 8601 timestamp] |
 | New episodic content, premiere, on demand viewing | 0 | 1 | [ISO 8601 timestamp] |
 | Episodic content, not a premiere, with live tune-in | 1 | 1 | [ISO 8601 timestamp] |
 | Episodic content, not a premiere, on demand viewing | 0 | 1 | [ISO 8601 timestamp] |
-| Live award show streaming live | 1 | 0 | -1 |
+| Live award show streaming live | 1 | 0 | [ISO 8601 timestamp] |
 | Replay of award show, programmed streaming on an ad-supported  channel | 1 | 1 | [ISO 8601 timestamp] |
 | Award show streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
-| Live (current episode) talk show streaming live | 1 | 0 | -1 |
+| Live (current episode) talk show streaming live | 1 | 0 | [ISO 8601 timestamp] |
 | Rerun of episode of talk show, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
 | Talk show streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
-| Real-time news streaming live | 1 | 0 | -1 |
+| Real-time news streaming live | 1 | 0 | [ISO 8601 timestamp] |
 | News streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
 | Sitcom rerun, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
 | Sitcom rerun streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
