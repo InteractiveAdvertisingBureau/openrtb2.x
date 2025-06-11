@@ -1988,11 +1988,20 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 
 Publishers may provide metadata regarding the "liveness" of a video stream using the `livestream`, `recording` and `airdate` attributes. For example, a popular episodic season premiere released on video on demand (VOD) might be functionally very similar to a premiere on live broadcast TV in terms of user behavior and concurrency.
 
+Note the following expectations of implementers as regards the `airdate` timestamp:
+* Use the extended form of the timestamp, including timezone offset: `YYYY-MM-DDThh:mm±hh:mm`. E.g. `2025-06-01T16:00:00-04:00`.
+* UTC can either be expressed as `+00:00` or as `Z`, for example `2025-06-01T16:00:00+00:00` or `2025-06-01T16:00:00Z` are acceptable.
+* Use the hour range `00-23`.
+
 There are some detailed examples of various scenarios and the corresponding use of these fields, below.
 
-Notes:
-- The first airing of a program or event that has played previously on a different channel should use the date the program originally ran (e.g. a show new to channel B should include the original airdate as it ran on channel A).  
-- Where the original airdate is very far in the past (e.g. a classic movie streaming live), the value in the `airdate` attribute should be -2 to denote the program originally aired prior to the start of the UNIX epoch (Jan 1, 1970). 
+Notes regarding relationships between, and expectations for, these fields:
+* There is an inherent relationship between `livestream` and `recording`. For live content that's not pre-recorded (`recording=0`), `livestream` must indicate `1`. Said differently, the `livestream`,`recording` combination of [0,0] is not possible. A live recording can be livestreamed, but is not available on VOD.
+* An event that was recorded live is considered to be pre-recorded from the moment that original airing has completed. It can be shown as a re-run on a livestreamed channel or VOD, but it is considered `recording=1`.
+* The `airdate` field should only specify a future date in a bid request pre-fetching scenario (i.e. it's 2:50 PM now, and a seller is issuing bid requests for a livestreamed program that will air at 3:00 PM).
+* In the case of live content that's not pre-recorded (`recording=0`), it is expected that the `airdate` either be in the near future or near past. 24 hours is typically a generous ceiling on the delta between the bid request and the airdate (future or past). Uninterrupted live events lasting more than 24 hours are considered exceptional.
+* The first airing of a program or event that has played previously on a different channel should use the date the program originally ran (e.g. a show new to channel B should include the original airdate as it ran on channel A).  
+
 
 ---
 
@@ -2000,21 +2009,21 @@ Notes:
 
 | Scenario | livestream | recording | airdate |
 |---|---|---|---|
-| Live (current) basketball game streaming live | 1 |1 | -1 |
-| Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
-| Basketball game streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
-| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 0 | -1 |
-| New episodic content, premiere, with live tune-in | 1 | 0 | -1    |
-| New episodic content, premiere, on demand viewing | 0 | 0 | [UNIX timestamp] |
-| Episodic content, not a premiere, with live tune-in | 1 | 0 | [UNIX timestamp] |
-| Episodic content, not a premiere, on demand viewing | 0 | 0 | [UNIX timestamp] |
-| Live award show streaming live | 1 | 1 | -1 |
-| Replay of award show, programmed streaming on an ad-supported  channel | 1 | 0 | [UNIX timestamp] |
-| Award show streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
-| Live (current episode) talk show streaming live | 1 | 1 | -1    |
-| Rerun of episode of talk show, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
-| Talk show streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
-| Real-time news streaming live | 1 | 1 | -1    |
-| News streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
-| Sitcom rerun, programmed streaming on an ad-supported channel | 1 | 0 | [UNIX timestamp] |
-| Sitcom rerun streaming on-demand (not live) | 0 | 0 | [UNIX timestamp] |
+| Live (current) basketball game streaming live | 1 | 0 | -1 |
+| Replay of past basketball game, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
+| Basketball game streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
+| International sports coverage (e.g. Olympics, Tour d’France, Formula 1) recorded in a different timezone, livestreamed for the first time during primetime hours internationally.<br><br>Event recorded abroad that premiered hours later in North America. | 1 | 1 | -1 |
+| New episodic content, premiere, with live tune-in | 1 | 1 | -1 |
+| New episodic content, premiere, on demand viewing | 0 | 1 | [ISO 8601 timestamp] |
+| Episodic content, not a premiere, with live tune-in | 1 | 1 | [ISO 8601 timestamp] |
+| Episodic content, not a premiere, on demand viewing | 0 | 1 | [ISO 8601 timestamp] |
+| Live award show streaming live | 1 | 0 | -1 |
+| Replay of award show, programmed streaming on an ad-supported  channel | 1 | 1 | [ISO 8601 timestamp] |
+| Award show streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
+| Live (current episode) talk show streaming live | 1 | 0 | -1 |
+| Rerun of episode of talk show, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
+| Talk show streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
+| Real-time news streaming live | 1 | 0 | -1 |
+| News streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
+| Sitcom rerun, programmed streaming on an ad-supported channel | 1 | 1 | [ISO 8601 timestamp] |
+| Sitcom rerun streaming on-demand (not live) | 0 | 1 | [ISO 8601 timestamp] |
