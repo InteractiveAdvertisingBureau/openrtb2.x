@@ -1,7 +1,5 @@
 edition = "2023";
 
-import "google/protobuf/struct.proto";
-
 option java_outer_classname = "OpenRtb";
 package com.iabtechlab.openrtb.v2;
 
@@ -1557,7 +1555,7 @@ message BidRequest {
     // subset of rows listed in CTV Genre Mapping of Content Category Taxonomy
     // 3.1 are assumed. See Section 7.13 in Implementation Guidance for
     // additional detail.
-    repeated int32 genres = 34;
+    repeated string genres = 35;
 
     // Album to which the content belongs; typically for audio.
     string album = 23;
@@ -1659,7 +1657,7 @@ message BidRequest {
     }
 
     // Retired fields.
-    reserved 12, 26;
+    reserved 12, 26, 34;
   }  // Content
 
   // This object defines the producer of the content in which the ad will be
