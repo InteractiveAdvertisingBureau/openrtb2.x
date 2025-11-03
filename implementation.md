@@ -1986,15 +1986,7 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 
 ## 7.15 - Live Event Signaling <a name="livestream"></a>
 
-Publishers may provide metadata regarding the "liveness" of a video stream using the following 4 attributes:  
-`livestream`, `recorded`, `capturedlive`, and `firstbroadcast`.  
-
-These attributes help answer different permutations of commonly asked questions:
-
-- Is this a live event?  
-- Is it being broadcast as it is happening?  
-- Is it being broadcast for the first time?  
-- Is the broadcast linear or on-demand?  
+Publishers may provide metadata regarding the "liveness" of a video stream using `livestream` and `recorded` attributes.  
 
 For example, a popular episodic season premiere released on video on demand (VOD) might be functionally very similar to a premiere on live TV in terms of user behavior and concurrency. By adding additional fidelity, they can be packaged and described more appropriately.  
 
@@ -2005,19 +1997,17 @@ For example, a popular episodic season premiere released on video on demand (VOD
 - There is an inherent relationship between `livestream` and `recorded`.  
   - For live content that's not pre-recorded (`recorded=0`), `livestream` must indicate `1`.  
 - An event that was recorded live is considered to be pre-recorded from the moment that original airing has completed.  
-  - It can be shown as a re-run on a livestreamed channel or VOD, but it is considered `recorded=1`.  
+  - It can be shown as a re-run on a livestreamed channel (`recorded=1`) or VOD (`recorded=2`), but it is not considered live, meaning `livestream=0` .  
   - Minor timeshifts (e.g., due to user pause) are still eligible to be considered as not pre-recorded.  
 - For content that's not pre-recorded (`recorded=0`), it is expected that the **airdate** either be in the near future or near past.  
   - 24 hours is typically a generous ceiling on the delta between the bid request and the airdate (future or past).  
   - Uninterrupted live events lasting more than 24 hours are considered exceptional.  
-- The first airing of a program or event that has played previously on a different channel in the same market should use a `firstbroadcast` value of `1`; indicating the current showing is **not** its original broadcast.  
 
 ---
 
 ### 7.15.2 Content Containing Pre-Recorded Sections
 
-Captured live events may still mix in small amounts of non-live content.  
-For example, flashbacks to a highlight reel or player background pieces may still be considered as captured live.  
+Captured live events may still mix in small amounts of non-live content. For example, flashbacks to a highlight reel or player background pieces may still be considered live `livestream=1`.  
 
 ---
 
@@ -2029,21 +2019,18 @@ The first broadcast may be **timezone-aware** — it’s possible an event was b
 
 ### 7.15.4 Example Scenarios
 
-| Scenarios                                                                                                     | livestream | recorded | capturedlive | firstbroadcast |
-|---------------------------------------------------------------------------------------------------------------|------------|----------|--------------|----------------|
-| Sports game currently happening being streamed as the game is going on                                        | 1          | 0        | 1            | 1              |
-| Replay of past sports game, programmed streaming on an ad-supported channel                                   | 1          | 1        | 0            | 0              |
-| Sports game streaming on-demand (not live)                                                                    | 0          | 1        | 0            | 0              |
-| International sports coverage (e.g., Olympics, Tour de France, Formula 1) recorded abroad and aired later     | 1          | 1        | 0            | 1              |
-| Episodic content with real time tune-in                                                                       | 1          | 1        | 0            | 1              |
-| Episodic content with on-demand viewing                                                                       | 0          | 1        | 0            | 0              |
-| Award show being streamed as it is happening                                                                  | 1          | 0        | 1            | 1              |
-| Replay of award show, programmed streaming on an ad-supported channel                                         | 0          | 1        | 0            | 0              |
-| Award show streaming on-demand after the event has completed                                                  | 0          | 1        | 0            | 0              |
-| Talk show streaming as it is being recorded                                                                   | 1          | 0        | 1            | 1              |
-| Rerun of episode of talk show, programmed streaming on an ad-supported channel                                | 1          | 1        | 1            | 0              |
-| Talk show streaming on-demand                                                                                 | 0          | 1        | 0            | 0              |
-| Real-time news being viewed as it is happening                                                                | 1          | 0        | 1            | 1              |
-| News program after the program has completed                                                                  | 0          | 1        | 0            | 0              |
-| Sitcom rerun, programmed streaming on an ad-supported channel                                                 | 1          | 1        | 0            | 0              |
-| Sitcom rerun streaming on-demand                                                                              | 0          | 0        | 0            | 0              |
+| Scenarios                                                                                                     | livestream | recorded |
+|---------------------------------------------------------------------------------------------------------------|------------|----------|
+| Sports game currently happening being streamed as the game is going on                                        | 1          | 0        |
+| Replay of past sports game, programmed streaming on an ad-supported channel                                   | 0          | 1        |
+| Sports game streaming on-demand (not live)                                                                    | 0          | 2        |
+| International sports coverage (e.g., Olympics, Tour de France, Formula 1) recorded abroad and aired later     | 1          | 0        |
+| Episodic content with real time tune-in                                                                       | 1          | 1        | 
+| Episodic content with on-demand viewing                                                                       | 2          | 1        |
+| Award show being streamed as it is happening                                                                  | 1          | 0        |
+| Replay of award show, programmed streaming on an ad-supported channel                                         | 0          | 1        |
+| Award show streaming on-demand after the event has completed                                                  | 2          | 1        |
+| Real-time news being viewed as it is happening                                                                | 1          | 0        | 
+| News program after the program has completed                                                                  | 0          | 1        | 
+| Sitcom rerun, programmed streaming on an ad-supported channel                                                 | 1          | 1        | 
+| Sitcom rerun streaming on-demand                                                                              | 2          | 0        |
