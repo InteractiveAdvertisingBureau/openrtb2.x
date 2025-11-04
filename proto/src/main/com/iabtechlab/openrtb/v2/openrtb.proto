@@ -3,6 +3,8 @@ edition = "2023";
 option java_outer_classname = "OpenRtb";
 package com.iabtechlab.openrtb.v2;
 
+import "google/protobuf/struct.proto";
+
 // Copyright 2020 IAB Tech Lab
 //
 // Licensed under the Apache License, Version 2.0 (the "License"); you may not
