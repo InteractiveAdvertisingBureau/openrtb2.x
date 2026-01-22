@@ -1883,7 +1883,7 @@ Declare the specific taxonomy version utilized within the new content.gtax attri
 As a default, a [subset of rows from the Content Taxonomy 3.1](https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/develop/Taxonomy%20Mappings/CTV%20Genre%20Mapping.tsv) should be utilized as the taxonomy enumerated in the [IAB Tech Lab Taxonomy and Mapping](https://github.com/InteractiveAdvertisingBureau/Taxonomies/tree/develop) GitHub repository. If utilizing a vendor or custom taxonomy please work with your SSPs/DSPs to ensure that those taxonomies can be read before sending. 
 
 
-## 7.14 - Using cids <a name="cids"></a>
+## 7.14 - Using Extended Content Identifiers <a name="cids"></a>
 
 ### 7.14.1 How Extended Content Identifiers are Used
 There is a market desire to target by video/audio content metadata or contextual classifications thereof. This requires some sort of scheme for identifying individual pieces of content, transmitting that in a bid request, and enabling lookup or classification of that piece of content's metadata.
@@ -1981,3 +1981,5 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
   }
 }
 ```
+
+
