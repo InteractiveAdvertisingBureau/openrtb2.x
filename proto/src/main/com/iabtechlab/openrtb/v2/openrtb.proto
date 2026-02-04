@@ -37,6 +37,7 @@ import "google/protobuf/struct.proto";
 // 1000-1999: Google
 // 2000-2999: Amazon
 // 3000-3999: Index Exchange
+// 4000-4999: OpenX
 
 // OpenRTB 2.0: The top-level bid request object contains a globally unique bid
 // request or auction ID. This id attribute is required as is at least one
