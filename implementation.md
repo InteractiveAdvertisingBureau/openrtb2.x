@@ -16,6 +16,7 @@
   - [7.13 - Using genres and gtax attributes](#genre)
   - [7.14 - Using Extended Content Identifiers](#cids)
   - [7.15 - Signaling the "liveness" of Programming](#liveness)
+  - [7.16 - Discount Macros](#discountmacros)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -2094,3 +2095,26 @@ This represents a standard "fly-on-the-wall" reality show (e.g., Keeping Up with
   "len": 2640
 }
 ```
+
+## 7.16 Discount Macros <a name="discountmacros"></a>
+
+Support sending discount information back to DSPs using the following macros:
+
+| Macro | Description |
+|-------|-------------|
+| `${AUCTION_PRICE}` | The clearing price, in the same currency and units as the bid. This reflects the final price after discount. |
+| `${AUCTION_DISCOUNT_PCT}` | The discount percentage applied by the seller, expressed as a percentage of the bid price. |
+| `${AUCTION_DISCOUNT_CPM}` | The discount amount applied by the seller. |
+
+**Note:** There are other discounts that are not negotiated between the buyer and seller and are not reflected in these macros.
+
+### Example
+
+- **DSP bid price:** $10
+- **Agreed discount:** 20%
+
+| Macro | Value | Description |
+|-------|-------|-------------|
+| `${AUCTION_PRICE}` | `8.0` | Final clearing price |
+| `${AUCTION_DISCOUNT_PCT}` | `20.0` | Discount percentage |
+| `${AUCTION_DISCOUNT_CPM}` | `2.0` | Discount amount |
