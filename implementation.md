@@ -15,6 +15,7 @@
   - [7.12 - ID Match Method Guidance](#idmm)
   - [7.13 - Using genres and gtax attributes](#genre)
   - [7.14 - Using Extended Content Identifiers](#cids)
+  - [7.15 - Signaling the "liveness" of Programming](#liveness)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -1982,4 +1983,114 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 }
 ```
 
+## 7.15 - Signaling the 'liveness' of Programming <a name="liveness"></a>
 
+### 7.15.1 - Benefits
+
+**Limited Transparency with Guaranteed Commitment**
+- The seller does not want to provide granular transparency to Open Market buyers but needs to fulfill a Programmatic Guaranteed (PG) Deal.
+- The seller indicates via Deal Sync that the supply is a real-time broadcast live event.
+- The DSP can activate live event pacing for the PG deal, while Open Market demand competes on the same bid request without extra metadata. The seller harnesses non-committed spend (e.g., via User Identity) that DSPs otherwise wouldn't deliver due to the specific traffic profiles of Live TV.
+
+**Full Transparency for All Buyer Tiers**
+- The seller wants to provide granular transparency across Open Market, PMP, and PG buyers.
+- Content attributes (`live`, `realtime`, `genres`) are fully disclosed in the bid request.
+- DSPs can match and spend budgets for all campaigns specifically targeting real-time live events and season premieres. All parties benefit from the DSP's ability to handle the unique traffic patterns and concurrency of Live TV.
+
+**Accelerated Delivery with Offline Disclosure**
+- The seller wants DSPs to be ready for accelerated spend but prefers not to disclose granular details on the bid request itself.
+- The seller flags the event via a Live Event Ads Playbook Forecasting API endpoint. A PG deal is established with "offline" disclosure to the buyer.
+- The DSP fulfills the PG budget using the API signal to prepare for scale/concurrency. The seller receives additional Open Market and PMP demand without compromising underlying supply details on the open exchange.
+
+### 7.15.2 - Considerations
+**Flexibility for Multiple Content Types**
+- The content object supports flexible representation to avoid forcing one Deal ID per program
+- Multiple programs can be represented in a single deal through the title and series fields
+- `genres` arrays support mixed content types within a single package
+
+**Backward Compatibility**
+- All content fields are optional to maintain backward compatibility
+- Existing [Deal API](https://github.com/IABTechLab/deal-api/blob/main/deal1.0.md) implementations continue to function without modification
+- New content metadata provides additional value without breaking changes
+
+**Privacy & Control**
+- Publishers can selectively include content metadata as appropriate
+- [AdCOM Object: Content](https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/develop/AdCOM%20v1.0%20FINAL.md#object--content-) provides alternative to including metadata in OpenRTB requests
+
+
+### 7.15.3 JSON Examples
+**Scenario 1: Live Sports (Appointment Viewing)**
+In this case, we use live: 1 and realtime: 1 to indicate a broadcast happening right now. 
+
+```
+{
+  "id": "live-sports-990",
+  "title": "Savannah Bananas vs The Party Animals",
+  "live": 1,
+  "realtime": 1,
+  "firstbroadcast": "2024-06-12T19:00:00Z",
+  "context": 1,
+  "genres": [
+    "Sports"
+  ],
+  "gtax": 5,
+  }
+}
+```
+**Scenario 2: Reality  TV**
+Reality TV often falls into two categories: Live Broadcasts (like a finale or a competition where viewers vote in real-time) and Standard Episodes (pre-recorded "VOD" style).
+
+**Scenario 2.1: Live Reality Competition Finale**
+Live-streaming finale where the content is being produced and delivered in real-time.
+
+```
+{
+  "id": "reality-fin-2026",
+  "title": "The Voice: Grand Finale",
+  "series": "The Voice",
+  "season": "25",
+  "episode": 20,
+  "live": 1,
+  "realtime": 1,
+  "firstbroadcast": "2026-03-20T20:00:00Z",
+  "context": 1,
+  "genres": [
+    "Reality TV",
+    "Music & Entertainment",
+    "Competition"
+  ],
+  "gtax": 5,
+  "producer": {
+    "id": "nbc-99",
+    "name": "NBCUniversal",
+    "domain": "nbc.com"
+  },
+  "keywords": "singing,finale,live-vote",
+  "language": "en",
+  "len": 7200
+}
+```
+**Scenario 2.2: Pre-recorded Reality Episode (VOD)**
+This represents a standard "fly-on-the-wall" reality show (e.g., Keeping Up with the Kardashians style) that was filmed months ago and is being watched on-demand.
+```
+{
+  "id": "rel-ep-302",
+  "title": "Trouble in Paradise",
+  "series": "Island Living",
+  "season": "3",
+  "episode": 2,
+  "live": 0,
+  "realtime": 0,
+  "firstbroadcast": "2025-11-12T21:00:00Z",
+  "context": 1,
+  "genres": [
+    "Reality TV",
+    "Lifestyle",
+    "Docudrama"
+  ],
+  "gtax": 5,
+  "url": "https://stream-app.com/island-living/s3/e2",
+  "language": "en",
+  "len": 2640
+}
+```
