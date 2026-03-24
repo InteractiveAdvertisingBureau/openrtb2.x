@@ -2021,15 +2021,15 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 
 ### 7.15.3 JSON Examples
 **Scenario 1: Live Sports (Appointment Viewing)**
-In this case, we use live: 1 and realtime: 1 to indicate a broadcast happening right now. 
+In this case, we use livestream: 1, realtime: 1, and firstbroadcast: 1 to indicate a broadcast happening right now. 
 
 ```
 {
   "id": "live-sports-990",
   "title": "Savannah Bananas vs The Party Animals",
-  "live": 1,
+  "livestream": 1,
   "realtime": 1,
-  "firstbroadcast": "2024-06-12T19:00:00Z",
+  "firstbroadcast": 1,
   "context": 1,
   "genres": [
     "Sports"
@@ -2038,22 +2038,22 @@ In this case, we use live: 1 and realtime: 1 to indicate a broadcast happening r
   }
 }
 ```
-**Scenario 2: Reality  TV**
-Reality TV often falls into two categories: Live Broadcasts (like a finale or a competition where viewers vote in real-time) and Standard Episodes (pre-recorded "VOD" style).
+**Scenario 2: Episodic TV**
+Episodic TV, as an example, may fall into 2 categories: live linear viewing of pre-recorded content or on-demand viewing.
 
-**Scenario 2.1: Live Reality Competition Finale**
-Live-streaming finale where the content is being produced and delivered in real-time.
+**Scenario 2.1: Linear Viewing**
+Appointment viewing of non-realtime content.
 
 ```
 {
-  "id": "reality-fin-2026",
-  "title": "The Voice: Grand Finale",
-  "series": "The Voice",
+  "id": "abcde12345",
+  "title": "Week 4 Auditions",
+  "series": "America's Got Talent (AGT)",
   "season": "25",
-  "episode": 20,
-  "live": 1,
-  "realtime": 1,
-  "firstbroadcast": "2026-03-20T20:00:00Z",
+  "episode": 4,
+  "livestream": 1,
+  "realtime": 0,
+  "firstbroadcast": 1,
   "context": 1,
   "genres": [
     "Reality TV",
@@ -2066,13 +2066,13 @@ Live-streaming finale where the content is being produced and delivered in real-
     "name": "NBCUniversal",
     "domain": "nbc.com"
   },
-  "keywords": "singing,finale,live-vote",
+  "keywords": "singing,dancing,music",
   "language": "en",
   "len": 7200
 }
 ```
-**Scenario 2.2: Pre-recorded Reality Episode (VOD)**
-This represents a standard "fly-on-the-wall" reality show (e.g., Keeping Up with the Kardashians style) that was filmed months ago and is being watched on-demand.
+**Scenario 2.2: On-Demand Viewing (VOD)**
+On-demand viewing of non-realtime content.
 ```
 {
   "id": "rel-ep-302",
@@ -2082,7 +2082,7 @@ This represents a standard "fly-on-the-wall" reality show (e.g., Keeping Up with
   "episode": 2,
   "live": 0,
   "realtime": 0,
-  "firstbroadcast": "2025-11-12T21:00:00Z",
+  "firstbroadcast": 0,
   "context": 1,
   "genres": [
     "Reality TV",
