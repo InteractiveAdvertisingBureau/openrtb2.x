@@ -1995,7 +1995,7 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 
 **Full Transparency for All Buyer Tiers**
 - The seller wants to provide granular transparency across Open Market, PMP, and PG buyers.
-- Content attributes (`live`, `realtime`, `genres`) are fully disclosed in the bid request.
+- Content attributes (`livestream`, `realtime`, `genres`) are fully disclosed in the bid request.
 - DSPs can match and spend budgets for all campaigns specifically targeting real-time live events and season premieres. All parties benefit from the DSP's ability to handle the unique traffic patterns and concurrency of Live TV.
 
 **Accelerated Delivery with Offline Disclosure**
@@ -2039,9 +2039,9 @@ In this case, we use livestream: 1, realtime: 1, and firstbroadcast: 1 to indica
 }
 ```
 **Scenario 2: Episodic TV**
-Episodic TV, as an example, may fall into 2 categories: live linear viewing of pre-recorded content or on-demand viewing.
+Episodic TV, as an example, may fall into 2 categories: scheduled broadcast of pre-recorded content or on-demand viewing.
 
-**Scenario 2.1: Linear Viewing**
+**Scenario 2.1: Scheduled Broadcast**
 Appointment viewing of non-realtime content.
 
 ```
