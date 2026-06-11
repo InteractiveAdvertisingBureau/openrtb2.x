@@ -2032,9 +2032,9 @@ In this case, we use livestream: 1, realtime: 1, and firstbroadcast: 1 to indica
   "firstbroadcast": 1,
   "context": 1,
   "genres": [
-    "Sports"
+    "483"
   ],
-  "gtax": 5,
+  "gtax": 9,
   }
 }
 ```
@@ -2056,11 +2056,10 @@ Appointment viewing of non-realtime content.
   "firstbroadcast": 1,
   "context": 1,
   "genres": [
-    "Reality TV",
-    "Music & Entertainment",
-    "Competition"
+    "651",
+    "JLBCU7"
   ],
-  "gtax": 5,
+  "gtax": 9,
   "producer": {
     "id": "nbc-99",
     "name": "NBCUniversal",
@@ -2085,11 +2084,11 @@ On-demand viewing of non-realtime content.
   "firstbroadcast": 0,
   "context": 1,
   "genres": [
-    "Reality TV",
-    "Lifestyle",
-    "Docudrama"
+    "651",
+    "TIFQA5",
+    "332"
   ],
-  "gtax": 5,
+  "gtax": 9,
   "url": "https://stream-app.com/island-living/s3/e2",
   "language": "en",
   "len": 2640
