@@ -920,7 +920,7 @@ This object describes the content in which the impression will appear, which may
 | `qagmediarating` | integer | Media rating per IQG guidelines. Refer to [List: Media Ratings](https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/master/AdCOM%20v1.0%20FINAL.md#list--media-ratings-) in AdCOM 1.0. |
 | `keywords` | string | Comma separated list of keywords describing the content. Only one of `keywords` or `kwarray` may be present. |
 | `kwarray` | string array | Array of keywords about the site. Only one of `keywords` or `kwarray` may be present. |
-| `livestream` | integer | 0 = not live, 1 = content is live (e.g., stream, live blog)|
+| `livestream` | int | An enumeration indicating the method of broadcast of the content where: <br><br>0 = the broadcast is not scheduled (e.g. it is VOD or otherwise user initiated). <br>1 = the broadcast is scheduled (also referred to as linear viewing). |
 | `sourcerelationship` | integer | 0 = indirect, 1 = direct. |
 | `len` | integer | Length of content in seconds; appropriate for video or audio. |
 | `language` | string | Content language using ISO-639-1-alpha-2. Only one of `language` or `langb` should be present. |
@@ -929,6 +929,8 @@ This object describes the content in which the impression will appear, which may
 | `data` | object array | Additional content data. Each `Data` object (Section 3.2.21) represents a different data source. |
 | `network` | object | Details about the network (Section 3.2.23) the content is on. |
 | `channel` | object | Details about the channel (Section 3.2.24) the content is on. |
+| `realtime` | int | An enumeration indicating if the event is happening in real time while it is being watched where: <br><br>0 = not happening in real time (e.g., a replay). <br>1 = yes, happening in real time (e.g., a live sports game). |
+| `firstbroadcast` | int | An enumeration indicating whether this broadcast is the first time the content is available to an audience where: <br><br>0 = not first time being broadcast <br>1 = first time being broadcast |
 | `ext` | object | Placeholder for exchange-specific extensions to OpenRTB. |
 
 
@@ -1423,7 +1425,7 @@ These same substitution macros can also be placed in the ad markup. The exchange
 | `${AUCTION_IMP_ID}` | ID of the impression just won; from `imp.id` attribute. |
 | `${AUCTION_SEAT_ID}` | ID of the bidder seat for whom the bid was made. |
 | `${AUCTION_AD_ID}` | ID of the ad markup the bidder wishes to serve; from `bid.adid` attribute. |
-| `${AUCTION_PRICE}` | Clearing price using the same currency and units as the bid. |
+| `${AUCTION_PRICE}` | Clearing price using the same currency and units as the bid. This reflects the final price after discount.|
 | `${AUCTION_CURRENCY}` | The currency used in the bid (explicit or implied); for confirmation only. |
 | `${AUCTION_MBR}` | Market Bid Ratio defined as: clearance price / bid price. |
 | `${AUCTION_LOSS}` | Loss reason codes. Refer to [List: Loss Reason Codes](https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/OpenRTB%20v3.0%20FINAL.md#list--loss-reason-codes-) in OpenRTB 3.0. |
@@ -1431,8 +1433,8 @@ These same substitution macros can also be placed in the ad markup. The exchange
 | `${AUCTION_MULTIPLIER}` | The total quantity of impressions won; for confirmation only. This should always be less than or equal to the multiplier value sent in the bid request. This value is a float value greater than zero and may be less than one. Should be used to confirm that the buyer expects and understands the multiplier value. |
 | `${AUCTION_IMP_TS}` | Timestamp when the impression was fulfilled (e.g. when the ad is displayed) in Unix format (i.e., milliseconds since the epoch).
 This may be used by platforms that cannot fire a notification as soon as the impression takes place. If omitted, it is assumed the impression took place a few seconds before the notification is fired. |
-
-
+| `${AUCTION_DISCOUNT_PCT}` | The discount percentage applied by the seller, expressed as a percentage of the bid price. |
+| `${AUCTION_DISCOUNT_CPM}` | The discount amount applied by the seller, as a CPM. |
 
 Note that OpenRTB compliance exchanges must support all macros for which data is available and support substitution in both markup and URLs for win and billing notification.
 
@@ -2119,7 +2121,7 @@ code.google.com/p/protobuf
 	
 - Google Metro Codes
 	
- 	code.google.com/apis/adwords/docs/appendix/metrocodes.html
+ 	https://developers.google.com/google-ads/api/reference/data/geotargets
 	
 - U.N. Code for Trade and Transport Locations:
 	

@@ -15,6 +15,8 @@
   - [7.12 - ID Match Method Guidance](#idmm)
   - [7.13 - Using genres and gtax attributes](#genre)
   - [7.14 - Using Extended Content Identifiers](#cids)
+  - [7.15 - Signaling the "liveness" of Programming](#liveness)
+  - [7.16 - Discount Macros](#discountmacros)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -1982,4 +1984,136 @@ While SSPs and DSPs may find use for Extended Content IDs, it is also perfectly 
 }
 ```
 
+## 7.15 - Signaling the 'liveness' of Programming <a name="liveness"></a>
 
+### 7.15.1 - Benefits
+
+**Limited Transparency with Guaranteed Commitment**
+- The seller does not want to provide granular transparency to Open Market buyers but needs to fulfill a Programmatic Guaranteed (PG) Deal.
+- The seller indicates via Deal Sync that the supply is a real-time broadcast live event.
+- The DSP can activate live event pacing for the PG deal, while Open Market demand competes on the same bid request without extra metadata. The seller harnesses non-committed spend (e.g., via User Identity) that DSPs otherwise wouldn't deliver due to the specific traffic profiles of Live TV.
+
+**Full Transparency for All Buyer Tiers**
+- The seller wants to provide granular transparency across Open Market, PMP, and PG buyers.
+- Content attributes (`livestream`, `realtime`, `genres`) are fully disclosed in the bid request.
+- DSPs can match and spend budgets for all campaigns specifically targeting real-time live events and season premieres. All parties benefit from the DSP's ability to handle the unique traffic patterns and concurrency of Live TV.
+
+**Accelerated Delivery with Offline Disclosure**
+- The seller wants DSPs to be ready for accelerated spend but prefers not to disclose granular details on the bid request itself.
+- The seller flags the event via a Live Event Ads Playbook Forecasting API endpoint. A PG deal is established with "offline" disclosure to the buyer.
+- The DSP fulfills the PG budget using the API signal to prepare for scale/concurrency. The seller receives additional Open Market and PMP demand without compromising underlying supply details on the open exchange.
+
+### 7.15.2 - Considerations
+**Flexibility for Multiple Content Types**
+- The content object supports flexible representation to avoid forcing one Deal ID per program
+- Multiple programs can be represented in a single deal through the title and series fields
+- `genres` arrays support mixed content types within a single package
+
+**Backward Compatibility**
+- All content fields are optional to maintain backward compatibility
+- Existing [Deal API](https://github.com/IABTechLab/deal-api/blob/main/deal1.0.md) implementations continue to function without modification
+- New content metadata provides additional value without breaking changes
+
+**Privacy & Control**
+- Publishers can selectively include content metadata as appropriate
+- [AdCOM Object: Content](https://github.com/InteractiveAdvertisingBureau/AdCOM/blob/develop/AdCOM%20v1.0%20FINAL.md#object--content-) provides alternative to including metadata in OpenRTB requests
+
+
+### 7.15.3 JSON Examples
+**Scenario 1: Live Sports (Appointment Viewing)**
+In this case, we use livestream: 1, realtime: 1, and firstbroadcast: 1 to indicate a broadcast happening right now. 
+
+```
+{
+  "id": "live-sports-990",
+  "title": "Savannah Bananas vs The Party Animals",
+  "livestream": 1,
+  "realtime": 1,
+  "firstbroadcast": 1,
+  "context": 1,
+  "genres": [
+    "483"
+  ],
+  "gtax": 9,
+  }
+}
+```
+**Scenario 2: Episodic TV**
+Episodic TV, as an example, may fall into 2 categories: scheduled broadcast of pre-recorded content or on-demand viewing.
+
+**Scenario 2.1: Scheduled Broadcast**
+Appointment viewing of non-realtime content.
+
+```
+{
+  "id": "abcde12345",
+  "title": "Week 4 Auditions",
+  "series": "America's Got Talent (AGT)",
+  "season": "25",
+  "episode": 4,
+  "livestream": 1,
+  "realtime": 0,
+  "firstbroadcast": 1,
+  "context": 1,
+  "genres": [
+    "651",
+    "JLBCU7"
+  ],
+  "gtax": 9,
+  "producer": {
+    "id": "nbc-99",
+    "name": "NBCUniversal",
+    "domain": "nbc.com"
+  },
+  "keywords": "singing,dancing,music",
+  "language": "en",
+  "len": 7200
+}
+```
+**Scenario 2.2: On-Demand Viewing (VOD)**
+On-demand viewing of non-realtime content.
+```
+{
+  "id": "rel-ep-302",
+  "title": "Trouble in Paradise",
+  "series": "Island Living",
+  "season": "3",
+  "episode": 2,
+  "live": 0,
+  "realtime": 0,
+  "firstbroadcast": 0,
+  "context": 1,
+  "genres": [
+    "651",
+    "TIFQA5",
+    "332"
+  ],
+  "gtax": 9,
+  "url": "https://stream-app.com/island-living/s3/e2",
+  "language": "en",
+  "len": 2640
+}
+```
+
+## 7.16 Discount Macros <a name="discountmacros"></a>
+
+Support sending discount information back to DSPs using the following macros:
+
+| Macro | Description |
+|-------|-------------|
+| `${AUCTION_PRICE}` | The clearing price, in the same currency and units as the bid. This reflects the final price after discount. |
+| `${AUCTION_DISCOUNT_PCT}` | The discount percentage applied by the seller, expressed as a percentage of the bid price. |
+| `${AUCTION_DISCOUNT_CPM}` | The discount amount applied by the seller. |
+
+**Note:** There are other discounts that are not negotiated between the buyer and seller and are not reflected in these macros.
+
+### Example
+
+- **DSP bid price:** $10
+- **Agreed discount:** 20%
+
+| Macro | Value | Description |
+|-------|-------|-------------|
+| `${AUCTION_PRICE}` | `8.0` | Final clearing price |
+| `${AUCTION_DISCOUNT_PCT}` | `20.0` | Discount percentage |
+| `${AUCTION_DISCOUNT_CPM}` | `2.0` | Discount amount |

@@ -1969,7 +1969,7 @@ message BidRequest {
 
     // Google metro code; similar to but not exactly Nielsen DMAs. See Appendix
     // A for a link to the codes.
-    // (http://code.google.com/apis/adwords/docs/appendix/metrocodes.html).
+    // (https://developers.google.com/google-ads/api/reference/data/geotargets).
     string metro = 6;
 
     // City using United Nations Code for Trade & Transport Locations. See
