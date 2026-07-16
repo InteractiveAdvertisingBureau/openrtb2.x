@@ -17,6 +17,7 @@
   - [7.14 - Using Extended Content Identifiers](#cids)
   - [7.15 - Signaling the "liveness" of Programming](#liveness)
   - [7.16 - Discount Macros](#discountmacros)
+  - [7.17 - CTV Ad Portfolio Signaling](#ctvadportfoliosignaling)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -2117,3 +2118,7 @@ Support sending discount information back to DSPs using the following macros:
 | `${AUCTION_PRICE}` | `8.0` | Final clearing price |
 | `${AUCTION_DISCOUNT_PCT}` | `20.0` | Discount percentage |
 | `${AUCTION_DISCOUNT_CPM}` | `2.0` | Discount amount |
+
+## 7.17 CTV Ad Portfolio Signaling <a name="ctvadportfoliosignaling"></a>
+
+Implementation guideance for signaling ad formats such as pause screen, menu, overlay, squeezeback, in scene and screensaver can be found <a href="https://github.com/InteractiveAdvertisingBureau/Ad-Format-Guidelines-for-Digital-Video-CTV/blob/main/Signaling-Implementation-Guidelines.md">here.</a>
