@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/UID.json",
+  "title": "OpenRTB 2.6 UID",
+  "description": "A single user identifier provided as part of extended identifiers.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The identifier for the user."
+    },
+    "atype": {
+      "type": "integer",
+      "description": "Type of user agent the ID is from. Refer to AdCOM 1.0 List: Agent Types."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

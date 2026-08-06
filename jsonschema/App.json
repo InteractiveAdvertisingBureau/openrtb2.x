@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/App.json",
+  "title": "OpenRTB 2.6 App",
+  "description": "Details about the publisher's non-browser application.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange-specific app ID."
+    },
+    "name": {
+      "type": "string",
+      "description": "App name (may be aliased at the publisher's request)."
+    },
+    "bundle": {
+      "type": "string",
+      "description": "The store ID of the app in an app store."
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain of the app (e.g., \"mygame.foo.com\")."
+    },
+    "storeurl": {
+      "type": "string",
+      "description": "App store URL for an installed app."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for cat fields."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories of the app."
+    },
+    "sectioncat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories for the current section."
+    },
+    "pagecat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories for the current page."
+    },
+    "ver": {
+      "type": "string",
+      "description": "Application version."
+    },
+    "privacypolicy": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the app has a privacy policy."
+    },
+    "paid": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = app is free, 1 = the app is a paid version."
+    },
+    "publisher": {
+      "$ref": "Publisher.json",
+      "description": "Details about the Publisher of the app."
+    },
+    "content": {
+      "$ref": "Content.json",
+      "description": "Details about the Content within the app."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma separated list of keywords about the app."
+    },
+    "kwarray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of keywords about the app."
+    },
+    "inventorypartnerdomain": {
+      "type": "string",
+      "description": "A domain for inventory authorization in inventory sharing arrangements."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

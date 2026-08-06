@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Content.json",
+  "title": "OpenRTB 2.6 Content",
+  "description": "Describes the content in which the impression will appear.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Publisher-provided ID uniquely identifying the content."
+    },
+    "episode": {
+      "type": "integer",
+      "description": "Episode number."
+    },
+    "title": {
+      "type": "string",
+      "description": "Content title."
+    },
+    "series": {
+      "type": "string",
+      "description": "Content series."
+    },
+    "season": {
+      "type": "string",
+      "description": "Content season (e.g., \"Season 3\")."
+    },
+    "artist": {
+      "type": "string",
+      "description": "Artist credited with the content."
+    },
+    "genre": {
+      "type": "string",
+      "description": "Genre that best describes the content."
+    },
+    "gtax": {
+      "type": "integer",
+      "default": 9,
+      "description": "The taxonomy in use for genres."
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Unique ID(s) for the genre of the content."
+    },
+    "album": {
+      "type": "string",
+      "description": "Album to which the content belongs; typically for audio."
+    },
+    "isrc": {
+      "type": "string",
+      "description": "International Standard Recording Code conforming to ISO-3901."
+    },
+    "producer": {
+      "$ref": "Producer.json",
+      "description": "Details about the content Producer."
+    },
+    "url": {
+      "type": "string",
+      "description": "URL of the content, for buy-side contextualization or review."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for cat fields."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories that describe the content."
+    },
+    "prodq": {
+      "type": "integer",
+      "description": "Production quality. Refer to AdCOM 1.0 List: Production Qualities."
+    },
+    "context": {
+      "type": "integer",
+      "description": "Type of content. Refer to AdCOM 1.0 List: Content Contexts."
+    },
+    "contentrating": {
+      "type": "string",
+      "description": "Content rating (e.g., MPAA)."
+    },
+    "userrating": {
+      "type": "string",
+      "description": "User rating of the content."
+    },
+    "qagmediarating": {
+      "type": "integer",
+      "description": "Media rating per IQG guidelines."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma separated list of keywords describing the content."
+    },
+    "kwarray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of keywords about the content."
+    },
+    "livestream": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = not scheduled (VOD), 1 = scheduled (linear)."
+    },
+    "sourcerelationship": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = indirect, 1 = direct."
+    },
+    "len": {
+      "type": "integer",
+      "description": "Length of content in seconds."
+    },
+    "language": {
+      "type": "string",
+      "description": "Content language using ISO-639-1-alpha-2."
+    },
+    "langb": {
+      "type": "string",
+      "description": "Content language using IETF BCP 47."
+    },
+    "embeddable": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicator of whether the content is embeddable."
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "Data.json"
+      },
+      "description": "Additional content data."
+    },
+    "network": {
+      "$ref": "Network.json",
+      "description": "Details about the network the content is on."
+    },
+    "channel": {
+      "$ref": "Channel.json",
+      "description": "Details about the channel the content is on."
+    },
+    "realtime": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = not real time, 1 = happening in real time."
+    },
+    "firstbroadcast": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = not first broadcast, 1 = first broadcast."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

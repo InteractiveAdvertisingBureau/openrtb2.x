@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/DurFloors.json",
+  "title": "OpenRTB 2.6 DurFloors",
+  "description": "Allows sellers to specify price floors for video and audio creatives whose price varies based on duration.",
+  "type": "object",
+  "properties": {
+    "mindur": {
+      "type": "integer",
+      "description": "Low end of a duration range. If missing, the low end is unbounded."
+    },
+    "maxdur": {
+      "type": "integer",
+      "description": "High end of a duration range. If missing, the high end is unbounded."
+    },
+    "bidfloor": {
+      "type": "number",
+      "default": 0,
+      "description": "Minimum bid for a given impression opportunity in this duration range, expressed in CPM.",
+      "minimum": 0
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

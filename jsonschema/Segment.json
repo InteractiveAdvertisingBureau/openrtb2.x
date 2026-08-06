@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Segment.json",
+  "title": "OpenRTB 2.6 Segment",
+  "description": "Key-value pairs that convey specific units of data about a user or content.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ID of the data segment specific to the data provider."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the data segment specific to the data provider."
+    },
+    "value": {
+      "type": "string",
+      "description": "String representation of the data segment value."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

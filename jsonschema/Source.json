@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Source.json",
+  "title": "OpenRTB 2.6 Source",
+  "description": "Describes the nature and behavior of the entity that is the source of the bid request upstream from the exchange.",
+  "type": "object",
+  "properties": {
+    "fd": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Entity responsible for the final impression sale decision, where 0 = exchange, 1 = upstream source."
+    },
+    "tid": {
+      "type": "string",
+      "description": "Transaction ID that must be common across all participants in this bid request."
+    },
+    "pchain": {
+      "type": "string",
+      "description": "Payment ID chain string containing embedded syntax described in the TAG payment ID Protocol v1.0."
+    },
+    "schain": {
+      "$ref": "SupplyChain.json",
+      "description": "This object represents both the links in the supply chain as well as an indicator whether or not the supply chain is complete."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

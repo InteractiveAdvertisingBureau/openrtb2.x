@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Regs.json",
+  "title": "OpenRTB 2.6 Regs",
+  "description": "Contains any legal, governmental, or industry regulations that the sender deems applicable to the request.",
+  "type": "object",
+  "properties": {
+    "coppa": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Flag indicating if this request is subject to the COPPA regulations established by the USA FTC."
+    },
+    "gdpr": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Flag that indicates whether or not the request is subject to GDPR regulations. 0 = No, 1 = Yes."
+    },
+    "us_privacy": {
+      "type": "string",
+      "description": "Communicates signals regarding consumer privacy under US privacy regulation."
+    },
+    "gpp": {
+      "type": "string",
+      "description": "Contains the Global Privacy Platform's consent string."
+    },
+    "gpp_sid": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Array of the section(s) of the GPP string which should be applied for this transaction."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

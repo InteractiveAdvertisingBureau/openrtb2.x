@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Producer.json",
+  "title": "OpenRTB 2.6 Producer",
+  "description": "Defines the producer of the content in which the ad will be shown.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Content producer or originator ID."
+    },
+    "name": {
+      "type": "string",
+      "description": "Content producer or originator name."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for cat fields."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories for the content producer."
+    },
+    "domain": {
+      "type": "string",
+      "description": "Highest level domain of the content producer."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

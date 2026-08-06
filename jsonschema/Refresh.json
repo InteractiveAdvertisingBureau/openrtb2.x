@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Refresh.json",
+  "title": "OpenRTB 2.6 Refresh",
+  "description": "Details about ad slots being refreshed automatically.",
+  "type": "object",
+  "properties": {
+    "refsettings": {
+      "type": "array",
+      "items": {
+        "$ref": "RefSettings.json"
+      },
+      "description": "A RefSettings object describing refresh mechanics."
+    },
+    "count": {
+      "type": "integer",
+      "description": "The number of times this ad slot had been refreshed since last page load."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/BidRequest.json",
+  "title": "OpenRTB 2.6 BidRequest",
+  "description": "Top-level bid request object containing an exchange unique bid request or auction ID.",
+  "type": "object",
+  "required": [
+    "id",
+    "imp"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ID of the bid request, assigned by the exchange, and unique for the exchange's subsequent tracking of the responses."
+    },
+    "imp": {
+      "type": "array",
+      "items": {
+        "$ref": "Imp.json"
+      },
+      "minItems": 1,
+      "description": "Array of Imp objects representing the impressions offered. At least 1 Imp object is required."
+    },
+    "site": {
+      "$ref": "Site.json",
+      "description": "Details about the publisher's website. Only applicable and recommended for websites."
+    },
+    "app": {
+      "$ref": "App.json",
+      "description": "Details about the publisher's app (non-browser applications). Only applicable and recommended for apps."
+    },
+    "dooh": {
+      "$ref": "DOOH.json",
+      "description": "This object should be included if the ad supported content is a Digital Out-Of-Home screen."
+    },
+    "device": {
+      "$ref": "Device.json",
+      "description": "Details about the user's device to which the impression will be delivered."
+    },
+    "user": {
+      "$ref": "User.json",
+      "description": "Details about the human user of the device; the advertising audience."
+    },
+    "test": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicator of test mode in which auctions are not billable, where 0 = live mode, 1 = test mode."
+    },
+    "at": {
+      "type": "integer",
+      "default": 2,
+      "description": "Auction type, where 1 = First Price, 2 = Second Price Plus. Exchange-specific auction types can be defined using values 500 and greater."
+    },
+    "tmax": {
+      "type": "integer",
+      "description": "Maximum time in milliseconds the exchange allows for bids to be received including Internet latency to avoid timeout."
+    },
+    "wseat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed list of buyer seats allowed to bid on this impression."
+    },
+    "bseat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Block list of buyer seats restricted from bidding on this impression."
+    },
+    "allimps": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Flag to indicate if Exchange can verify that the impressions offered represent all of the impressions available in context. 0 = no or unknown, 1 = yes."
+    },
+    "cur": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of allowed currencies for bids on this bid request using ISO-4217 alpha codes."
+    },
+    "wlang": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed list of languages for creatives using ISO-639-1-alpha-2."
+    },
+    "wlangb": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed list of languages for creatives using IETF BCP 47."
+    },
+    "acat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed advertiser categories using the specified category taxonomy."
+    },
+    "bcat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Blocked advertiser categories using the specified category taxonomy."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for bcat/acat. Refer to the AdCOM 1.0 list: Category Taxonomies."
+    },
+    "badv": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Block list of advertisers by their domains (e.g., \"ford.com\")."
+    },
+    "bapp": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Block list of applications by their app store IDs."
+    },
+    "source": {
+      "$ref": "Source.json",
+      "description": "A Source object that provides data about the inventory source and which entity makes the final decision."
+    },
+    "regs": {
+      "$ref": "Regs.json",
+      "description": "A Regs object that specifies any industry, legal, or governmental regulations in force for this request."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/SupplyChainNode.json",
+  "title": "OpenRTB 2.6 SupplyChainNode",
+  "description": "Defines the identity of an entity participating in the supply chain of a bid request.",
+  "type": "object",
+  "required": [
+    "asi",
+    "sid"
+  ],
+  "properties": {
+    "asi": {
+      "type": "string",
+      "description": "The canonical domain name of the SSP, Exchange, Header Wrapper, etc."
+    },
+    "sid": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "The identifier associated with the seller or reseller account within the advertising system."
+    },
+    "rid": {
+      "type": "string",
+      "description": "The OpenRTB RequestId of the request as issued by this seller."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the company that is paid for inventory transacted under the given seller_ID."
+    },
+    "domain": {
+      "type": "string",
+      "description": "The business domain name of the entity represented by this node."
+    },
+    "hp": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates whether this node will be involved in the flow of payment for the inventory."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for advertising-system specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

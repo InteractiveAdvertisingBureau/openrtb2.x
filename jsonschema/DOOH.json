@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/DOOH.json",
+  "title": "OpenRTB 2.6 DOOH",
+  "description": "Details of the Digital Out-Of-Home inventory calling for the impression.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange provided id for a placement or logical grouping."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the DOOH placement."
+    },
+    "venuetype": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The type of out-of-home venue."
+    },
+    "venuetypetax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The venue taxonomy in use."
+    },
+    "publisher": {
+      "$ref": "Publisher.json",
+      "description": "Details about the publisher of the placement."
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain of the inventory owner."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma separated list of keywords about the DOOH placement."
+    },
+    "content": {
+      "$ref": "Content.json",
+      "description": "Details about the Content within the DOOH placement."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}
