@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/EID.json",
+  "title": "OpenRTB 2.6 EID",
+  "description": "Extended identifier support for multiple third party identity providers.",
+  "type": "object",
+  "properties": {
+    "inserter": {
+      "type": "string",
+      "description": "The canonical domain name of the entity that caused the ID array element to be added."
+    },
+    "source": {
+      "type": "string",
+      "description": "Canonical domain of the ID."
+    },
+    "matcher": {
+      "type": "string",
+      "description": "Technology providing the match method as defined in mm."
+    },
+    "mm": {
+      "type": "integer",
+      "description": "Match method used by the matcher. Refer to AdCOM 1.0 List: ID Match Methods."
+    },
+    "uids": {
+      "type": "array",
+      "items": {
+        "$ref": "UID.json"
+      },
+      "description": "Array of extended ID UID objects from the given source."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

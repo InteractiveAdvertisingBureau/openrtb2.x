@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Pmp.json",
+  "title": "OpenRTB 2.6 Pmp",
+  "description": "Private marketplace container for direct deals between buyers and sellers.",
+  "type": "object",
+  "properties": {
+    "private_auction": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicator of auction eligibility to seats named in the Direct Deals object."
+    },
+    "deals": {
+      "type": "array",
+      "items": {
+        "$ref": "Deal.json"
+      },
+      "description": "Array of Deal objects that convey the specific deals applicable to this impression."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

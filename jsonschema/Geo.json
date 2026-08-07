@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Geo.json",
+  "title": "OpenRTB 2.6 Geo",
+  "description": "Encapsulates various methods for specifying a geographic location.",
+  "type": "object",
+  "properties": {
+    "lat": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90,
+      "description": "Latitude from -90.0 to +90.0, where negative is south."
+    },
+    "lon": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180,
+      "description": "Longitude from -180.0 to +180.0, where negative is west."
+    },
+    "type": {
+      "type": "integer",
+      "description": "Source of location data. Refer to AdCOM 1.0 List: Location Types."
+    },
+    "accuracy": {
+      "type": "integer",
+      "description": "Estimated location accuracy in meters."
+    },
+    "lastfix": {
+      "type": "integer",
+      "description": "Number of seconds since this geolocation fix was established."
+    },
+    "ipservice": {
+      "type": "integer",
+      "description": "Service or provider used to determine geolocation from IP address."
+    },
+    "country": {
+      "type": "string",
+      "description": "Country code using ISO-3166-1-alpha-3."
+    },
+    "region": {
+      "type": "string",
+      "description": "Region code using ISO-3166-2; 2-letter state code if USA."
+    },
+    "regionfips104": {
+      "type": "string",
+      "description": "Region of a country using FIPS 10-4 notation (deprecated by NIST in 2008)."
+    },
+    "metro": {
+      "type": "string",
+      "description": "Google metro code; similar to but not exactly Nielsen DMAs."
+    },
+    "city": {
+      "type": "string",
+      "description": "City using United Nations Code for Trade & Transport Locations."
+    },
+    "zip": {
+      "type": "string",
+      "description": "ZIP or postal code."
+    },
+    "utcoffset": {
+      "type": "integer",
+      "description": "Local time as the number +/- of minutes from UTC."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

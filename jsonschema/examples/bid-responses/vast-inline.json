@@ -1,0 +1,16 @@
+{
+  "id": "123",
+  "seatbid": [
+    {
+      "bid": [
+        {
+          "id": "12345",
+          "impid": "2",
+          "price": 3.00,
+          "nurl": "http://example.com/winnoticeurl",
+          "adm": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<VAST version=\"2.0\">\n<Ad id=\"12345\">\n<InLine>\n<AdSystem version=\"1.0\">SpotXchange</AdSystem>\n<AdTitle>\n<![CDATA[Sample VAST]]>\n</AdTitle>\n<Impression>http://sample.com</Impression>\n<Description>\n<![CDATA[A sample VAST feed]]>\n</Description>\n<Creatives>\n<Creative sequence=\"1\" id=\"1\">\n<Linear>\n<Duration>00:00:30</Duration>\n<TrackingEvents></TrackingEvents>\n<VideoClicks>\n<ClickThrough>\n<![CDATA[http://sample.com/openrtbtest]]>\n</ClickThrough>\n</VideoClicks>\n<MediaFiles>\n<MediaFile delivery=\"progressive\" bitrate=\"256\" width=\"640\" height=\"480\" type=\"video/mp4\">\n<![CDATA[http://sample.com/video.mp4]]>\n</MediaFile>\n</MediaFiles>\n</Linear>\n</Creative>\n</Creatives>\n</InLine>\n</Ad>\n</VAST>"
+        }
+      ]
+    }
+  ]
+}

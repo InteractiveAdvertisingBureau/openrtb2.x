@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Format.json",
+  "title": "OpenRTB 2.6 Format",
+  "description": "An allowed size (height and width combination) or Flex Ad parameters for a banner impression.",
+  "type": "object",
+  "properties": {
+    "w": {
+      "type": "integer",
+      "description": "Width in device-independent pixels (DIPS)."
+    },
+    "h": {
+      "type": "integer",
+      "description": "Height in device-independent pixels (DIPS)."
+    },
+    "wratio": {
+      "type": "integer",
+      "description": "Relative width when expressing size as a ratio."
+    },
+    "hratio": {
+      "type": "integer",
+      "description": "Relative height when expressing size as a ratio."
+    },
+    "wmin": {
+      "type": "integer",
+      "description": "The minimum width in DIPS at which the ad will be displayed when expressed as a ratio."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

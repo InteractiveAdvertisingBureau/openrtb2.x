@@ -1,0 +1,37 @@
+{
+  "id": "80ce30c53c16e6ede735f123ef6e32361bfc7b22",
+  "at": 1,
+  "cur": [
+    "USD"
+  ],
+  "imp": [
+    {
+      "id": "1",
+      "bidfloor": 0.03,
+      "banner": {
+        "h": 250,
+        "w": 300,
+        "pos": 0
+      }
+    }
+  ],
+  "site": {
+    "id": "102855",
+    "cat": [
+      "IAB3-1"
+    ],
+    "domain": "www.foobar.com",
+    "page": "http://www.foobar.com/1234.html",
+    "publisher": {
+      "id": "8953",
+      "name": "foobar.com",
+      "cat": [
+        "IAB3-1"
+      ],
+      "domain": "foobar.com"
+    }
+  },
+  "user": {
+    "id": "55816b39711f9b5acf3b90e313ed29e51665623f"
+  }
+}

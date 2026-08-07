@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Network.json",
+  "title": "OpenRTB 2.6 Network",
+  "description": "Describes the network an ad will be displayed on.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier assigned by the publisher."
+    },
+    "name": {
+      "type": "string",
+      "description": "Network the content is on (e.g., \"ABC\")."
+    },
+    "domain": {
+      "type": "string",
+      "description": "The primary domain of the network."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

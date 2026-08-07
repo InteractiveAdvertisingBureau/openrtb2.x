@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Audio.json",
+  "title": "OpenRTB 2.6 Audio",
+  "description": "Represents an audio type impression.",
+  "type": "object",
+  "required": [
+    "mimes"
+  ],
+  "properties": {
+    "mimes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Content MIME types supported (e.g., \"audio/mp4\")."
+    },
+    "minduration": {
+      "type": "integer",
+      "default": 0,
+      "description": "Minimum audio ad duration in seconds."
+    },
+    "maxduration": {
+      "type": "integer",
+      "description": "Maximum audio ad duration in seconds."
+    },
+    "poddur": {
+      "type": "integer",
+      "description": "Total time in seconds for a dynamic audio ad pod."
+    },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Array of supported audio protocols."
+    },
+    "startdelay": {
+      "type": "integer",
+      "description": "Start delay in seconds for pre-roll, mid-roll, or post-roll ad placements."
+    },
+    "rqddurs": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Precise acceptable durations for audio creatives in seconds."
+    },
+    "podid": {
+      "type": "string",
+      "description": "Unique identifier indicating an impression belongs to an audio ad pod."
+    },
+    "podseq": {
+      "type": "integer",
+      "default": 0,
+      "description": "The sequence (position) of the audio ad pod within a content stream."
+    },
+    "slotinpod": {
+      "type": "integer",
+      "default": 0,
+      "description": "Guaranteed delivery position in the pod."
+    },
+    "mincpmpersec": {
+      "type": "number",
+      "description": "Minimum CPM per second for the dynamic portion of an audio ad pod."
+    },
+    "battr": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Blocked creative attributes."
+    },
+    "maxextended": {
+      "type": "integer",
+      "description": "Maximum extended ad duration if extension is allowed."
+    },
+    "minbitrate": {
+      "type": "integer",
+      "description": "Minimum bit rate in Kbps."
+    },
+    "maxbitrate": {
+      "type": "integer",
+      "description": "Maximum bit rate in Kbps."
+    },
+    "delivery": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Supported delivery methods."
+    },
+    "companionad": {
+      "type": "array",
+      "items": {
+        "$ref": "Banner.json"
+      },
+      "description": "Array of Banner objects if companion ads are available."
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of supported API frameworks."
+    },
+    "companiontype": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Supported companion ad types."
+    },
+    "maxseq": {
+      "type": "integer",
+      "description": "Maximum number of ads in an ad pod."
+    },
+    "feed": {
+      "type": "integer",
+      "description": "Type of audio feed."
+    },
+    "stitched": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the ad is stitched with audio content."
+    },
+    "nvol": {
+      "type": "integer",
+      "description": "Volume normalization mode."
+    },
+    "durfloors": {
+      "type": "array",
+      "items": {
+        "$ref": "DurFloors.json"
+      },
+      "description": "Floor prices for audio creatives of various durations."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    },
+    "sequence": {
+      "type": "integer",
+      "description": "DEPRECATED. Use slotinpod instead. Position in ad pod sequence.",
+      "deprecated": true
+    }
+  }
+}
