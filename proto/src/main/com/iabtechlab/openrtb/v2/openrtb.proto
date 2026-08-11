@@ -298,8 +298,9 @@ message BidRequest {
     // Indicates whether this node will be involved in the flow of payment
     // for the inventory. When set to 1, the advertising system in the asi
     // field pays the seller in the sid field, who is responsible for paying
-    // the previous node in the chain. When set to 0, this node is not
-    // involved in the flow of payment for the inventory. For version 1.0 of
+    // the preceding hp=1 node in the chain. When set to 0, this node is not
+    // involved in the flow of payment for the inventory and is not part of
+    // the payment linkage between hp=1 nodes. For version 1.0 of
     // SupplyChain, this property should always be 1. It is explicitly
     // required to be included as it is expected that future versions of the
     // specification will introduce non-payment handling nodes. Implementers
