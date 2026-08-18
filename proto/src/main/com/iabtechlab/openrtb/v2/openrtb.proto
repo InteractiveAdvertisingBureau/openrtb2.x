@@ -1611,6 +1611,14 @@ message BidRequest {
     // 0 = not live, 1 = content is live (e.g., stream, live blog).
     bool livestream = 13;
 
+    // 0 = not in real-time, 1 = event is happening in real-time (e.g., live
+    // sports game).
+    int32 realtime = 36;
+  
+    // 0 = not the first time being broadcast, 1 = first time being broadcast
+    // (e.g., season premiere).
+    int32 firstbroadcast = 37;
+
     // 0 = indirect, 1 = direct.
     bool sourcerelationship = 14;
 
