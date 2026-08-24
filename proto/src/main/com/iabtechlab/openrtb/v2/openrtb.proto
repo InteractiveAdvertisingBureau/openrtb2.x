@@ -1639,11 +1639,14 @@ message BidRequest {
     // Details about the channel (Section 3.2.24) the content is on.
     Channel channel = 31;
     
-    // 0 = not happening in real time (e.g., a replay), 1 = yes, happening in
-    // real time (e.g., a live sports game).
+    // An enumeration indicating if the event is happening in real time while it
+    // is being watched where: 0 = not happening in real time (e.g., a replay),
+    // 1 = yes, happening in real time (e.g., a live sports game).
     int32 realtime = 36;
-  
-    // 0 = not first time being broadcast, 1 = first time being broadcast
+    
+    // An enumeration indicating whether this broadcast is the first time the
+    // content is available to an audience where: 0 = not first time being
+    // broadcast, 1 = first time being broadcast.
     int32 firstbroadcast = 37;
 
     // NOTE: Deprecated in favor of prodq.
