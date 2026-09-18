@@ -1341,9 +1341,7 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 					"id": "1",
 					"impid": "102",
 					"price": 9.43,
-					"banner": {
-						"img": "http://adserver.com/creative112.jpg"
-					},
+					"adm": "<a href=\"http://adserver.com/click?bidid=abc1123\" target=\"_blank\"><img src=\"http://adserver.com/creative112.jpg\" width=\"1080\" height=\"1920\"/></a>",
 					"burl": "http://adserver.com/billingnotice?impid=102& bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
 					"adomain": [
 						"advertiserdomain.com"
