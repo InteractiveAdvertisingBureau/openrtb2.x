@@ -17,6 +17,7 @@
   - [7.14 - Using Extended Content Identifiers](#cids)
   - [7.15 - Signaling the "liveness" of Programming](#liveness)
   - [7.16 - Discount Macros](#discountmacros)
+  - [7.17 - CTV Ad Portfolio Signaling](#ctvadportfoliosignaling)
 
 # 7. Implementation Notes <a name="implementationnotes"></a>
 	
@@ -1340,9 +1341,7 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 					"id": "1",
 					"impid": "102",
 					"price": 9.43,
-					"banner": {
-						"img": "http://adserver.com/creative112.jpg"
-					},
+					"adm": "<a href=\"http://adserver.com/click?bidid=abc1123\" target=\"_blank\"><img src=\"http://adserver.com/creative112.jpg\" width=\"1080\" height=\"1920\"/></a>",
 					"burl": "http://adserver.com/billingnotice?impid=102& bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
 					"adomain": [
 						"advertiserdomain.com"
@@ -1474,7 +1473,7 @@ In DOOH, there can be significant delay between winning an auction, and the crea
 					"price": 9.43,
 					"nurl": "http://adserver.com/winnotice?impid=102&bidid=abc1123",
 					"burl": "http://adserver.com/billingnotice?impid=102&bidid=abc1123&price=${AUCTION_PRICE}&multiplier=${AUCTION_MULTIPLIER}",
-					"adm": "<?xml version="1.0" encoding="UTF-8"?><VAST version="4.0"><Ad id="79ba491b-dfe1-5044-9d8e-758ae874e24f"> <InLine><AdSystem>AdServer</AdSystem><AdTitle><![CDATA[DOOH Video ad]></AdTitle><Error><![CDATA[https://adserver.com/event/error]]></Error><Impression><![CDATA[https://adserver.com/event/impression]]></Impression><Creatives> <Creative id="79ba491b-dfe1-5044-9d8e-758ae874e24f"><Linear> <Duration>00:00:10</Duration> <MediaFiles><MediaFile delivery="progressive" bitrate="8326" width="1920" height="1080" type="video/mp4" scalable="true" maintainAspectRatio="true"> <![CDATA[https://adserver.com/creative.mp4]]> </MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>",
+					"adm": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><VAST version=\"4.0\"><Ad id=\"79ba491b-dfe1-5044-9d8e-758ae874e24f\"> <InLine><AdSystem>AdServer</AdSystem><AdTitle><![CDATA[DOOH Video ad]]></AdTitle><Error><![CDATA[https://adserver.com/event/error]]></Error><Impression><![CDATA[https://adserver.com/event/impression]]></Impression><Creatives> <Creative id=\"79ba491b-dfe1-5044-9d8e-758ae874e24f\"><Linear> <Duration>00:00:10</Duration> <MediaFiles><MediaFile delivery=\"progressive\" bitrate=\"8326\" width=\"1920\" height=\"1080\" type=\"video/mp4\" scalable=\"true\" maintainAspectRatio=\"true\"> <![CDATA[https://adserver.com/creative.mp4]]> </MediaFile></MediaFiles></Linear></Creative></Creatives></InLine></Ad></VAST>",
 					"adomain": [
 						"advertiserdomain.com"
 					],
@@ -2117,3 +2116,7 @@ Support sending discount information back to DSPs using the following macros:
 | `${AUCTION_PRICE}` | `8.0` | Final clearing price |
 | `${AUCTION_DISCOUNT_PCT}` | `20.0` | Discount percentage |
 | `${AUCTION_DISCOUNT_CPM}` | `2.0` | Discount amount |
+
+## 7.17 CTV Ad Portfolio Signaling <a name="ctvadportfoliosignaling"></a>
+
+Implementation guideance for signaling ad formats such as pause screen, menu, overlay, squeezeback, in scene and screensaver can be found <a href="https://github.com/InteractiveAdvertisingBureau/Ad-Format-Guidelines-for-Digital-Video-CTV/blob/main/Signaling-Implementation-Guidelines.md">here.</a>
