@@ -1638,6 +1638,16 @@ message BidRequest {
 
     // Details about the channel (Section 3.2.24) the content is on.
     Channel channel = 31;
+    
+    // An enumeration indicating if the event is happening in real time while it
+    // is being watched where: 0 = not happening in real time (e.g., a replay),
+    // 1 = yes, happening in real time (e.g., a live sports game).
+    int32 realtime = 36;
+    
+    // An enumeration indicating whether this broadcast is the first time the
+    // content is available to an audience where: 0 = not first time being
+    // broadcast, 1 = first time being broadcast.
+    int32 firstbroadcast = 37;
 
     // NOTE: Deprecated in favor of prodq.
     // Video quality per IAB's classification.
@@ -2263,7 +2273,23 @@ message BidRequest {
     Ext ext = 99;
 
     message Ext {
+      // Agentic Audiences envelope containing the embedding and metadata.
+      Aa aa = 1;
+
       extensions 500 to max;
+
+      // This object carries the embedding vector and metadata so that buyers
+      // can interpret the segment (e.g., by model or signal type) validate
+      // compatibility, and use the vector for scoring or similarity operations.
+      // Detailed implementation examples can be found here:
+      // https://github.com/InteractiveAdvertisingBureau/openrtb/blob/main/extensions/community_extensions/agentic-audiences.md
+      message Aa {
+        string ver = 1;
+        string vector = 2;
+        int32 dimension = 3;
+        string model = 4;
+        repeated int32 type = 5;
+      }
     }
   }  // Segment
 
