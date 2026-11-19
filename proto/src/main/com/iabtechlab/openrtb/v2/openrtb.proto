@@ -228,27 +228,26 @@ message BidRequest {
   // This object is composed of a set of nodes where each node represents a
   // specific entity that participates in the transacting of inventory. The
   // entire chain of nodes from beginning to end represents all entities who
-  // are involved in the direct flow of payment for inventory. Detailed
-  // implementation examples can be found here:
-  // https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/supplychainobject.md.
+  // take custody of a given bid request.
   message SupplyChain {
+    // Version of the supply chain specification in use, in the format of
+    // “major.minor”. For example, for version 1.1 of the spec, use the string
+    // “1.1”.
+    string ver = 3;
+
     // Flag indicating whether the chain contains all nodes involved in the
-    // transaction leading back to the owner of the site, app or other medium
-    // of the inventory, where 0 = no, 1 = yes.
+    // transaction leading back to the owner of the site, app or other medium of
+    // the inventory, where 0 = not complete. 1 = payment complete; the
+    // SupplyChain object was created by the initial advertising system and
+    // includes all hp=1 nodes; some or all hp=0 nodes may be missing. 2 =
+    // payment and non-payment complete; the SupplyChain object includes all
+    // hp=1 nodes and all hp=0 nodes.
     bool complete = 1;
 
-    // Array of SupplyChainNode objects in the order of the chain. In a
-    // complete supply chain, the first node represents the initial
-    // advertising system and seller ID involved in the transaction, i.e. the
-    // owner of the site, app, or other medium. In an incomplete supply chain,
-    // it represents the first known node. The last node represents the entity
-    // sending this bid request.
-    repeated SupplyChainNode nodes = 2;
 
-    // Version of the supply chain specification in use, in the format of
-    // "major.minor". For example, for version 1.0 of the spec, use the string
-    // "1.0".
-    string ver = 3;
+    // Array of SupplyChainNode objects appended in supply-chain order from
+    // seller to buyer.
+    repeated SupplyChainNode nodes = 2;
 
     // Placeholder for exchange-specific extensions to OpenRTB.
     Ext ext = 99;
@@ -258,12 +257,9 @@ message BidRequest {
     }
   }  // SupplyChain
 
-  // This object is associated with a SupplyChain object as an array of
-  // nodes. These nodes define the identity of an entity participating in
-  // the supply chain of a bid request. Detailed implementation examples
-  // can be found here:
-  // https://github.com/InteractiveAdvertisingBureau/openrtb/blob/master/supplychainobject.md.
-  // The SupplyChainNode object contains the following attributes.
+  // This object is associated with a SupplyChain object as an array of nodes.
+  // These nodes define the identity of an entity participating in the supply
+  // chain of a bid request.
   message SupplyChainNode {
     // The canonical domain name of the SSP, Exchange, Header Wrapper, etc
     // system that bidders connect to. This may be the operational domain of
@@ -295,18 +291,12 @@ message BidRequest {
     // advertising system's sellers.json file.
     string domain = 5;
 
-    // Indicates whether this node will be involved in the flow of payment
-    // for the inventory. When set to 1, the advertising system in the asi
-    // field pays the seller in the sid field, who is responsible for paying
-    // the previous node in the chain. When set to 0, this node is not
-    // involved in the flow of payment for the inventory. For version 1.0 of
-    // SupplyChain, this property should always be 1. It is explicitly
-    // required to be included as it is expected that future versions of the
-    // specification will introduce non-payment handling nodes. Implementers
-    // should ensure that they support this field and propagate it onwards
-    // when constructing SupplyChain objects in bid requests sent to a
-    // downstream advertising system.
-    bool hp = 6;
+    // Indicates whether this node will be involved in the flow of payment for
+    // the inventory. When set to 1, the advertising system in the asi field
+    // pays the seller in the sid field, who is responsible for paying the
+    // previous node in the chain. When set to 0, this node is not involved in
+    // the flow of payment for the inventory.
+    int32 hp = 6;
 
     // Placeholder for exchange-specific extensions to OpenRTB.
     Ext ext = 99;
@@ -2237,6 +2227,11 @@ message BidRequest {
     // Exchange-specific name for the data provider.
     string name = 2;
 
+    // An array of Extended Content IDs, representing one or more identifiers
+    // for the video or audio content from the ID source specified in the "name"
+    // field of the "data" object.
+    repeated string cids = 4;
+
     // Array of Segment (Section 3.2.22) objects that contain the actual data
     // values.
     repeated Segment segment = 3;
@@ -2249,7 +2244,7 @@ message BidRequest {
       // of OpenRTB 2.x bid requests: An array of content IDs, representing one
       // or more identifiers for the video or audio content from the ID source
       // specified in the "name" field of the "data" object.
-      repeated string cids = 1;
+      repeated string cids = 1 [deprecated = true];
 
       extensions 500 to max;
     }
