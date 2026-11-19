@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Bid.json",
+  "title": "OpenRTB 2.6 Bid",
+  "description": "An offer to buy a specific impression under certain business terms.",
+  "type": "object",
+  "required": [
+    "id",
+    "impid",
+    "price"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Bidder generated bid ID to assist with logging/tracking."
+    },
+    "impid": {
+      "type": "string",
+      "description": "ID of the Imp object in the related bid request."
+    },
+    "price": {
+      "type": "number",
+      "description": "Bid price expressed as CPM although the actual transaction is for a unit impression only.",
+      "minimum": 0
+    },
+    "nurl": {
+      "type": "string",
+      "description": "Win notice URL called by the exchange if the bid wins."
+    },
+    "burl": {
+      "type": "string",
+      "description": "Billing notice URL called by the exchange when a winning bid becomes billable."
+    },
+    "lurl": {
+      "type": "string",
+      "description": "Loss notice URL called by the exchange when a bid is known to have been lost."
+    },
+    "adm": {
+      "type": "string",
+      "description": "Optional means of conveying ad markup in case the bid wins."
+    },
+    "adid": {
+      "type": "string",
+      "description": "ID of a preloaded ad to be served if the bid wins."
+    },
+    "adomain": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Advertiser domain for block list checking (e.g., \"ford.com\")."
+    },
+    "bundle": {
+      "type": "string",
+      "description": "The store ID of the app in an app store."
+    },
+    "iurl": {
+      "type": "string",
+      "description": "URL without cache-busting to an image representative of the content of the campaign."
+    },
+    "cid": {
+      "type": "string",
+      "description": "Campaign ID to assist with ad quality checking."
+    },
+    "crid": {
+      "type": "string",
+      "description": "Creative ID to assist with ad quality checking."
+    },
+    "tactic": {
+      "type": "string",
+      "description": "Tactic ID to enable buyers to label bids for reporting to the exchange."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use. Refer to AdCOM 1.0 List: Category Taxonomies."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IAB Tech Lab content categories of the creative."
+    },
+    "attr": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Set of attributes describing the creative. Refer to AdCOM 1.0 List: Creative Attributes."
+    },
+    "apis": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of supported APIs for the markup. Refer to AdCOM 1.0 List: API Frameworks."
+    },
+    "protocol": {
+      "type": "integer",
+      "description": "Video response protocol of the markup if applicable."
+    },
+    "qagmediarating": {
+      "type": "integer",
+      "description": "Creative media rating per IQG guidelines. Refer to AdCOM 1.0 List: Media Ratings."
+    },
+    "language": {
+      "type": "string",
+      "description": "Language of the creative using ISO-639-1-alpha-2."
+    },
+    "langb": {
+      "type": "string",
+      "description": "Language of the creative using IETF BCP 47."
+    },
+    "dealid": {
+      "type": "string",
+      "description": "Reference to the deal.id from the bid request if this bid pertains to a private marketplace direct deal."
+    },
+    "w": {
+      "type": "integer",
+      "description": "Width of the creative in device-independent pixels (DIPS)."
+    },
+    "h": {
+      "type": "integer",
+      "description": "Height of the creative in device-independent pixels (DIPS)."
+    },
+    "wratio": {
+      "type": "integer",
+      "description": "Relative width of the creative when expressing size as a ratio. Required for Flex Ads."
+    },
+    "hratio": {
+      "type": "integer",
+      "description": "Relative height of the creative when expressing size as a ratio. Required for Flex Ads."
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Advisory as to the number of seconds the bidder is willing to wait between auction and actual impression."
+    },
+    "dur": {
+      "type": "integer",
+      "description": "Duration of the video or audio creative in seconds."
+    },
+    "mtype": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "description": "Type of the creative markup. 1 = Banner, 2 = Video, 3 = Audio, 4 = Native."
+    },
+    "slotinpod": {
+      "type": "integer",
+      "default": 0,
+      "description": "Indicates that the bid response is only eligible for a specific position within a video or audio ad pod."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for bidder-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    },
+    "api": {
+      "type": "integer",
+      "description": "DEPRECATED. Use apis instead. API framework of the creative.",
+      "deprecated": true
+    }
+  }
+}

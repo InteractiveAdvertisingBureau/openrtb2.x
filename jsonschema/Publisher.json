@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Publisher.json",
+  "title": "OpenRTB 2.6 Publisher",
+  "description": "The entity who directly supplies inventory to and is paid by the exchange.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange-specific seller ID."
+    },
+    "name": {
+      "type": "string",
+      "description": "Seller name (may be aliased at the seller's request)."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for cat fields."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories of the publisher."
+    },
+    "domain": {
+      "type": "string",
+      "description": "Highest level domain of the seller (e.g., \"seller.com\")."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Native.json",
+  "title": "OpenRTB 2.6 Native",
+  "description": "Container for a native impression conforming to the Dynamic Native Ads API.",
+  "type": "object",
+  "required": [
+    "request"
+  ],
+  "properties": {
+    "request": {
+      "type": "string",
+      "description": "Request payload complying with the Native Ad Specification."
+    },
+    "ver": {
+      "type": "string",
+      "description": "Version of the Dynamic Native Ads API to which request complies."
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of supported API frameworks."
+    },
+    "battr": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Blocked creative attributes."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Qty.json",
+  "title": "OpenRTB 2.6 Qty",
+  "description": "A means of passing a multiplier representing the total quantity of impressions.",
+  "type": "object",
+  "required": [
+    "multiplier"
+  ],
+  "properties": {
+    "multiplier": {
+      "type": "number",
+      "description": "The quantity of billable events which will occur if this item is purchased."
+    },
+    "sourcetype": {
+      "type": "integer",
+      "description": "The source type of the quantity measurement."
+    },
+    "vendor": {
+      "type": "string",
+      "description": "The top level business domain name of the measurement vendor."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

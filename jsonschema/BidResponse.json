@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/BidResponse.json",
+  "title": "OpenRTB 2.6 BidResponse",
+  "description": "Top-level bid response object.",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ID of the bid request to which this is a response."
+    },
+    "seatbid": {
+      "type": "array",
+      "items": {
+        "$ref": "SeatBid.json"
+      },
+      "description": "Array of seatbid objects; 1+ required if a bid is to be made."
+    },
+    "bidid": {
+      "type": "string",
+      "description": "Bidder generated response ID to assist with logging/tracking."
+    },
+    "cur": {
+      "type": "string",
+      "default": "USD",
+      "description": "Bid currency using ISO-4217 alpha codes."
+    },
+    "customdata": {
+      "type": "string",
+      "description": "Optional feature to allow a bidder to set data in the exchange's cookie."
+    },
+    "nbr": {
+      "type": "integer",
+      "description": "Reason for not bidding. Refer to OpenRTB 3.0 List: No-Bid Reason Codes."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for bidder-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

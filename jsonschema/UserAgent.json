@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/UserAgent.json",
+  "title": "OpenRTB 2.6 UserAgent",
+  "description": "Structured user agent information from User-Agent Client Hints.",
+  "type": "object",
+  "properties": {
+    "browsers": {
+      "type": "array",
+      "items": {
+        "$ref": "BrandVersion.json"
+      },
+      "description": "Each BrandVersion object identifies a browser or similar software component."
+    },
+    "platform": {
+      "$ref": "BrandVersion.json",
+      "description": "A BrandVersion object identifying the user agent's execution platform/OS."
+    },
+    "mobile": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "1 if the agent prefers mobile content, 0 for desktop/full."
+    },
+    "architecture": {
+      "type": "string",
+      "description": "Device's major binary architecture (e.g., \"x86\" or \"arm\")."
+    },
+    "bitness": {
+      "type": "string",
+      "description": "Device's bitness (e.g., \"64\")."
+    },
+    "model": {
+      "type": "string",
+      "description": "Device model from Sec-CH-UA-Model header."
+    },
+    "source": {
+      "type": "integer",
+      "default": 0,
+      "description": "Source of data used to create this object. Refer to AdCOM 1.0 List: User-Agent Source."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

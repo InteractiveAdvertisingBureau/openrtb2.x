@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Imp.json",
+  "title": "OpenRTB 2.6 Imp",
+  "description": "Describes an ad placement or impression being auctioned.",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for this impression within the context of the bid request."
+    },
+    "metric": {
+      "type": "array",
+      "items": {
+        "$ref": "Metric.json"
+      },
+      "description": "An array of Metric objects."
+    },
+    "banner": {
+      "$ref": "Banner.json",
+      "description": "A Banner object; required if this impression is offered as a banner ad opportunity."
+    },
+    "video": {
+      "$ref": "Video.json",
+      "description": "A Video object; required if this impression is offered as a video ad opportunity."
+    },
+    "audio": {
+      "$ref": "Audio.json",
+      "description": "An Audio object; required if this impression is offered as an audio ad opportunity."
+    },
+    "native": {
+      "$ref": "Native.json",
+      "description": "A Native object; required if this impression is offered as a native ad opportunity."
+    },
+    "pmp": {
+      "$ref": "Pmp.json",
+      "description": "A Pmp object containing any private marketplace deals in effect for this impression."
+    },
+    "displaymanager": {
+      "type": "string",
+      "description": "Name of ad mediation partner, SDK technology, or player responsible for rendering ad."
+    },
+    "displaymanagerver": {
+      "type": "string",
+      "description": "Version of ad mediation partner, SDK technology, or player responsible for rendering ad."
+    },
+    "instl": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "1 = the ad is interstitial or full screen, 0 = not interstitial."
+    },
+    "tagid": {
+      "type": "string",
+      "description": "Identifier for specific ad placement or ad tag that was used to initiate the auction."
+    },
+    "bidfloor": {
+      "type": "number",
+      "default": 0,
+      "description": "Minimum bid for this impression expressed in CPM.",
+      "minimum": 0
+    },
+    "bidfloorcur": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency specified using ISO-4217 alpha codes."
+    },
+    "clickbrowser": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates the type of browser opened upon clicking the creative in an app, where 0 = embedded, 1 = native."
+    },
+    "secure": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Flag to indicate if the impression requires secure HTTPS URL creative assets and markup."
+    },
+    "iframebuster": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of exchange-specific names of supported iframe busters."
+    },
+    "rwdd": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates whether the user receives a reward for viewing the ad."
+    },
+    "ssai": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "description": "Indicates if server-side ad insertion is in use. 0 = unknown, 1 = all client-side, 2 = assets stitched server-side but tracking client-side, 3 = all server-side."
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Advisory as to the number of seconds that may elapse between the auction and the actual impression."
+    },
+    "qty": {
+      "$ref": "Qty.json",
+      "description": "A means of passing a multiplier in the bid request."
+    },
+    "dt": {
+      "type": "number",
+      "description": "Timestamp when the item is estimated to be fulfilled in Unix format (milliseconds since epoch)."
+    },
+    "refresh": {
+      "$ref": "Refresh.json",
+      "description": "Details about ad slots being refreshed automatically."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

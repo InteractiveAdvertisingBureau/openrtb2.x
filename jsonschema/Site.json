@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Site.json",
+  "title": "OpenRTB 2.6 Site",
+  "description": "Details about the publisher's website.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange-specific site ID."
+    },
+    "name": {
+      "type": "string",
+      "description": "Site name (may be aliased at the publisher's request)."
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain of the site (e.g., \"mysite.foo.com\")."
+    },
+    "cattax": {
+      "type": "integer",
+      "default": 1,
+      "description": "The taxonomy in use for cat fields."
+    },
+    "cat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories of the site."
+    },
+    "sectioncat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories for the current section."
+    },
+    "pagecat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of IAB content categories for the current page."
+    },
+    "page": {
+      "type": "string",
+      "description": "URL of the page where the impression will be shown."
+    },
+    "ref": {
+      "type": "string",
+      "description": "Referrer URL that caused navigation to the current page."
+    },
+    "search": {
+      "type": "string",
+      "description": "Search string that caused navigation to the current page."
+    },
+    "mobile": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the site has been programmed to optimize layout for mobile devices."
+    },
+    "privacypolicy": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the site has a privacy policy."
+    },
+    "publisher": {
+      "$ref": "Publisher.json",
+      "description": "Details about the Publisher of the site."
+    },
+    "content": {
+      "$ref": "Content.json",
+      "description": "Details about the Content within the site."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma separated list of keywords about the site."
+    },
+    "kwarray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of keywords about the site."
+    },
+    "inventorypartnerdomain": {
+      "type": "string",
+      "description": "A domain for inventory authorization in inventory sharing arrangements."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

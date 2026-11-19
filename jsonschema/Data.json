@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Data.json",
+  "title": "OpenRTB 2.6 Data",
+  "description": "Allows additional data about the related object (user, content) to be specified.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange-specific ID for the data provider."
+    },
+    "name": {
+      "type": "string",
+      "description": "Exchange-specific name for the data provider."
+    },
+    "cids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of Extended Content IDs."
+    },
+    "segment": {
+      "type": "array",
+      "items": {
+        "$ref": "Segment.json"
+      },
+      "description": "Array of Segment objects containing the actual data values."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

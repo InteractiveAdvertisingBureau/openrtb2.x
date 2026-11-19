@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Video.json",
+  "title": "OpenRTB 2.6 Video",
+  "description": "Represents a video impression. Video in OpenRTB generally assumes compliance with the VAST standard.",
+  "type": "object",
+  "required": [
+    "mimes"
+  ],
+  "properties": {
+    "mimes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Content MIME types supported (e.g., \"video/mp4\")."
+    },
+    "minduration": {
+      "type": "integer",
+      "default": 0,
+      "description": "Minimum video ad duration in seconds. Mutually exclusive with rqddurs."
+    },
+    "maxduration": {
+      "type": "integer",
+      "description": "Maximum video ad duration in seconds. Mutually exclusive with rqddurs."
+    },
+    "startdelay": {
+      "type": "integer",
+      "description": "Indicates the start delay in seconds for pre-roll, mid-roll, or post-roll ad placements. Refer to AdCOM 1.0 List: Start Delay Modes."
+    },
+    "maxseq": {
+      "type": "integer",
+      "description": "Indicates the maximum number of ads that may be served into a dynamic video ad pod."
+    },
+    "poddur": {
+      "type": "integer",
+      "description": "Indicates the total amount of time in seconds that advertisers may fill for a dynamic video ad pod."
+    },
+    "protocols": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Array of supported video protocols. Refer to AdCOM 1.0 List: Creative Subtypes - Audio/Video."
+    },
+    "w": {
+      "type": "integer",
+      "description": "Width of the video player in device-independent pixels (DIPS)."
+    },
+    "h": {
+      "type": "integer",
+      "description": "Height of the video player in device-independent pixels (DIPS)."
+    },
+    "podid": {
+      "type": "string",
+      "description": "Unique identifier indicating that an impression opportunity belongs to a video ad pod."
+    },
+    "podseq": {
+      "type": "integer",
+      "default": 0,
+      "description": "The sequence (position) of the video ad pod within a content stream."
+    },
+    "rqddurs": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Precise acceptable durations for video creatives in seconds. Mutually exclusive with minduration/maxduration."
+    },
+    "plcmt": {
+      "type": "integer",
+      "description": "Video placement type for the impression. Refer to AdCOM 1.0 List: Plcmt Subtypes - Video."
+    },
+    "linearity": {
+      "type": "integer",
+      "description": "Indicates if the impression must be linear, nonlinear, etc. Refer to AdCOM 1.0 List: Linearity Modes."
+    },
+    "skip": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the player will allow the video to be skipped, where 0 = no, 1 = yes."
+    },
+    "skipmin": {
+      "type": "integer",
+      "default": 0,
+      "description": "Videos of total duration greater than this number of seconds can be skippable."
+    },
+    "skipafter": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of seconds a video must play before skipping is enabled."
+    },
+    "slotinpod": {
+      "type": "integer",
+      "default": 0,
+      "description": "Indicates that the seller can guarantee delivery against the indicated slot position in the pod."
+    },
+    "mincpmpersec": {
+      "type": "number",
+      "description": "Minimum CPM per second. Price floor for the dynamic portion of a video ad pod."
+    },
+    "battr": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes."
+    },
+    "maxextended": {
+      "type": "integer",
+      "description": "Maximum extended ad duration if extension is allowed. 0 = not allowed, -1 = unlimited."
+    },
+    "minbitrate": {
+      "type": "integer",
+      "description": "Minimum bit rate in Kbps."
+    },
+    "maxbitrate": {
+      "type": "integer",
+      "description": "Maximum bit rate in Kbps."
+    },
+    "boxingallowed": {
+      "type": "integer",
+      "default": 1,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if letter-boxing of 4:3 content into a 16:9 window is allowed."
+    },
+    "playbackmethod": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Playback methods that may be in use. Refer to AdCOM 1.0 List: Playback Methods."
+    },
+    "playbackend": {
+      "type": "integer",
+      "description": "The event that causes playback to end. Refer to AdCOM 1.0 List: Playback Cessation Modes."
+    },
+    "delivery": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Supported delivery methods. Refer to AdCOM 1.0 List: Delivery Methods."
+    },
+    "pos": {
+      "type": "integer",
+      "description": "Ad position on screen. Refer to AdCOM 1.0 List: Placement Positions."
+    },
+    "companionad": {
+      "type": "array",
+      "items": {
+        "$ref": "Banner.json"
+      },
+      "description": "Array of Banner objects if companion ads are available."
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of supported API frameworks for this impression. Refer to AdCOM 1.0 List: API Frameworks."
+    },
+    "companiontype": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Supported VAST companion ad types. Refer to AdCOM 1.0 List: Companion Types."
+    },
+    "poddedupe": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Indicates pod deduplication settings. Refer to AdCOM 1.0 List: Pod Deduplication Settings."
+    },
+    "durfloors": {
+      "type": "array",
+      "items": {
+        "$ref": "DurFloors.json"
+      },
+      "description": "Array of DurFloors objects indicating floor prices for video creatives of various durations."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    },
+    "placement": {
+      "type": "integer",
+      "description": "DEPRECATED. Use plcmt instead. Video placement type.",
+      "deprecated": true
+    },
+    "sequence": {
+      "type": "integer",
+      "description": "DEPRECATED. Use slotinpod instead. Position in ad pod sequence.",
+      "deprecated": true
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Metric.json",
+  "title": "OpenRTB 2.6 Metric",
+  "description": "A quantifiable often historical data point about an impression.",
+  "type": "object",
+  "required": [
+    "type",
+    "value"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "Type of metric being presented using exchange curated string names."
+    },
+    "value": {
+      "type": "number",
+      "description": "Number representing the value of the metric. Probabilities must be in the range 0.0-1.0."
+    },
+    "vendor": {
+      "type": "string",
+      "description": "Source of the value using exchange curated string names."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

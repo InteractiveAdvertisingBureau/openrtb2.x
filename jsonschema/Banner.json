@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Banner.json",
+  "title": "OpenRTB 2.6 Banner",
+  "description": "Represents the most general type of impression including simple static images, expandable ad units, or in-banner video.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "array",
+      "items": {
+        "$ref": "Format.json"
+      },
+      "description": "Array of Format objects representing the banner sizes permitted."
+    },
+    "w": {
+      "type": "integer",
+      "description": "Exact width in device-independent pixels (DIPS)."
+    },
+    "h": {
+      "type": "integer",
+      "description": "Exact height in device-independent pixels (DIPS)."
+    },
+    "btype": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Blocked banner ad types. 1 = XHTML Text Ad, 2 = XHTML Banner Ad, 3 = JavaScript Ad, 4 = iframe."
+    },
+    "battr": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Blocked creative attributes. Refer to AdCOM 1.0 List: Creative Attributes."
+    },
+    "pos": {
+      "type": "integer",
+      "description": "Ad position on screen. Refer to AdCOM 1.0 List: Placement Positions."
+    },
+    "mimes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Content MIME types supported (e.g., \"image/jpeg\", \"image/gif\")."
+    },
+    "topframe": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the banner is in the top frame as opposed to an iframe."
+    },
+    "expdir": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "Directions in which the banner may expand. Refer to AdCOM 1.0 List: Expandable Directions."
+    },
+    "api": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "description": "List of supported API frameworks for this impression. Refer to AdCOM 1.0 List: API Frameworks."
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this banner object. Recommended when Banner objects are used with a Video object for companion ads."
+    },
+    "vcm": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Companion banner rendering mode relative to the associated video, where 0 = concurrent, 1 = end-card."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

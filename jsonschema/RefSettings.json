@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/RefSettings.json",
+  "title": "OpenRTB 2.6 RefSettings",
+  "description": "Information on how often and what triggers an ad slot being refreshed.",
+  "type": "object",
+  "properties": {
+    "reftype": {
+      "type": "integer",
+      "default": 0,
+      "description": "The type of the declared auto refresh. Refer to AdCOM 1.0 List: Auto Refresh Triggers."
+    },
+    "minint": {
+      "type": "integer",
+      "description": "The minimum refresh interval in seconds."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

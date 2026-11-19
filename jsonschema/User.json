@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/User.json",
+  "title": "OpenRTB 2.6 User",
+  "description": "Information known or derived about the human user of the device; the advertising audience.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Exchange-specific ID for the user."
+    },
+    "buyeruid": {
+      "type": "string",
+      "description": "Buyer-specific ID for the user as mapped by the exchange for the buyer."
+    },
+    "keywords": {
+      "type": "string",
+      "description": "Comma separated list of keywords, interests, or intent."
+    },
+    "kwarray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of keywords about the user."
+    },
+    "customdata": {
+      "type": "string",
+      "description": "Optional feature to pass bidder data that was set in the exchange's cookie."
+    },
+    "geo": {
+      "$ref": "Geo.json",
+      "description": "Location of the user's home base."
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "Data.json"
+      },
+      "description": "Additional user data."
+    },
+    "consent": {
+      "type": "string",
+      "description": "TCF Consent String data structure when GDPR regulations are in effect."
+    },
+    "eids": {
+      "type": "array",
+      "items": {
+        "$ref": "EID.json"
+      },
+      "description": "Details for support of multiple third party identity providers."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    },
+    "yob": {
+      "type": "integer",
+      "description": "DEPRECATED. Year of birth as a 4-digit integer.",
+      "deprecated": true
+    },
+    "gender": {
+      "type": "string",
+      "description": "DEPRECATED. Gender, where M = male, F = female, O = known to be other.",
+      "deprecated": true
+    }
+  }
+}

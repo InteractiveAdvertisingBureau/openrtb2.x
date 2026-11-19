@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/SeatBid.json",
+  "title": "OpenRTB 2.6 SeatBid",
+  "description": "A bid response can contain multiple SeatBid objects, each on behalf of a different bidder seat.",
+  "type": "object",
+  "required": [
+    "bid"
+  ],
+  "properties": {
+    "bid": {
+      "type": "array",
+      "items": {
+        "$ref": "Bid.json"
+      },
+      "minItems": 1,
+      "description": "Array of 1+ Bid objects each related to an impression."
+    },
+    "seat": {
+      "type": "string",
+      "description": "ID of the buyer seat on whose behalf this bid is made."
+    },
+    "group": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "0 = impressions can be won individually; 1 = impressions must be won or lost as a group."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for bidder-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

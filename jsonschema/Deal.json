@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Deal.json",
+  "title": "OpenRTB 2.6 Deal",
+  "description": "A specific deal struck between a buyer and a seller.",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for the direct deal."
+    },
+    "bidfloor": {
+      "type": "number",
+      "default": 0,
+      "description": "Minimum bid for this impression expressed in CPM.",
+      "minimum": 0
+    },
+    "bidfloorcur": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency specified using ISO-4217 alpha codes."
+    },
+    "at": {
+      "type": "integer",
+      "description": "Optional override of the overall auction type. 1 = First Price, 2 = Second Price Plus, 3 = agreed upon deal price."
+    },
+    "wseat": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed list of buyer seats allowed to bid on this deal."
+    },
+    "wadomain": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of advertiser domains allowed to bid on this deal."
+    },
+    "guar": {
+      "type": "integer",
+      "default": 0,
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates that the deal is guaranteed. 0 = not guaranteed, 1 = guaranteed."
+    },
+    "mincpmpersec": {
+      "type": "number",
+      "description": "Minimum CPM per second for video or audio impression opportunities."
+    },
+    "durfloors": {
+      "type": "array",
+      "items": {
+        "$ref": "DurFloors.json"
+      },
+      "description": "Container for floor price by duration information."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

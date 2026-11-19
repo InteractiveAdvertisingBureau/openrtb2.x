@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/SupplyChain.json",
+  "title": "OpenRTB 2.6 SupplyChain",
+  "description": "Represents all entities involved in the direct flow of payment for inventory.",
+  "type": "object",
+  "required": [
+    "complete",
+    "nodes",
+    "ver"
+  ],
+  "properties": {
+    "complete": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Flag indicating whether the chain contains all nodes involved in the transaction. 0 = no, 1 = yes."
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "SupplyChainNode.json"
+      },
+      "minItems": 1,
+      "description": "Array of SupplyChainNode objects in the order of the chain."
+    },
+    "ver": {
+      "type": "string",
+      "description": "Version of the supply chain specification in use (e.g., \"1.0\")."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    }
+  }
+}

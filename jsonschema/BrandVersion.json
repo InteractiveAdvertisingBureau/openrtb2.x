@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/BrandVersion.json",
+  "title": "OpenRTB 2.6 BrandVersion",
+  "description": "Identifies a device's browser or similar software component, or the platform/OS.",
+  "type": "object",
+  "required": [
+    "brand"
+  ],
+  "properties": {
+    "brand": {
+      "type": "string",
+      "description": "A brand identifier (e.g., \"Chrome\" or \"Windows\")."
+    },
+    "version": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "A sequence of version components, in descending hierarchical order."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for vendor specific extensions.",
+      "additionalProperties": true
+    }
+  }
+}

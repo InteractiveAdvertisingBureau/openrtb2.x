@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iabtechlab.com/openrtb/2.6/Device.json",
+  "title": "OpenRTB 2.6 Device",
+  "description": "Information pertaining to the device through which the user is interacting.",
+  "type": "object",
+  "properties": {
+    "geo": {
+      "$ref": "Geo.json",
+      "description": "Location of the device assumed to be the user's current location."
+    },
+    "dnt": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Standard Do Not Track flag as set in the header by the browser."
+    },
+    "lmt": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Limit Ad Tracking signal commercially endorsed."
+    },
+    "ua": {
+      "type": "string",
+      "description": "Browser user agent string."
+    },
+    "sua": {
+      "$ref": "UserAgent.json",
+      "description": "Structured user agent information."
+    },
+    "ip": {
+      "type": "string",
+      "description": "IPv4 address closest to device."
+    },
+    "ipv6": {
+      "type": "string",
+      "description": "IP address closest to device as IPv6."
+    },
+    "devicetype": {
+      "type": "integer",
+      "description": "The general type of device. Refer to AdCOM 1.0 List: Device Types."
+    },
+    "make": {
+      "type": "string",
+      "description": "Device make (e.g., \"Apple\")."
+    },
+    "model": {
+      "type": "string",
+      "description": "Device model (e.g., \"iPhone\")."
+    },
+    "os": {
+      "type": "string",
+      "description": "Device operating system (e.g., \"iOS\")."
+    },
+    "osv": {
+      "type": "string",
+      "description": "Device operating system version (e.g., \"3.1.2\")."
+    },
+    "hwv": {
+      "type": "string",
+      "description": "Hardware version of the device."
+    },
+    "h": {
+      "type": "integer",
+      "description": "Physical height of the screen in pixels."
+    },
+    "w": {
+      "type": "integer",
+      "description": "Physical width of the screen in pixels."
+    },
+    "ppi": {
+      "type": "integer",
+      "description": "Screen size as pixels per linear inch."
+    },
+    "pxratio": {
+      "type": "number",
+      "description": "The ratio of physical pixels to device-independent pixels."
+    },
+    "js": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Support for JavaScript."
+    },
+    "geofetch": {
+      "type": "integer",
+      "enum": [
+        0,
+        1
+      ],
+      "description": "Indicates if the geolocation API will be available to JavaScript code."
+    },
+    "flashver": {
+      "type": "string",
+      "description": "Version of Flash supported by the browser."
+    },
+    "language": {
+      "type": "string",
+      "description": "Browser language using ISO-639-1-alpha-2."
+    },
+    "langb": {
+      "type": "string",
+      "description": "Browser language using IETF BCP 47."
+    },
+    "carrier": {
+      "type": "string",
+      "description": "Carrier or ISP (e.g., \"VERIZON\")."
+    },
+    "mccmnc": {
+      "type": "string",
+      "description": "Mobile carrier as the concatenated MCC-MNC code."
+    },
+    "connectiontype": {
+      "type": "integer",
+      "description": "Network connection type. Refer to AdCOM 1.0 List: Connection Types."
+    },
+    "ifa": {
+      "type": "string",
+      "description": "ID sanctioned for advertiser use in the clear."
+    },
+    "ext": {
+      "type": "object",
+      "description": "Placeholder for exchange-specific extensions to OpenRTB.",
+      "additionalProperties": true
+    },
+    "didsha1": {
+      "type": "string",
+      "description": "DEPRECATED. Hardware device ID (e.g., IMEI) hashed via SHA1.",
+      "deprecated": true
+    },
+    "didmd5": {
+      "type": "string",
+      "description": "DEPRECATED. Hardware device ID (e.g., IMEI) hashed via MD5.",
+      "deprecated": true
+    },
+    "dpidsha1": {
+      "type": "string",
+      "description": "DEPRECATED. Platform device ID (e.g., Android ID) hashed via SHA1.",
+      "deprecated": true
+    },
+    "dpidmd5": {
+      "type": "string",
+      "description": "DEPRECATED. Platform device ID (e.g., Android ID) hashed via MD5.",
+      "deprecated": true
+    },
+    "macsha1": {
+      "type": "string",
+      "description": "DEPRECATED. MAC address of the device hashed via SHA1.",
+      "deprecated": true
+    },
+    "macmd5": {
+      "type": "string",
+      "description": "DEPRECATED. MAC address of the device hashed via MD5.",
+      "deprecated": true
+    }
+  }
+}
